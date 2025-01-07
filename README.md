@@ -4,6 +4,9 @@
 
 ![Database Schema](./public/finance.png)
 
+## Project Design
+![Project Design](https://www.figma.com/design/mTujbr5G6MOVcWuJmf4wAL/personal-finance-app?node-id=101-2&t=hXbsXGEFtEFTwtLA-1)
+
 ## API Documentation
 
 ### User Authentication/Authorization
