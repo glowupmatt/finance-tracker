@@ -559,8 +559,7 @@ Create and return a new budget.
     ```json
     {
       "maxSpend": 2000,
-      "title": "Eating Out",
-      "transactions": []
+      "title": "Eating Out"
     }
     ```
 
@@ -592,9 +591,8 @@ Create and return a new budget.
       "message": "Bad Request",
       "errors": {
         "transaction": {
-          "amount": "Amount is required",
-          "date": "Date must be in the format YYYY-MM-DD",
-          "isExpense": "isExpense must be a boolean value"
+          "maxSpend": "Max Spend is required",
+          "title": "Title must not be empty"
         }
       }
     }
