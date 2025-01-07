@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![Database Schema](./finance.png)
+![Database Schema](/finance.png)
 
 ## API Documentation
 
