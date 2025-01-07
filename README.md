@@ -328,6 +328,7 @@ Creates a new user, logs them in, and returns their information.
 {
   "amount": 20.0,
   "isExpense": false,
+  "budgetId": 1,
   "date": "2024-01-19",
   "category": "Electric",
   "recipient-sender": "Chase Bank"
