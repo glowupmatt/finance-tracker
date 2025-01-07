@@ -267,7 +267,7 @@ Creates a new user, logs them in, and returns their information.
 
 **Description:** Returns the details of a specific transaction.
 
-- **Require Authentication:** No
+- **Require Authentication:** Yes
 
 **Request:**
 
