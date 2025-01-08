@@ -13,6 +13,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum Frequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+model Transaction {
+  id          String       @id @default(uuid())
+  title       String
+  amount      Float
+  date        DateTime
+  type        TransactionType
+  category    String
+  senderOrRecipient       String?
+
+  user        User         @relation("transactionToUser", fields: [userId], references: [id])
+  userId      String
+
+  budget      Budget?      @relation("transactionToBudget", fields: [budgetId], references: [id])
+  budgetId    String?
+
+  pot         Pot?         @relation("transactionToPot", fields: [potId], references: [id])
+  potId       String?
+
+  recurringPayment RecurringPayment? @relation("transactionToRecurringPayment", fields: [recurringPaymentId], references: [id])
+  recurringPaymentId String?
+
+  @@index([userId])
+}
+
+
+model Budget {
+  id          String       @id @default(uuid())
+  name        String
+  maxSpend    Float
+
+  user        User         @relation("budgetToUser", fields: [userId], references: [id])
+  userId      String
+
+  transactions Transaction[] @relation("transactionToBudget")
+
+  @@index([userId])  
+}
+
+model Pot {
+  id          String       @id @default(uuid())
+  title       String
+  targetAmount     Float
+
+  user        User         @relation("potToUser", fields: [userId], references: [id])
+  userId      String
+
+  transactions Transaction[] @relation("transactionToPot")
+
+  @@index([userId])
+}
+
+model RecurringPayment {
+  id          String       @id @default(uuid())
+  title       String
+  dueDate     DateTime
+  amount      Float
+  frequency   Frequency
+  endDate     DateTime?
+
+  user        User         @relation("recurringPaymentToUser", fields: [userId], references: [id])
+  userId      String
+
+  transactions Transaction[] @relation("transactionToRecurringPayment")
+
+  @@index([userId])
+}
+
+
 model User {
   id             String     @id @default(uuid())
   email          String  @unique
@@ -20,4 +101,9 @@ model User {
   lastName       String?
   profilePicture String?
   hashedPassword String
+
+  transactions  Transaction[] @relation("transactionToUser")
+  budgets      Budget[] @relation("budgetToUser")
+  pots         Pot[] @relation("potToUser")
+  recurringPayments RecurringPayment[] @relation("recurringPaymentToUser")
 }
