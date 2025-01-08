@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum TransactionType {
   INCOME
   EXPENSE
@@ -27,50 +26,49 @@ enum Frequency {
 }
 
 model Transaction {
-  id          String       @id @default(uuid())
-  title       String
-  amount      Float
-  date        DateTime
-  type        TransactionType
-  category    String
-  senderOrRecipient       String?
+  id                String          @id @default(uuid())
+  title             String
+  amount            Float
+  date              DateTime
+  type              TransactionType
+  category          String
+  senderOrRecipient String?
 
-  user        User         @relation("transactionToUser", fields: [userId], references: [id])
-  userId      String
+  user   User   @relation("transactionToUser", fields: [userId], references: [id])
+  userId String
 
-  budget      Budget?      @relation("transactionToBudget", fields: [budgetId], references: [id])
-  budgetId    String?
+  budget   Budget? @relation("transactionToBudget", fields: [budgetId], references: [id])
+  budgetId String?
 
-  pot         Pot?         @relation("transactionToPot", fields: [potId], references: [id])
-  potId       String?
+  pot   Pot?    @relation("transactionToPot", fields: [potId], references: [id])
+  potId String?
 
-  recurringPayment RecurringPayment? @relation("transactionToRecurringPayment", fields: [recurringPaymentId], references: [id])
+  recurringPayment   RecurringPayment? @relation("transactionToRecurringPayment", fields: [recurringPaymentId], references: [id])
   recurringPaymentId String?
 
   @@index([userId])
 }
 
-
 model Budget {
-  id          String       @id @default(uuid())
-  name        String
-  maxSpend    Float
+  id       String @id @default(uuid())
+  name     String
+  maxSpend Float
 
-  user        User         @relation("budgetToUser", fields: [userId], references: [id])
-  userId      String
+  user   User   @relation("budgetToUser", fields: [userId], references: [id])
+  userId String
 
   transactions Transaction[] @relation("transactionToBudget")
 
-  @@index([userId])  
+  @@index([userId])
 }
 
 model Pot {
-  id          String       @id @default(uuid())
-  title       String
-  targetAmount     Float
+  id           String @id @default(uuid())
+  title        String
+  targetAmount Float
 
-  user        User         @relation("potToUser", fields: [userId], references: [id])
-  userId      String
+  user   User   @relation("potToUser", fields: [userId], references: [id])
+  userId String
 
   transactions Transaction[] @relation("transactionToPot")
 
@@ -78,32 +76,32 @@ model Pot {
 }
 
 model RecurringPayment {
-  id          String       @id @default(uuid())
-  title       String
-  dueDate     DateTime
-  amount      Float
-  frequency   Frequency
-  endDate     DateTime?
+  id        String    @id @default(uuid())
+  title     String
+  dueDate   DateTime
+  amount    Float
+  paid      Boolean   @default(false)
+  frequency Frequency
+  endDate   DateTime?
 
-  user        User         @relation("recurringPaymentToUser", fields: [userId], references: [id])
-  userId      String
+  user   User   @relation("recurringPaymentToUser", fields: [userId], references: [id])
+  userId String
 
   transactions Transaction[] @relation("transactionToRecurringPayment")
 
   @@index([userId])
 }
 
-
 model User {
-  id             String     @id @default(uuid())
+  id             String  @id @default(uuid())
   email          String  @unique
   firstName      String?
   lastName       String?
   profilePicture String?
   hashedPassword String
 
-  transactions  Transaction[] @relation("transactionToUser")
-  budgets      Budget[] @relation("budgetToUser")
-  pots         Pot[] @relation("potToUser")
+  transactions      Transaction[]      @relation("transactionToUser")
+  budgets           Budget[]           @relation("budgetToUser")
+  pots              Pot[]              @relation("potToUser")
   recurringPayments RecurringPayment[] @relation("recurringPaymentToUser")
 }
