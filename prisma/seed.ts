@@ -1,14 +1,9 @@
-// 1
 import { PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
-// 2
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-// 3
-// ... you will write your Prisma Client queries here
 async function main() {
-  // Seed the database with users and transactions
   const user1 = await prisma.user.upsert({
     where: { email: "alice@prisma.io" },
     update: {},
