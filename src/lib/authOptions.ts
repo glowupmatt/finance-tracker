@@ -1,13 +1,11 @@
 import { AuthOptions } from "next-auth";
 import bcrypt from "bcrypt";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -19,7 +17,6 @@ export const authOptions: AuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid Credentials");
         }
-
         const user = await prisma.user.findUnique({
           where: {
             email: credentials.email,
@@ -42,9 +39,6 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  pages: {
-    signIn: "/auth/signin",
-  },
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
