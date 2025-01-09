@@ -5,9 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { signIn } from "next-auth/react";
 
-type Props = {};
-
-const LoginForm = ({}: Props) => {
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

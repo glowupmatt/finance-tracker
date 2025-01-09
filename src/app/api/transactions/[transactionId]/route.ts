@@ -5,7 +5,7 @@ import { Transaction } from "@prisma/client";
 
 export async function GET(
   req: Request,
-  { params }: { params: { transactionId: string } }
+  { params }: { params: Promise<{ transactionId: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser();
@@ -16,7 +16,7 @@ export async function GET(
       );
     }
     const transaction = await prisma.transaction.findUnique({
-      where: { id: params.transactionId },
+      where: { id: (await params).transactionId },
     });
 
     if (currentUser.id !== transaction?.userId) {
@@ -39,7 +39,7 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  { params }: { params: { transactionId: string } }
+  { params }: { params: Promise<{ transactionId: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser();
@@ -52,7 +52,7 @@ export async function PUT(
     }
 
     const transaction = await prisma.transaction.findUnique({
-      where: { id: params.transactionId },
+      where: { id: (await params).transactionId },
     });
 
     if (!transaction) {
@@ -68,7 +68,7 @@ export async function PUT(
 
     const body: Partial<Transaction> = await req.json();
     const updatedTransaction = await prisma.transaction.update({
-      where: { id: params.transactionId },
+      where: { id: (await params).transactionId },
       data: body,
     });
     if (!updatedTransaction) {
@@ -90,7 +90,7 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { transactionId: string } }
+  { params }: { params: Promise<{ transactionId: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser();
@@ -103,7 +103,7 @@ export async function DELETE(
     }
 
     const transaction = await prisma.transaction.findUnique({
-      where: { id: params.transactionId },
+      where: { id: (await params).transactionId },
     });
 
     if (!transaction) {
@@ -118,7 +118,7 @@ export async function DELETE(
     }
 
     const deletedTransaction = await prisma.transaction.delete({
-      where: { id: params.transactionId },
+      where: { id: (await params).transactionId },
     });
 
     if (!deletedTransaction) {
