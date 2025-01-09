@@ -3,11 +3,12 @@ import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { signOut, useSession } from "next-auth/react";
 import SessionForm from "../sessionForm/SessionForm";
+// import { useUser } from "@/app/context/UserContext";
 
 const DashboardDisplay = () => {
   const session = useSession();
-  useEffect(() => {}, [session]);
 
+  useEffect(() => {}, [session]);
   if (session.status !== "authenticated") {
     return <SessionForm />;
   }

@@ -3,14 +3,14 @@ import React, {
   useState,
   useContext,
   createContext,
-  Dispatch,
-  SetStateAction,
+  // Dispatch,
+  // SetStateAction,
+  useEffect,
 } from "react";
-import { User } from "@prisma/client";
+import { Transaction } from "@prisma/client";
 
 type UserContextType = {
-  user: User | null | undefined;
-  setUser: Dispatch<SetStateAction<User | null | undefined>>;
+  transactions: Transaction[];
 };
 
 type Props = {
@@ -28,11 +28,24 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<User | null | undefined>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  useEffect(() => {
+    async function fetchTransactions() {
+      try {
+        const response = await fetch("/api/transactions");
+        const data = await response.json();
+        setTransactions(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchTransactions();
+  }, []);
+
+  const data = {
+    transactions,
+  };
+
+  return <UserContext.Provider value={data}>{children}</UserContext.Provider>;
 };
