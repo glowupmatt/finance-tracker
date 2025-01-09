@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { signIn } from "next-auth/react";
+import LoadingState from "../ui/loadingState";
 
 const LoginForm = () => {
   const [VARIANT, setVARIANT] = useState<"login" | "signup">("login");
@@ -11,11 +12,13 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function onSubmitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (VARIANT === "signup") {
+      setLoading(true);
       try {
         await fetch("/api/auth/signup", {
           method: "POST",
@@ -37,15 +40,27 @@ const LoginForm = () => {
           password,
           redirect: false,
         });
+        setLoading(false);
       }
     } else {
-      await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      setLoading(true);
+      try {
+        await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     }
   }
+
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
 
   return (
     <div className="bg-white p-8 flex items-center justify-center flex-col lg:w-[500px] lg:min-h-[422px] rounded-md">
@@ -124,9 +139,19 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
+        {loading ? (
+          <Button
+            disabled={loading}
+            className="flex justify-center w-full items-center"
+            variant={"secondary"}
+          >
+            <LoadingState />
+          </Button>
+        ) : (
+          <Button type="submit" className="w-full">
+            {VARIANT === "login" ? "Login" : "Signup"}
+          </Button>
+        )}
       </form>
       <div
         className="flex align-center justify-center mt-4 gap-2"
