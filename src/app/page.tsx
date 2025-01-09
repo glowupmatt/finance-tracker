@@ -1,14 +1,18 @@
 "use client";
+
+import { useEffect } from "react";
 import SessionForm from "@/components/sessionForm/SessionForm";
 import DashboardDisplay from "@/components/dashboard/DashboardDisplay";
-import { useSession } from "@/app/context/SessionContext";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const { user } = useSession();
+  const session = useSession();
 
-  if (!user) {
-    return <SessionForm />;
+  useEffect(() => {}, [session]);
+
+  if (session.status === "authenticated") {
+    return <DashboardDisplay />;
   }
 
-  return <DashboardDisplay />;
+  return <SessionForm />;
 }

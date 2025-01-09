@@ -1,39 +1,41 @@
-"use client";
+// "use client";
+// import React, {
+//   useState,
+//   useContext,
+//   createContext,
+//   Dispatch,
+//   SetStateAction,
+// } from "react";
+// import { User } from "@prisma/client";
+// import { SignInResponse } from "next-auth/react";
 
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useState,
-  useContext,
-} from "react";
-import { User } from "@prisma/client";
+// type SessionContextType = {
+//   user: SignInResponse | User | null | undefined;
+//   setUser: Dispatch<SetStateAction<SignInResponse | User | null | undefined>>;
+// };
 
-type SessionContextType = {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
-};
+// type Props = {
+//   children: React.ReactNode;
+// };
 
-type props = {
-  children: React.ReactNode;
-};
+// // export const SessionContext = createContext<SessionContextType | null>(null);
 
-export const SessionContext = createContext<SessionContextType | null>(null);
+// // export const useSession = () => {
+// //   const context = useContext(SessionContext);
+// //   if (!context) {
+// //     throw new Error("useSession must be used within a SessionProvider");
+// //   }
+// //   return context;
+// // };
 
-export const useSession = () => {
-  const context = useContext(SessionContext);
-  if (!context) {
-    throw new Error("useSession must be used within a SessionProvider");
-  }
-  return context;
-};
+// export const SessionProvider = ({ children }: Props) => {
+//   const [user, setUser] = useState<SignInResponse | User | null | undefined>(
+//     null
+//   );
 
-export const SessionProvider = ({ children }: props) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  return (
-    <SessionContext.Provider value={{ user, setUser }}>
-      {children}
-    </SessionContext.Provider>
-  );
-};
+//   return (
+//     <SessionContext.Provider value={{ user, setUser }}>
+//       {children}
+//     </SessionContext.Provider>
+//   );
+// };

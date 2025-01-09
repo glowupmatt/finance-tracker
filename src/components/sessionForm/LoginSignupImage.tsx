@@ -1,9 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 
-type Props = {};
-
-const LoginSignupImage = ({}: Props) => {
+const LoginSignupImage = () => {
   return (
     <div className="hidden lg:flex lg:flex-row h-screen relative">
       <div className="flex flex-col items-start justify-between p-8 text-white z-10 flex-grow absolute h-full max-h-[920px]">
