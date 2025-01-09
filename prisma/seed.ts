@@ -1,17 +1,20 @@
 import { PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
-
 async function main() {
+  const hashedPassword = await bcrypt.hash("password", 10);
   const user1 = await prisma.user.upsert({
     where: { email: "alice@prisma.io" },
-    update: {},
+    update: {
+      hashedPassword: hashedPassword,
+    },
     create: {
       email: "alice@prisma.io",
       firstName: "Alice",
       lastName: "Prisma",
-      hashedPassword: "password",
+      hashedPassword: hashedPassword,
     },
   });
 
