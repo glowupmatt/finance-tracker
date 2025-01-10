@@ -246,7 +246,7 @@ async function main() {
         create: {
           title: "Salary Contribution",
           amount: 300,
-          type: "INCOME",
+          type: "SAVINGS",
           date: recurringIncome.dueDate,
           category: "Savings",
           userId: user1.id,
