@@ -8,9 +8,7 @@ import { useSession } from "next-auth/react";
 export default function Home() {
   const session = useSession();
 
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
+  useEffect(() => {}, [session]);
 
   if (session.status === "authenticated") {
     return <DashboardDisplay />;
