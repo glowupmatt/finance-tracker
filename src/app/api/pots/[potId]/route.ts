@@ -3,7 +3,10 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/lib/prismaDb";
 import { TransactionType } from "@prisma/client";
 
-export async function GET({ params }: { params: Promise<{ potId: string }> }) {
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ potId: string }> }
+) {
   try {
     const currentUser = await getCurrentUser();
     if (!currentUser) {
