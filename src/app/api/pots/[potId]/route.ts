@@ -99,16 +99,25 @@ export async function PUT(
         transactions:
           transactions && transactions.length > 0
             ? {
-                createMany: {
-                  data: transactions.map((transaction) => ({
+                upsert: transactions.map((transaction) => ({
+                  where: { id: transaction.id },
+                  update: {
                     title: transaction.title,
                     amount: transaction.amount,
                     date: transaction.date,
                     type: transaction.type,
                     category: transaction.category,
                     userId: currentUser.id,
-                  })),
-                },
+                  },
+                  create: {
+                    title: transaction.title,
+                    amount: transaction.amount,
+                    date: transaction.date,
+                    type: transaction.type,
+                    category: transaction.category,
+                    userId: currentUser.id,
+                  },
+                })),
               }
             : undefined,
       },

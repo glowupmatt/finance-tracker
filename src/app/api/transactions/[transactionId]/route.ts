@@ -11,7 +11,6 @@ export async function GET(
     const currentUser = await getCurrentUser();
     console.log(currentUser, "CURRENT USER");
     if (!currentUser) {
-      console.log("NO CURRENT USER");
       return NextResponse.json(
         { error: "Authorization Required" },
         { status: 401 }
