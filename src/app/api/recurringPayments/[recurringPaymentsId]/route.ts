@@ -5,7 +5,7 @@ import { TransactionType } from "@prisma/client";
 
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ recurringBillId: string }> }
+  { params }: { params: Promise<{ recurringPaymentsId: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser();
@@ -20,7 +20,7 @@ export async function GET(
     if (currentUser) {
       const recurringBill = await prisma.recurringPayment.findUnique({
         where: {
-          id: (await params).recurringBillId,
+          id: (await params).recurringPaymentsId,
         },
       });
 
@@ -67,7 +67,7 @@ export async function PUT(
   {
     params,
   }: {
-    params: Promise<{ recurringBillId: string }>;
+    params: Promise<{ recurringPaymentsId: string }>;
     body: UpdateRecurringBillRequestBody;
   }
 ) {
@@ -82,7 +82,7 @@ export async function PUT(
     }
 
     const recurringBill = await prisma.recurringPayment.findUnique({
-      where: { id: (await params).recurringBillId },
+      where: { id: (await params).recurringPaymentsId },
     });
 
     if (!recurringBill) {
@@ -144,7 +144,7 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ recurringBillId: string }> }
+  { params }: { params: Promise<{ recurringPaymentsId: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser();
@@ -157,7 +157,7 @@ export async function DELETE(
     }
 
     const recurringBill = await prisma.recurringPayment.findUnique({
-      where: { id: (await params).recurringBillId },
+      where: { id: (await params).recurringPaymentsId },
     });
 
     if (!recurringBill) {
