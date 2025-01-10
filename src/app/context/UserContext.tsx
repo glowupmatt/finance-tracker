@@ -7,12 +7,14 @@ import React, {
   // SetStateAction,
   useEffect,
 } from "react";
-import { Transaction, Pot } from "@prisma/client";
+import { Transaction, Pot, Budget, RecurringPayment } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 type UserContextType = {
   transactions: Transaction[];
   pots: Pot[];
+  budgets: Budget[];
+  recurringPayments: RecurringPayment[];
 };
 
 type Props = {
@@ -30,9 +32,13 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }: Props) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const session = useSession();
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [pots, setPots] = useState<Pot[]>([]);
+  const [budgets, setBudgets] = useState<Budget[]>([]);
+  const [recurringPayments, setRecurringPayments] = useState<
+    RecurringPayment[]
+  >([]);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -45,9 +51,6 @@ export const UserProvider = ({ children }: Props) => {
         console.log(error);
       }
     }
-    if (session.status === "authenticated") {
-      fetchTransactions();
-    }
     async function fetchPots() {
       try {
         const response = await fetch("/api/pots");
@@ -58,12 +61,42 @@ export const UserProvider = ({ children }: Props) => {
         console.log(error);
       }
     }
-    fetchPots();
+
+    async function fetchBudgets() {
+      try {
+        const response = await fetch("/api/budgets");
+        const data = await response.json();
+        setBudgets(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    async function fetchRecurringPayments() {
+      try {
+        const response = await fetch("/api/recurringPayments");
+        const data = await response.json();
+        setRecurringPayments(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (session.status === "authenticated") {
+      fetchTransactions();
+      fetchPots();
+      fetchBudgets();
+      fetchRecurringPayments();
+    }
   }, [session]);
 
   const data = {
     transactions,
     pots,
+    budgets,
+    recurringPayments,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;
