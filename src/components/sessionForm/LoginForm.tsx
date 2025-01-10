@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { signIn } from "next-auth/react";
 import LoadingState from "../ui/loadingState";
+import LoginWithGuest from "./LoginWithGuest";
 
 const LoginForm = () => {
   const [VARIANT, setVARIANT] = useState<"login" | "signup">("login");
@@ -140,13 +141,16 @@ const LoginForm = () => {
             <LoadingState />
           </Button>
         ) : (
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
+          <div className="flex flex-col gap-4">
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
+            <LoginWithGuest setEmail={setEmail} setPassword={setPassword} />
+          </div>
         )}
       </form>
       <div
-        className="flex align-center justify-center mt-4 gap-2"
+        className="flex align-center justify-center mt-4 gap-2 hover:text-blue transition-all duration-300 ease-in-out"
         onClick={() => setVARIANT(VARIANT === "login" ? "signup" : "login")}
       >
         <p className="w-full">
