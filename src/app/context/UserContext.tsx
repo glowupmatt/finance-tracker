@@ -7,10 +7,11 @@ import React, {
   // SetStateAction,
   useEffect,
 } from "react";
-import { Transaction } from "@prisma/client";
+import { Transaction, Pot } from "@prisma/client";
 
 type UserContextType = {
   transactions: Transaction[];
+  pots: Pot[];
 };
 
 type Props = {
@@ -29,22 +30,35 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: Props) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [pots, setPots] = useState<Pot[]>([]);
 
   useEffect(() => {
-    async function fetchTransactions() {
+    // async function fetchTransactions() {
+    //   try {
+    //     const response = await fetch("/api/transactions");
+    //     const data = await response.json();
+    //     setTransactions(data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // fetchTransactions();
+    async function fetchPots() {
       try {
-        const response = await fetch("/api/transactions");
+        const response = await fetch("/api/pots");
         const data = await response.json();
-        setTransactions(data);
+        setPots(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
     }
-    fetchTransactions();
+    fetchPots();
   }, []);
 
   const data = {
     transactions,
+    pots,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;

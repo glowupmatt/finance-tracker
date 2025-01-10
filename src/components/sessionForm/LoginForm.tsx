@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { signIn } from "next-auth/react";
+import LoadingState from "../ui/loadingState";
 
 const LoginForm = () => {
   const [VARIANT, setVARIANT] = useState<"login" | "signup">("login");
@@ -11,12 +12,14 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function onSubmitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (VARIANT === "signup") {
       try {
+        setLoading(true);
         await fetch("/api/auth/signup", {
           method: "POST",
           body: JSON.stringify({
@@ -37,13 +40,21 @@ const LoginForm = () => {
           password,
           redirect: false,
         });
+        setLoading(false);
       }
     } else {
-      await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      try {
+        setLoading(true);
+        await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -124,9 +135,15 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
+        {loading ? (
+          <Button disabled variant={"secondary"} className="w-full">
+            <LoadingState />
+          </Button>
+        ) : (
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
+        )}
       </form>
       <div
         className="flex align-center justify-center mt-4 gap-2"
