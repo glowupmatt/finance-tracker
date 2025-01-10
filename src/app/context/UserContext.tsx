@@ -29,6 +29,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: Props) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  // const [pots, setPots] = useState<Pot[]>([]);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -41,6 +42,17 @@ export const UserProvider = ({ children }: Props) => {
       }
     }
     fetchTransactions();
+    // async function fetchPots() {
+    //   try {
+    //     const response = await fetch("/api/pots");
+    //     const data = await response.json();
+    //     setPots(data);
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // fetchPots();
   }, []);
 
   const data = {
