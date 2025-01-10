@@ -18,6 +18,9 @@ export async function GET() {
         where: {
           userId: currentUser.id,
         },
+        include: {
+          transactions: true,
+        },
       });
       return NextResponse.json({ recurringPayments }, { status: 200 });
     }
