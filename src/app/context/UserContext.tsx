@@ -8,6 +8,7 @@ import React, {
   useEffect,
 } from "react";
 import { Transaction } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 type UserContextType = {
   transactions: Transaction[];
@@ -29,6 +30,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: Props) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const session = useSession();
   // const [pots, setPots] = useState<Pot[]>([]);
 
   useEffect(() => {
@@ -37,11 +39,14 @@ export const UserProvider = ({ children }: Props) => {
         const response = await fetch("/api/transactions");
         const data = await response.json();
         setTransactions(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
     }
-    fetchTransactions();
+    if (session.status === "authenticated") {
+      fetchTransactions();
+    }
     // async function fetchPots() {
     //   try {
     //     const response = await fetch("/api/pots");
@@ -53,7 +58,7 @@ export const UserProvider = ({ children }: Props) => {
     //   }
     // }
     // fetchPots();
-  }, []);
+  }, [session]);
 
   const data = {
     transactions,
