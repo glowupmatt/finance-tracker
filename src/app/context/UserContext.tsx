@@ -7,11 +7,12 @@ import React, {
   // SetStateAction,
   useEffect,
 } from "react";
-import { Transaction } from "@prisma/client";
+import { Transaction, Pot } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 type UserContextType = {
   transactions: Transaction[];
+  pots: Pot[];
 };
 
 type Props = {
@@ -31,7 +32,7 @@ export const useUser = () => {
 export const UserProvider = ({ children }: Props) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const session = useSession();
-  // const [pots, setPots] = useState<Pot[]>([]);
+  const [pots, setPots] = useState<Pot[]>([]);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -47,21 +48,22 @@ export const UserProvider = ({ children }: Props) => {
     if (session.status === "authenticated") {
       fetchTransactions();
     }
-    // async function fetchPots() {
-    //   try {
-    //     const response = await fetch("/api/pots");
-    //     const data = await response.json();
-    //     setPots(data);
-    //     console.log(data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // fetchPots();
+    async function fetchPots() {
+      try {
+        const response = await fetch("/api/pots");
+        const data = await response.json();
+        setPots(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchPots();
   }, [session]);
 
   const data = {
     transactions,
+    pots,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;
