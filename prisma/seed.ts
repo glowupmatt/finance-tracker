@@ -6,106 +6,292 @@ const prisma = new PrismaClient().$extends(withAccelerate());
 async function main() {
   const hashedPassword = await bcrypt.hash("password", 10);
   const user1 = await prisma.user.upsert({
-    where: { email: "alice@prisma.io" },
+    where: { email: "guest@guest.io" },
     update: {
       hashedPassword: hashedPassword,
     },
     create: {
-      email: "alice@prisma.io",
-      firstName: "Alice",
-      lastName: "Prisma",
+      email: "guest@guest.io",
+      firstName: "Pookie",
+      lastName: "Bear",
       hashedPassword: hashedPassword,
     },
   });
 
+  console.log("Created user:", user1);
+
   const budget1 = await prisma.budget.create({
     data: {
-      name: "Budget 1",
+      name: "Groceries",
       maxSpend: 1000,
       user: {
         connect: { id: user1.id },
       },
+      transactions: {
+        create: [
+          {
+            title: "Groceries",
+            amount: 200,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Groceries",
+            senderOrRecipient: "Tesco",
+            userId: user1.id,
+          },
+          {
+            title: "Groceries",
+            amount: 150,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Groceries",
+            senderOrRecipient: "Kroger",
+            userId: user1.id,
+          },
+          {
+            title: "Groceries",
+            amount: 90,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Groceries",
+            senderOrRecipient: "Walmart",
+            userId: user1.id,
+          },
+        ],
+      },
+    },
+    include: {
+      transactions: true,
     },
   });
 
+  console.log("Created budget1:", budget1);
+
   const budget2 = await prisma.budget.create({
     data: {
-      name: "Budget 2",
+      name: "Night Out Budget",
+      maxSpend: 800,
+      user: {
+        connect: { id: user1.id },
+      },
+    },
+  });
+
+  console.log("Created budget2:", budget2);
+
+  const budget3 = await prisma.budget.create({
+    data: {
+      name: "Bills",
       maxSpend: 2000,
       user: {
         connect: { id: user1.id },
       },
+      transactions: {
+        create: [
+          {
+            title: "Rent",
+            amount: 1000,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Rent",
+            senderOrRecipient: "AVA Santa Monica",
+            userId: user1.id,
+          },
+          {
+            title: "Electricity",
+            amount: 100,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Electricity",
+            senderOrRecipient: "LADWP",
+            userId: user1.id,
+          },
+          {
+            title: "Water",
+            amount: 50,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Water",
+            senderOrRecipient: "LADWP",
+            userId: user1.id,
+          },
+        ],
+      },
+    },
+    include: {
+      transactions: true,
     },
   });
 
-  await prisma.pot.create({
+  console.log("Created budget3:", budget3);
+
+  const budget4 = await prisma.budget.create({
     data: {
-      title: "Pot 1",
-      targetAmount: 5000,
-      transactions: {
-        create: {
-          title: "Pot 1",
-          amount: 500,
-          type: "INCOME",
-          date: new Date(),
-          category: "Pot",
-          userId: user1.id,
-        },
-      },
+      name: "Entertainment",
+      maxSpend: 500,
       user: {
         connect: { id: user1.id },
       },
+      transactions: {
+        create: [
+          {
+            title: "Netflix",
+            amount: 20,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Netflix",
+            senderOrRecipient: "Netflix",
+            userId: user1.id,
+          },
+          {
+            title: "Spotify",
+            amount: 10,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Spotify",
+            senderOrRecipient: "Spotify",
+            userId: user1.id,
+          },
+          {
+            title: "Hulu",
+            amount: 10,
+            type: "EXPENSE",
+            date: new Date(),
+            category: "Hulu",
+            senderOrRecipient: "Hulu",
+            userId: user1.id,
+          },
+        ],
+      },
+    },
+    include: {
+      transactions: true,
     },
   });
 
-  await prisma.recurringPayment.create({
+  console.log("Created budget4:", budget4);
+
+  const recurringPaymentStreaming = await prisma.recurringPayment.create({
+    data: {
+      title: "Monthly Subscription",
+      amount: 20,
+      frequency: "MONTHLY",
+      dueDate: new Date(),
+      user: {
+        connect: { id: user1.id },
+      },
+      transactions: {
+        connect: budget4.transactions.map((transaction) => ({
+          id: transaction.id,
+        })),
+      },
+    },
+    include: {
+      transactions: true,
+    },
+  });
+
+  console.log("Created recurringPaymentStreaming:", recurringPaymentStreaming);
+
+  const recurringPaymentRent = await prisma.recurringPayment.create({
     data: {
       title: "Rent",
-      dueDate: new Date(),
       amount: 1000,
       frequency: "MONTHLY",
-      transactions: {
-        create: {
-          title: "Rent",
-          amount: 1000,
-          type: "EXPENSE",
-          date: new Date(),
-          category: "Rent",
-          userId: user1.id,
-        },
-      },
+      dueDate: new Date(),
       user: {
         connect: { id: user1.id },
       },
+      transactions: {
+        connect: budget3.transactions.map((transaction) => ({
+          id: transaction.id,
+        })),
+      },
+    },
+    include: {
+      transactions: true,
     },
   });
 
-  const transaction1 = await prisma.transaction.create({
+  console.log("Created recurringPaymentRent:", recurringPaymentRent);
+
+  const recurringIncome = await prisma.recurringPayment.create({
     data: {
       title: "Salary",
       amount: 1000,
-      type: "INCOME",
-      date: new Date(),
-      category: "Salary",
-      userId: user1.id,
-      budgetId: budget1.id,
+      frequency: "MONTHLY",
+      dueDate: new Date(),
+      user: {
+        connect: { id: user1.id },
+      },
+      transactions: {
+        create: {
+          title: "Salary",
+          amount: 6000,
+          type: "INCOME",
+          date: new Date(),
+          category: "Salary",
+          userId: user1.id,
+        },
+      },
     },
   });
 
-  const transaction2 = await prisma.transaction.create({
+  console.log("Created recurringIncome:", recurringIncome);
+
+  const savingsPot = await prisma.pot.create({
     data: {
-      title: "Freelance",
-      amount: 200,
-      type: "INCOME",
-      date: new Date(),
-      category: "Freelance",
-      userId: user1.id,
-      budgetId: budget2.id,
+      title: "Savings",
+      targetAmount: 5000,
+      transactions: {
+        create: {
+          title: "Salary Contribution",
+          amount: 300,
+          type: "INCOME",
+          date: recurringIncome.dueDate,
+          category: "Savings",
+          userId: user1.id,
+        },
+      },
+      user: {
+        connect: { id: user1.id },
+      },
     },
   });
 
-  console.log(`Created user: ${user1.firstName}`);
-  console.log(`Created transactions: ${transaction1.id}, ${transaction2.id}`);
+  console.log("Created savingsPot:", savingsPot);
+
+  const concertTicketPot = await prisma.pot.create({
+    data: {
+      title: "Concert Tickets",
+      targetAmount: 200,
+      user: {
+        connect: { id: user1.id },
+      },
+    },
+  });
+  console.log("Created concertTicketPot:", concertTicketPot);
+
+  const newLaptopPot = await prisma.pot.create({
+    data: {
+      title: "New Laptop",
+      targetAmount: 1500,
+      user: {
+        connect: { id: user1.id },
+      },
+    },
+  });
+  console.log("Created newLaptopPot:", newLaptopPot);
+
+  const vacationPot = await prisma.pot.create({
+    data: {
+      title: "Vacation",
+      targetAmount: 3000,
+      user: {
+        connect: { id: user1.id },
+      },
+    },
+  });
+  console.log("Created vacationPot:", vacationPot);
 }
 
 // 4
