@@ -12,6 +12,10 @@ export async function GET() {
     );
   }
 
-  const transactions = await prisma.transaction.findMany();
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      userId: currentUser.id,
+    },
+  });
   return NextResponse.json({ transactions }, { status: 200 });
 }

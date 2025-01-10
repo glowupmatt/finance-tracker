@@ -95,6 +95,9 @@ export async function PUT(
     const body: UpdateBudgetRequestBody = await req.json();
     const updatedBudget = await prisma.budget.update({
       where: { id: budget.id },
+      include: {
+        transactions: true,
+      },
       data: {
         name: body.name,
         maxSpend: body.maxSpend,
