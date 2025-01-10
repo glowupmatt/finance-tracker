@@ -10,7 +10,7 @@ const SessionForm = () => {
       </div>
       <div className="flex bg-greyLighter gap-[4rem] w-full items-center min-w-[100vw] min-h-[100vh]">
         <LoginSignupImage />
-        <div className="flex justify-center lg:content-start lg:items-center top-0 right-0 w-full lg:w-1/2 h-full lg:h-screen relative">
+        <div className="flex justify-center lg:content-start lg:items-center top-0 right-0 w-full lg:w-1/2 h-full lg:h-screen relative max-h-[30rem]">
           <LoginForm />
         </div>
       </div>
