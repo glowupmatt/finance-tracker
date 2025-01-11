@@ -1,5 +1,5 @@
 import React from "react";
-import { useUser } from "@/app/context/UserContext";
+import { useUser } from "@/context/UserContext";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/formatCurrency";
 

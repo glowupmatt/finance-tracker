@@ -1,9 +1,10 @@
 import React from "react";
 import BalanceAndExpenses from "./overviewCards/BalanceAndExpenses";
-import { useUser } from "@/app/context/UserContext";
+import { useUser } from "@/context/UserContext";
 import LoadingStateHome from "./LoadingStateHome";
 import { signOut } from "next-auth/react";
-import Pots from "./overviewCards/Pots";
+import Pots from "./overviewCards/dashboardPotComponents/Pots";
+import Transactions from "./overviewCards/dashboardTransactionComponentes/Transactions";
 
 const DashboardDisplay = () => {
   const { isLoading } = useUser();
@@ -17,6 +18,7 @@ const DashboardDisplay = () => {
       <h1 className="font-bold text-[1.5rem] w-full items-start">Overview</h1>
       <BalanceAndExpenses />
       <Pots />
+      <Transactions />
       <button onClick={() => signOut()}>Sign Out</button>
     </div>
   );

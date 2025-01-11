@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Pot, PotType } from "@/types/PotTypes";
+import { Pot } from "@/types/PotTypes";
 import { transactionReducer } from "@/utils/transactionReducer";
 import { formatCurrency } from "@/utils/formatCurrency";
-import generateRandomColor from "@/utils/randomColorGenerator";
 
 const usePotFormat = (pots: Pot[] | undefined) => {
   const [totalSaved, setTotalSaved] = useState<string | null>(null);
-  const [sortedPots, setSortedPots] = useState<PotType[] | undefined>([]);
+  const [sortedPots, setSortedPots] = useState<Pot[] | undefined>([]);
 
   useEffect(() => {
     function getTotalSaved(pots: Pot[] | undefined) {
@@ -31,7 +30,6 @@ const usePotFormat = (pots: Pot[] | undefined) => {
             updatedAt: pot.updatedAt,
             userId: pot.userId,
             transactions: pot.transactions,
-            color: generateRandomColor(),
           };
         });
       setSortedPots(categories);

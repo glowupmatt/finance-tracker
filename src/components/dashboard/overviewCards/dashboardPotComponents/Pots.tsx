@@ -3,7 +3,7 @@ import React from "react";
 import { useUser } from "@/context/UserContext";
 import DashboardCardHeader from "../DashboardCardHeader";
 import TotalSavedDisplay from "./TotalSavedDisplay";
-import SpotListPreview from "./SpotListPreview";
+import PotListPreview from "./PotListPreview";
 import { usePotFormat } from "@/hooks/usePotFormat";
 
 const Pots = () => {
@@ -15,7 +15,7 @@ const Pots = () => {
       <DashboardCardHeader title="Pots" buttonText="See Details" link="pots" />
       <TotalSavedDisplay totalSaved={totalSaved} />
       <div>
-        <SpotListPreview sortedPots={sortedPots} />
+        <PotListPreview sortedPots={sortedPots} />
       </div>
     </div>
   );
