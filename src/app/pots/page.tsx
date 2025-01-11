@@ -1,8 +1,8 @@
 import React from "react";
 
-type Props = {};
+// type Props = {};
 
-function PotsDisplay({}: Props) {
+function PotsDisplay() {
   return <div>page</div>;
 }
 
