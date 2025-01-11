@@ -154,6 +154,9 @@ const LoginForm = () => {
         onClick={() => setVARIANT(VARIANT === "login" ? "signup" : "login")}
       >
         <p className="w-full">
+          {VARIANT === "login"
+            ? "Need to create an account? "
+            : "Already have an account? "}
           Need to create an account?{" "}
           <span className="font-bold cursor-pointer">
             {VARIANT === "login" ? "Login" : "Signup"}

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import LoginForm from "./LoginForm";
 import LoginSignupImage from "./LoginSignupImage";
