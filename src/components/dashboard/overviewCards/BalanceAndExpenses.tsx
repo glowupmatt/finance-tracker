@@ -1,7 +1,7 @@
 import React from "react";
 import { useUser } from "@/app/context/UserContext";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/formatCurrency";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 const BalanceAndExpenses = () => {
   const { totalIncome, totalExpense, currentBalance } = useUser();

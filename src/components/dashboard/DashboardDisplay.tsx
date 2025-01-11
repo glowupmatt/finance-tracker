@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import BalanceAndExpenses from "./overviewCards/BalanceAndExpenses";
 import { useUser } from "@/app/context/UserContext";
