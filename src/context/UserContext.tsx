@@ -17,6 +17,7 @@ import {
   fetchTransactions,
 } from "@/lib/fetchUserActions";
 import { calculateTotal } from "@/utils/calculateTotal";
+import { useRouter } from "next/navigation";
 
 type UserContextType = {
   transactions: Transaction[] | undefined;
@@ -46,7 +47,6 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }: Props) => {
-  const session = useSession();
   const [transactions, setTransactions] = useState<Transaction[] | undefined>(
     undefined
   );
@@ -63,9 +63,18 @@ export const UserProvider = ({ children }: Props) => {
     undefined
   );
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (session.status === "authenticated") {
+    if (status !== "authenticated" && status !== "loading") {
+      router.push("/");
+    }
+  }, [router, status]);
+
+  useEffect(() => {
+    if (status === "authenticated") {
       try {
         fetchTransactions().then((data) => setTransactions(data));
         fetchPots().then((data) => setPots(data));
@@ -75,7 +84,7 @@ export const UserProvider = ({ children }: Props) => {
         console.log(error);
       }
     }
-  }, [session]);
+  }, [status]);
 
   useEffect(() => {
     if (transactions !== undefined) {
