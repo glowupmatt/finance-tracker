@@ -158,7 +158,7 @@ const LoginForm = () => {
             ? "Need to create an account? "
             : "Already have an account? "}
           <span className="font-bold cursor-pointer">
-            {VARIANT === "login" ? "Login" : "Signup"}
+            {VARIANT === "login" ? "Signup" : "Login"}
           </span>
         </p>
       </div>
