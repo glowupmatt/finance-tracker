@@ -16,6 +16,7 @@ import {
   fetchRecurringPayments,
   fetchTransactions,
 } from "@/lib/fetchUserActions";
+import { calculateTotal } from "@/utils/calculateTotal";
 
 type UserContextType = {
   transactions: Transaction[] | undefined;
@@ -77,25 +78,16 @@ export const UserProvider = ({ children }: Props) => {
   }, [session]);
 
   useEffect(() => {
-    function calculateTotal(type: string): number | undefined {
-      return transactions?.reduce((acc, transaction) => {
-        if (transaction.type === type) {
-          return acc + transaction.amount;
-        } else {
-          return acc;
-        }
-      }, 0);
-    }
     if (transactions !== undefined) {
-      const income = calculateTotal("INCOME");
-      const expense = calculateTotal("EXPENSE");
+      const income = calculateTotal(transactions, "INCOME");
+      const expense = calculateTotal(transactions, "EXPENSE");
       if (income !== undefined && expense !== undefined) {
         setCurrentBalance(income - expense);
       } else {
         setCurrentBalance(undefined);
       }
-      setTotalIncome(calculateTotal("INCOME"));
-      setTotalExpense(calculateTotal("EXPENSE"));
+      setTotalIncome(calculateTotal(transactions, "INCOME"));
+      setTotalExpense(calculateTotal(transactions, "EXPENSE"));
       setIsLoading(false);
     }
   }, [transactions]);
