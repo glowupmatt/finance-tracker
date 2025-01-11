@@ -143,7 +143,7 @@ const LoginForm = () => {
         ) : (
           <div className="flex flex-col gap-4">
             <Button type="submit" className="w-full">
-              Login
+              {VARIANT === "login" ? "Login" : "Signup"}
             </Button>
             <LoginWithGuest setEmail={setEmail} setPassword={setPassword} />
           </div>
