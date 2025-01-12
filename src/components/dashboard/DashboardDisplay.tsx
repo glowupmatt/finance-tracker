@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react";
 import Pots from "./overviewCards/dashboardPotComponents/Pots";
 import Transactions from "./overviewCards/dashboardTransactionComponents/Transactions";
 import BudgetPreview from "./overviewCards/dashboardBudgetComponents/BudgetPreview";
+import RecurringPayments from "./overviewCards/dashboardRecurringPaymentComponents/RecurringPayments";
 
 const DashboardDisplay = () => {
   const { isLoading } = useUser();
@@ -21,6 +22,7 @@ const DashboardDisplay = () => {
       <Pots />
       <Transactions />
       <BudgetPreview />
+      <RecurringPayments />
       <button onClick={() => signOut()}>Sign Out</button>
     </div>
   );

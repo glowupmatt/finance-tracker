@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import PieChart from "./PieChart";
+import PieChart from "@/components/ui/PieChart";
 import { BudgetType } from "@/types/BudgetTypes";
 
 type Props = {

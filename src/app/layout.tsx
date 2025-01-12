@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Finance Tracker",
+  title: "At what cost?",
   description: "Track your finances with ease | Developed by Matthew Nicholson",
+  icons: "/images/logo-small.svg",
 };
 
 export default function RootLayout({

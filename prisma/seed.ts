@@ -170,59 +170,58 @@ async function main() {
 
   console.log("Created budget4:", budget4);
 
-  const recurringPaymentStreaming = await prisma.recurringPayment.create({
-    data: {
-      title: "Monthly Subscription",
-      amount: 20,
-      frequency: "MONTHLY",
-      dueDate: new Date(),
-      user: {
-        connect: { id: user1.id },
+  for (const transaction of budget4.transactions) {
+    const recurringPayment = await prisma.recurringPayment.create({
+      data: {
+        title: transaction.title,
+        amount: transaction.amount,
+        frequency: "MONTHLY",
+        dueDate: new Date(),
+        paid: true,
+        user: {
+          connect: { id: user1.id },
+        },
+        transactions: {
+          connect: { id: transaction.id },
+        },
       },
-      transactions: {
-        connect: budget4.transactions.map((transaction) => ({
-          id: transaction.id,
-        })),
+      include: {
+        transactions: true,
       },
-    },
-    include: {
-      transactions: true,
-    },
-  });
+    });
+    console.log("Created recurringPayment for transaction:", recurringPayment);
+  }
 
-  console.log("Created recurringPaymentStreaming:", recurringPaymentStreaming);
-
-  const recurringPaymentRent = await prisma.recurringPayment.create({
-    data: {
-      title: "Rent",
-      amount: 1000,
-      frequency: "MONTHLY",
-      dueDate: new Date(),
-      user: {
-        connect: { id: user1.id },
+  for (const transaction of budget3.transactions) {
+    const recurringPayment = await prisma.recurringPayment.create({
+      data: {
+        title: transaction.title,
+        amount: transaction.amount,
+        frequency: "MONTHLY",
+        dueDate: new Date(),
+        paid: false,
+        user: {
+          connect: { id: user1.id },
+        },
+        transactions: {
+          connect: { id: transaction.id },
+        },
       },
-      transactions: {
-        connect: budget3.transactions.map((transaction) => ({
-          id: transaction.id,
-        })),
+      include: {
+        transactions: true,
       },
-    },
-    include: {
-      transactions: true,
-    },
-  });
-
-  console.log("Created recurringPaymentRent:", recurringPaymentRent);
+    });
+    console.log("Created recurringPayment for transaction:", recurringPayment);
+  }
 
   const recurringIncome = await prisma.recurringPayment.create({
     data: {
       title: "Salary",
-      amount: 1000,
+      amount: 6000,
       frequency: "MONTHLY",
       dueDate: new Date(),
-      user: {
-        connect: { id: user1.id },
-      },
+      paid: true,
+      user: { connect: { id: user1.id } },
       transactions: {
         create: {
           title: "Salary",
@@ -247,7 +246,7 @@ async function main() {
           title: "Salary Contribution",
           amount: 300,
           type: "SAVINGS",
-          date: recurringIncome.dueDate,
+          date: new Date(),
           category: "Savings",
           userId: user1.id,
         },
