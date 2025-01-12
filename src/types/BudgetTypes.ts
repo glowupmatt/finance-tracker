@@ -16,3 +16,12 @@ export type BudgetType = {
   transactions: Transaction[];
   color: string;
 };
+
+// export type BudgetType = {
+//   id: string;
+//   name: string;
+//   maxSpend: number;
+//   transactions: Transaction[];
+//   userId: string;
+//   color: string;
+// };
