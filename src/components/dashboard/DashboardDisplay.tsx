@@ -4,7 +4,8 @@ import { useUser } from "@/context/UserContext";
 import LoadingStateHome from "./LoadingStateHome";
 import { signOut } from "next-auth/react";
 import Pots from "./overviewCards/dashboardPotComponents/Pots";
-import Transactions from "./overviewCards/dashboardTransactionComponentes/Transactions";
+import Transactions from "./overviewCards/dashboardTransactionComponents/Transactions";
+import BudgetPreview from "./overviewCards/dashboardBudgetComponents/BudgetPreview";
 
 const DashboardDisplay = () => {
   const { isLoading } = useUser();
@@ -19,6 +20,7 @@ const DashboardDisplay = () => {
       <BalanceAndExpenses />
       <Pots />
       <Transactions />
+      <BudgetPreview />
       <button onClick={() => signOut()}>Sign Out</button>
     </div>
   );
