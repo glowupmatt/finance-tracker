@@ -9,7 +9,7 @@ type Props = {
 function BodyLayout({ children }: Props) {
   return (
     <SessionProvider>
-      <div className="flex items-center justify-center bg-beigeLight 2xl:justify-center relative">
+      <div className="items-center justify-center bg-beigeLight 2xl:justify-center relative">
         <div className="max-w-[2560px]">{children}</div>
       </div>
     </SessionProvider>

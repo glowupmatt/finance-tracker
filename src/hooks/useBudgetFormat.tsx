@@ -1,10 +1,13 @@
 import { Budget } from "@/types/BudgetTypes";
 import { useEffect, useState } from "react";
 import generateRandomColor from "@/utils/randomColorGenerator";
+import { BudgetType } from "@/types/BudgetTypes";
 
 export function useBudgetFormat(budgets: Budget[] | undefined) {
   const [budgetUsed, setBudgetUsed] = useState<number | undefined>();
-  const [sortedBudgets, setSortedBudgets] = useState<Budget[] | undefined>();
+  const [sortedBudgets, setSortedBudgets] = useState<
+    BudgetType[] | undefined
+  >();
 
   useEffect(() => {
     if (!budgets) return;
@@ -28,7 +31,7 @@ export function useBudgetFormat(budgets: Budget[] | undefined) {
             id: budget.id,
             name: budget.name,
             maxSpend: budget.maxSpend,
-            transactions: budget.transactions,
+            transactions: budget.transactions || [],
             userId: budget.userId,
             color: generateRandomColor(),
           };
