@@ -1,9 +1,9 @@
 import ColorSideTab from "@/components/ui/ColorSideTab";
-import { Pot } from "@/types/PotTypes";
+import { PotType } from "@/types/PotTypes";
 import React from "react";
 
 type Props = {
-  sortedPots: Pot[] | undefined;
+  sortedPots: PotType[] | undefined;
 };
 
 const PotListPreview = ({ sortedPots }: Props) => {
@@ -16,7 +16,7 @@ const PotListPreview = ({ sortedPots }: Props) => {
             key={index}
             className="text-greySemiDark flex items-center flex-row gap-2"
           >
-            <ColorSideTab />
+            <ColorSideTab color={pot.color} />
             <p>{pot.title}</p>
           </li>
         ))}

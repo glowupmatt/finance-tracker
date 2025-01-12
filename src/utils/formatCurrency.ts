@@ -1,8 +1,11 @@
-export const formatCurrency = (amount: number | undefined): string => {
+export const formatCurrency = (
+  amount: number | undefined,
+  fractionDigits: number = 2
+): string => {
   if (amount === undefined) return "";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2,
+    minimumFractionDigits: fractionDigits,
   }).format(amount);
 };
