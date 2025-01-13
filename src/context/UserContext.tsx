@@ -7,7 +7,7 @@ import React, {
   // SetStateAction,
   useEffect,
 } from "react";
-import { Transaction, Budget, RecurringPayment } from "@prisma/client";
+import { Transaction, Budget, RecurringPayment, User } from "@prisma/client";
 import { Pot } from "@/types/PotTypes";
 import { useSession } from "next-auth/react";
 import {
@@ -15,6 +15,7 @@ import {
   fetchPots,
   fetchRecurringPayments,
   fetchTransactions,
+  fetchUserActions,
 } from "@/lib/fetchUserActions";
 import { calculateTotal } from "@/utils/calculateTotal";
 import { useRouter } from "next/navigation";
@@ -23,6 +24,8 @@ type UserContextType = {
   transactions: Transaction[] | undefined;
   pots: Pot[] | undefined;
   budgets: Budget[] | undefined;
+  user: User | undefined;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   recurringPayments: RecurringPayment[] | undefined;
   currentBalance: number | undefined;
   totalIncome: number | undefined;
@@ -63,6 +66,9 @@ export const UserProvider = ({ children }: Props) => {
     undefined
   );
   const [isLoading, setIsLoading] = useState(true);
+
+  const [user, setUser] = useState<User | undefined>(undefined);
+
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: session, status } = useSession();
@@ -80,6 +86,7 @@ export const UserProvider = ({ children }: Props) => {
         fetchPots().then((data) => setPots(data));
         fetchBudgets().then((data) => setBudgets(data));
         fetchRecurringPayments().then((data) => setRecurringPayments(data));
+        fetchUserActions().then((data) => setUser(data));
       } catch (error) {
         console.log(error);
       }
@@ -110,6 +117,8 @@ export const UserProvider = ({ children }: Props) => {
     totalIncome,
     totalExpense,
     isLoading,
+    user,
+    setUser,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;
