@@ -11,10 +11,10 @@ const Pots = () => {
 
   const { totalSaved, sortedPots } = usePotFormat(pots);
   return (
-    <div className="w-full bg-white p-4 rounded-lg shadow-md min-h-[324px]">
+    <div className="w-full bg-white p-4 rounded-lg shadow-md min-h-[324px] md:flex md:justify-around md:flex-col">
       <DashboardCardHeader title="Pots" buttonText="See Details" link="pots" />
-      <TotalSavedDisplay totalSaved={totalSaved} />
-      <div>
+      <div className="md:flex h-full gap-4">
+        <TotalSavedDisplay totalSaved={totalSaved} />
         <PotListPreview sortedPots={sortedPots} />
       </div>
     </div>

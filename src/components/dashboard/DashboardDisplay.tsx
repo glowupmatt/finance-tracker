@@ -2,7 +2,6 @@ import React from "react";
 import BalanceAndExpenses from "./overviewCards/BalanceAndExpenses";
 import { useUser } from "@/context/UserContext";
 import LoadingStateHome from "./LoadingStateHome";
-import { signOut } from "next-auth/react";
 import Pots from "./overviewCards/dashboardPotComponents/Pots";
 import Transactions from "./overviewCards/dashboardTransactionComponents/Transactions";
 import BudgetPreview from "./overviewCards/dashboardBudgetComponents/BudgetPreview";
@@ -23,7 +22,6 @@ const DashboardDisplay = () => {
       <Transactions />
       <BudgetPreview />
       <RecurringPayments />
-      <button onClick={() => signOut()}>Sign Out</button>
     </div>
   );
 };

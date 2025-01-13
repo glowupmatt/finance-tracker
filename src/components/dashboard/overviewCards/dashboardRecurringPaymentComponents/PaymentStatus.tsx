@@ -8,7 +8,6 @@ type Props = {
 };
 
 const PaymentStatus = ({ title, amount, color }: Props) => {
-  console.log(color);
   return (
     <div
       className={`flex justify-between items-center  border-l-4 p-4 rounded-md bg-beigeLight`}

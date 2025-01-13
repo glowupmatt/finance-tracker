@@ -12,9 +12,9 @@ const BudgetDoughnutChart = () => {
   const { sortedBudgets } = useBudgetFormat(budgets);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 md:flex md:flex-row md:justify-around">
       <BudgetChart sortedBudgets={sortedBudgets} />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:flex md:flex-col">
         {sortedBudgets?.map((budget, index) => {
           return (
             <div key={index} className="flex items-center justify-start gap-2">

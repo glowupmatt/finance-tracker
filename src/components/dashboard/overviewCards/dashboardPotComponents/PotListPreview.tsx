@@ -8,7 +8,7 @@ type Props = {
 
 const PotListPreview = ({ sortedPots }: Props) => {
   return (
-    <ul className="grid grid-cols-2 gap-2 mt-4">
+    <ul className="grid grid-cols-2 gap-2 mt-4 w-full">
       {sortedPots
         ?.filter((_, index) => index <= 3)
         ?.map((pot, index) => (
