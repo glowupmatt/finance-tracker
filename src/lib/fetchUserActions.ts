@@ -36,3 +36,13 @@ export async function fetchRecurringPayments() {
     console.log(error);
   }
 }
+
+export async function fetchUserActions() {
+  try {
+    const response = await fetch("/api/currentUser");
+    const data = await response.json();
+    return data.user;
+  } catch (error) {
+    console.log(error);
+  }
+}

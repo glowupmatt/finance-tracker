@@ -2,6 +2,16 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prismaDb";
 import getCurrentUser from "@/actions/getCurrentUser";
 
+export async function GET() {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ user: currentUser }, { status: 200 });
+}
+
 export async function PUT(req: Request) {
   const { email, firstName, lastName, profilePhoto } = await req.json();
 
