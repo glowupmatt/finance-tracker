@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import { usePathname } from "next/navigation";
+import { navLinks } from "@/utils/navLinks";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -11,40 +12,8 @@ const Footer = () => {
 
   if (!user) return null;
 
-  const navLinks = [
-    {
-      title: "Overview",
-      img: "/images/icon-nav-overview.svg",
-      selectedImg: "/images/icon-nav-overview-selected.svg",
-      link: "/",
-    },
-    {
-      title: "Transactions",
-      img: "/images/icon-nav-transactions.svg",
-      selectedImg: "/images/icon-nav-transactions-selected.svg",
-      link: "/transactions",
-    },
-    {
-      title: "Budgets",
-      img: "/images/icon-nav-budgets.svg",
-      selectedImg: "/images/icon-nav-budgets-selected.svg",
-      link: "/budgets",
-    },
-    {
-      title: "Pots",
-      img: "/images/icon-nav-pots.svg",
-      selectedImg: "/images/icon-nav-pots-selected.svg",
-      link: "/pots",
-    },
-    {
-      title: "Recurring Payments",
-      img: "/images/icon-nav-recurring-bills.svg",
-      selectedImg: "/images/icon-nav-recurring-bills-selected.svg",
-      link: "/recurring-payments",
-    },
-  ];
   return (
-    <footer className="bg-greyDark flex justify-between p-6 text-white sticky bottom-0 rounded-t-xl items-center">
+    <footer className="bg-greyDark flex justify-between p-6 text-white sticky bottom-0 rounded-t-xl items-center lg:hidden">
       {navLinks.map((navLink, index) => (
         <div
           key={index}

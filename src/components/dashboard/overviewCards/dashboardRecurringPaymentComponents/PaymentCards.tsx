@@ -17,7 +17,7 @@ const PaymentCards = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 gap-4 mt-3">
+    <div className="grid grid-cols-1 gap-4 mt-3 lg:grid-cols-2">
       <PaymentStatus title="Paid Bills" amount={paidBills} color="#277C78" />
       <PaymentStatus
         title="Total Upcoming"

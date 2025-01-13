@@ -4,7 +4,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/context/UserContext";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ const Header = () => {
 
   if (!user) return null;
   return (
-    <nav className="flex justify-between items-center py-4 px-8 bg-white shadow sticky top-0 z-50">
+    <nav className="flex justify-between items-center py-4 px-8 bg-white shadow sticky top-0 z-50 lg:hidden">
       <img
         src="/images/logo-large-black.svg"
         alt="logo"

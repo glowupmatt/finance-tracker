@@ -4,7 +4,7 @@ import PaymentCards from "./PaymentCards";
 
 const RecurringPayments = () => {
   return (
-    <div className="bg-white shadow-sm rounded-md p-4 w-full">
+    <div className="bg-white shadow-lg rounded-md p-4 w-full">
       <DashboardCardHeader
         title="Recurring Transactions"
         buttonText="See Details"

@@ -15,13 +15,19 @@ const DashboardDisplay = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-4">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-4 lg:overflow-scroll lg:h-screen lg:justify-start">
       <h1 className="font-bold text-[1.5rem] w-full items-start">Overview</h1>
       <BalanceAndExpenses />
-      <Pots />
-      <Transactions />
-      <BudgetPreview />
-      <RecurringPayments />
+      <div className="w-full flex flex-col gap-8 lg:flex-row items-start justify-center">
+        <div className="w-full flex flex-col items-center justify-center gap-4 lg:gap-8">
+          <Pots />
+          <Transactions />
+        </div>
+        <div className="w-full flex flex-col items-center justify-center gap-4 lg:gap-8 lg:h-full">
+          <BudgetPreview />
+          <RecurringPayments />
+        </div>
+      </div>
     </div>
   );
 };

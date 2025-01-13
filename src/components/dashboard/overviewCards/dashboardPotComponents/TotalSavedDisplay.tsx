@@ -6,7 +6,7 @@ type TotalSavedDisplayProps = {
 
 const TotalSavedDisplay = ({ totalSaved }: TotalSavedDisplayProps) => {
   return (
-    <div className="flex justify-start gap-[2rem] items-center w-full mt-4 bg-beigeLight p-4 rounded-lg">
+    <div className="flex justify-start gap-[2rem] items-center w-full mt-4 bg-beigeLight p-4 rounded-lg lg:w-full lg:gap-[1rem]">
       <img
         src="/images/icon-pot.svg"
         alt="pot icon"
@@ -14,7 +14,9 @@ const TotalSavedDisplay = ({ totalSaved }: TotalSavedDisplayProps) => {
       />
       <div className="flex flex-col gap-3 justify-between items-start">
         <p className="text-greySemiDark">Total Saved</p>
-        <p className="text-black text-[3rem] font-bold">{totalSaved}</p>
+        <p className="text-black text-[3rem] font-bold lg:text-[2rem]">
+          {totalSaved}
+        </p>
       </div>
     </div>
   );

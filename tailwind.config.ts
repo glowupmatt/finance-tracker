@@ -80,6 +80,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      screens: {
+        lg: "1440px",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

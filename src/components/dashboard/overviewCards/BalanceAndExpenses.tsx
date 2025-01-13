@@ -14,11 +14,11 @@ const BalanceAndExpenses = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 justify-center items-center md:flex-row md:justify-between md:w-full">
+    <div className="flex flex-col gap-4 justify-center items-center md:flex-row md:justify-between md:w-full lg:justify-normal">
       {Object.entries(details).map(([key, value], index) => (
         <Card
           key={key}
-          className={`w-[90vw] px-4 py-6  md:min-w-[213.33px] md:w-full ${
+          className={`w-[90vw] px-4 py-6  md:min-w-[213.33px] md:w-full  ${
             index === 0 ? "bg-greyDark" : null
           }`}
         >
