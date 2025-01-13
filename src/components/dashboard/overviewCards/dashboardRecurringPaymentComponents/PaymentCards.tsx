@@ -1,7 +1,7 @@
 import { useUser } from "@/context/UserContext";
 import React from "react";
 import PaymentStatus from "./PaymentStatus";
-import { recurringPaymentsFilters } from "./dateFunctions";
+import { recurringPaymentsFilters } from "@/utils/dateFunctions";
 
 const PaymentCards = () => {
   const { recurringPayments } = useUser();
