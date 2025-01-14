@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
-import LoadingState from "../ui/loadingState";
+import LoadingState from "@/components/ui/loadingState";
 import LoginWithGuest from "./LoginWithGuest";
 
 const LoginForm = () => {

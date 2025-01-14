@@ -8,7 +8,7 @@ const RecurringPayments = () => {
       <DashboardCardHeader
         title="Recurring Transactions"
         buttonText="See Details"
-        link="recurring-transactions"
+        link="recurring-payments"
       />
       <PaymentCards />
     </div>

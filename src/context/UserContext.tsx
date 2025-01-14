@@ -30,7 +30,8 @@ type UserContextType = {
   currentBalance: number | undefined;
   totalIncome: number | undefined;
   totalExpense: number | undefined;
-  isLoading?: boolean;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type Props = {
@@ -75,7 +76,7 @@ export const UserProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (status !== "authenticated" && status !== "loading") {
-      router.push("/");
+      router.push("/session");
     }
   }, [router, status]);
 
@@ -119,6 +120,7 @@ export const UserProvider = ({ children }: Props) => {
     isLoading,
     user,
     setUser,
+    setIsLoading,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;

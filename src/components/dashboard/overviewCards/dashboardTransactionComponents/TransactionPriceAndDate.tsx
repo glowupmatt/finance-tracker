@@ -1,12 +1,9 @@
 import React from "react";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { Transaction } from "@prisma/client";
 
 type Props = {
-  transaction: {
-    type: string;
-    amount: number;
-    date: string;
-  };
+  transaction: Transaction;
 };
 
 const TransactionPriceAndDate = (props: Props) => {
@@ -24,12 +21,18 @@ const TransactionPriceAndDate = (props: Props) => {
     return "";
   };
 
+  const formatter = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  const validDate = new Date(date);
   return (
     <div className="flex gap-[1px] flex-col items-end w-full justify-center max-w-[100px]">
       <p className={`${priceClass} ${getPriceColorClass()}`}>
         {type === "EXPENSE" ? `-${formattedCurrency}` : formattedCurrency}
       </p>
-      <p className={dateClass}>{date}</p>
+      <p className={dateClass}>{formatter.format(validDate)}</p>
     </div>
   );
 };

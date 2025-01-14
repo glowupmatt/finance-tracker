@@ -2,14 +2,14 @@
 "use client";
 import React from "react";
 import { useUser } from "@/context/UserContext";
-import {
-  transactionsSortByDate,
-  formatTransactionData,
-} from "@/utils/transactionFunctions";
+import { transactionsSortByDate } from "@/utils/transactionFunctions";
 import TransactionPriceAndDate from "./TransactionPriceAndDate";
 import TransactionDetails from "./TransactionDetails";
 
-const TransactionData = () => {
+type Props = {
+  type: "MainPage" | "Dashboard";
+};
+const TransactionData = ({ type = "Dashboard" }: Props) => {
   const { transactions } = useUser();
   if (!transactions)
     return (
@@ -19,13 +19,34 @@ const TransactionData = () => {
     );
 
   const sortedTransactions = transactionsSortByDate(transactions);
-  const formattedTransactions = formatTransactionData(
-    sortedTransactions
-  ).filter((_, index) => index < 5);
+  const formattedTransactions = sortedTransactions.filter(
+    (_, index) => index < 5
+  );
+
+  const checkType =
+    type === "Dashboard" ? formattedTransactions : sortedTransactions;
+
+  if (type === "MainPage") {
+    return (
+      <div className="w-full h-full flex flex-col gap-4">
+        {checkType.map((transaction, index) => {
+          return (
+            <div
+              key={index}
+              className={`flex justify-between py-4 border-b border-beigeDark`}
+            >
+              <TransactionDetails transaction={transaction} type={type} />
+              <TransactionPriceAndDate transaction={transaction} />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-full flex flex-col gap-4">
-      {formattedTransactions.map((transaction, index) => {
+      {checkType.map((transaction, index) => {
         return (
           <div
             key={index}
@@ -33,7 +54,7 @@ const TransactionData = () => {
               index === 4 ? "" : "border-b border-beigeDark"
             }`}
           >
-            <TransactionDetails transaction={transaction} />
+            <TransactionDetails transaction={transaction} type={type} />
             <TransactionPriceAndDate transaction={transaction} />
           </div>
         );
