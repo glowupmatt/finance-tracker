@@ -26,10 +26,11 @@ const PaginationComp = (props: Props) => {
   if (!transactionPages) return null;
 
   return (
-    <Pagination className="p-4">
-      <PaginationContent className="gap-4">
+    <Pagination className="p-2 lg:p-4">
+      <PaginationContent className="lg:gap-4">
         <PaginationItem>
           <PaginationPrevious
+            className="text-[.6rem]"
             href="#"
             onClick={() =>
               handlePageClick(currentPage > 1 ? currentPage - 1 : 1)
@@ -39,6 +40,7 @@ const PaginationComp = (props: Props) => {
         {[...Array(transactionPages)].map((_, index) => (
           <PaginationItem key={index}>
             <PaginationLink
+              className="text-[.6rem]"
               href="#"
               isActive={currentPage === index + 1}
               onClick={() => handlePageClick(index + 1)}
@@ -49,6 +51,7 @@ const PaginationComp = (props: Props) => {
         ))}
         <PaginationItem>
           <PaginationNext
+            className="text-[.6rem]"
             href="#"
             onClick={() =>
               handlePageClick(

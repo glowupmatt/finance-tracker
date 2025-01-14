@@ -33,7 +33,11 @@ export default function RootLayout({
       >
         <BodyLayout>
           <UserProvider>
-            <HeaderAndFooter>{children}</HeaderAndFooter>
+            <HeaderAndFooter>
+              <div className="min-h-screen w-full bg-beigeLight">
+                {children}
+              </div>
+            </HeaderAndFooter>
           </UserProvider>
         </BodyLayout>
       </body>

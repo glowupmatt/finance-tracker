@@ -14,24 +14,27 @@ function NavigationBody({ children }: Props) {
 
   return (
     <div
-      className={`flex-col lg:flex-row relative ${
+      className={`flex-col lg:flex-row h-screen ${
         isOpen ? "lg:flex" : "lg:block"
       }`}
     >
       <div
-        className={`bg-greyDark min-w-[300px] min-h-screen h-full rounded-r-xl 
-              ${isOpen ? "lg:block hidden" : "lg:hidden hidden"}`}
+        className={`bg-greyDark min-w-[300px] min-h-screen h-full rounded-r-xl ${
+          isOpen ? "lg:block hidden" : "hidden"
+        }`}
       >
         <SideNav />
       </div>
 
       <div
-        className={`absolute top-0 z-50 ${isOpen ? "left-[196px]" : "left-0"}`}
+        className={`hidden lg:block absolute top-0 z-50 ${
+          isOpen ? "left-[196px]" : "left-0"
+        }`}
       >
         <div className="fixed bottom-3 left-0 mb-5 ml-5 lg:block hidden">
           {isOpen ? (
             <button
-              onClick={() => setIsOpen((prev) => !prev)}
+              onClick={() => setIsOpen(false)}
               className="bg-white p-4 rounded-full"
             >
               <img
@@ -42,7 +45,7 @@ function NavigationBody({ children }: Props) {
             </button>
           ) : (
             <button
-              onClick={() => setIsOpen((prev) => !prev)}
+              onClick={() => setIsOpen(true)}
               className="bg-greyDark p-4 rounded-full"
             >
               <img

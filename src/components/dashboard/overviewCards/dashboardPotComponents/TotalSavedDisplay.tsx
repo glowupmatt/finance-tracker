@@ -12,9 +12,9 @@ const TotalSavedDisplay = ({ totalSaved }: TotalSavedDisplayProps) => {
         alt="pot icon"
         className="w-[40px] h-[40px]"
       />
-      <div className="flex flex-col gap-3 justify-between items-start">
+      <div className="flex flex-col gap-3 justify-between items-start w-full">
         <p className="text-greySemiDark">Total Saved</p>
-        <p className="text-black text-[3rem] font-bold lg:text-[2rem]">
+        <p className="text-black text-[2rem] font-bold lg:text-[3rem]">
           {totalSaved}
         </p>
       </div>

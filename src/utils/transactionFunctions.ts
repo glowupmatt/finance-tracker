@@ -20,3 +20,14 @@ export function formatTransactionData(transactions: Transaction[]) {
     };
   });
 }
+
+export const formatter = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+});
+
+export const monthlyFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "numeric",
+});

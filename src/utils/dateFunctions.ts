@@ -10,6 +10,12 @@ export const recurringPaymentsFilters = (
 ) => {
   if (!recurringPayments) return 0;
 
+  if (type === "totalBills") {
+    return recurringPayments
+      ?.filter((payment) => payment.title !== "Salary")
+      .reduce((acc, curr) => acc + curr.amount, 0);
+  }
+
   if (type === "paidBills") {
     return recurringPayments
       ?.filter((payment) => payment.paid === true && payment.title !== "Salary")

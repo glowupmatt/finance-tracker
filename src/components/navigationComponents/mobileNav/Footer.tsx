@@ -13,7 +13,7 @@ const Footer = () => {
   if (!user) return null;
 
   return (
-    <footer className="bg-greyDark flex justify-between p-6 text-white sticky bottom-0 rounded-t-xl items-center lg:hidden">
+    <footer className="bg-greyDark flex justify-between px-6 py-3 text-white sticky bottom-0 rounded-t-xl items-center lg:hidden lg:justify-around">
       {navLinks.map((navLink, index) => (
         <div
           key={index}
