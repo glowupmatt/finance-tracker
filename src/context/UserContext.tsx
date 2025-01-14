@@ -32,6 +32,9 @@ type UserContextType = {
   totalExpense: number | undefined;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  transactionPages: number | undefined;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 type Props = {
@@ -54,6 +57,10 @@ export const UserProvider = ({ children }: Props) => {
   const [transactions, setTransactions] = useState<Transaction[] | undefined>(
     undefined
   );
+  const [transactionPages, setTransactionPages] = useState<number | undefined>(
+    0
+  );
+  const [currentPage, setCurrentPage] = useState(1);
   const [pots, setPots] = useState<Pot[] | undefined>(undefined);
   const [budgets, setBudgets] = useState<Budget[] | undefined>(undefined);
   const [recurringPayments, setRecurringPayments] = useState<
@@ -83,7 +90,10 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     if (status === "authenticated") {
       try {
-        fetchTransactions().then((data) => setTransactions(data));
+        fetchTransactions(currentPage, 10).then((data) => {
+          setTransactions(data.transactions);
+          setTransactionPages(data.pagination.totalPages);
+        });
         fetchPots().then((data) => setPots(data));
         fetchBudgets().then((data) => setBudgets(data));
         fetchRecurringPayments().then((data) => setRecurringPayments(data));
@@ -92,7 +102,7 @@ export const UserProvider = ({ children }: Props) => {
         console.log(error);
       }
     }
-  }, [status]);
+  }, [status, currentPage]);
 
   useEffect(() => {
     if (transactions !== undefined) {
@@ -121,6 +131,9 @@ export const UserProvider = ({ children }: Props) => {
     user,
     setUser,
     setIsLoading,
+    transactionPages,
+    currentPage,
+    setCurrentPage,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;

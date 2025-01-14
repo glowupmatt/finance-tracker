@@ -9,7 +9,6 @@ export async function GET(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    console.log(currentUser, "CURRENT USER");
     if (!currentUser) {
       return NextResponse.json(
         { error: "Authorization Required" },

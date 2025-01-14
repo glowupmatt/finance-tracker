@@ -1,8 +1,10 @@
-export async function fetchTransactions() {
+export async function fetchTransactions(page = 1, pageSize = 10) {
   try {
-    const response = await fetch("/api/transactions");
+    const response = await fetch(
+      `/api/transactions?page=${page}&pageSize=${pageSize}`
+    );
     const data = await response.json();
-    return data.transactions;
+    return data;
   } catch (error) {
     console.log(error);
   }

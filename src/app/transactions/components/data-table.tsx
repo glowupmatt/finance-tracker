@@ -15,6 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import PaginationComp from "./PaginationComp";
+import { useUser } from "@/context/UserContext";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,11 +33,15 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  // console.log(table.getRowModel());
+  const { transactionPages, setCurrentPage } = useUser();
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
-    <div className="rounded-md border">
-      <Table className="bg-white rounded-lg shadow-md">
+    <div className="rounded-md border bg-white shadow-md flex flex-col items-center justify-center">
+      <Table className="w-full">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -63,7 +69,6 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => {
-                    console.log(cell);
                     return (
                       <TableCell key={cell.id} className="p-8">
                         {flexRender(
@@ -85,6 +90,10 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <PaginationComp
+        transactionPages={transactionPages}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 }
