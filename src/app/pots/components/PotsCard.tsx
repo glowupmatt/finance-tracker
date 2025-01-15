@@ -12,7 +12,7 @@ const PotsCard = (props: Props) => {
   const { pot } = props;
 
   return (
-    <div className="flex flex-col gap-3 p-4 bg-white rounded-lg shadow-md">
+    <div className="flex flex-col gap-3 p-4 bg-white rounded-lg shadow-md md:gap-[2rem]">
       <PotsHeader pot={pot} />
       <PotsData pot={pot} />
       <PotsButtons />

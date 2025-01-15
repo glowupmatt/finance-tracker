@@ -10,10 +10,10 @@ const PotsButtons = () => {
   // const { pot } = props;
   return (
     <div className="flex w-full items-center justify-center gap-5">
-      <Button variant={"secondary"}>
+      <Button variant={"secondary"} className="w-full">
         <p className="font-semibold text-[.7rem]">+ Add Money</p>
       </Button>
-      <Button variant={"secondary"}>
+      <Button variant={"secondary"} className="w-full">
         <p className="font-semibold text-[.7rem]">Withdraw</p>
       </Button>
     </div>

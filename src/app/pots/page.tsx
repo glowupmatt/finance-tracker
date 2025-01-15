@@ -9,7 +9,7 @@ function PotsDisplay() {
   const { sortedPots } = usePotFormat(pots);
   if (!sortedPots) return <div>Loading...</div>;
   return (
-    <div className="flex flex-col gap-4 p-4 lg:flex-row lg:justify-between lg:gap-4 lg:overflow-y-hidden">
+    <div className="flex flex-col gap-4 p-4 lg:justify-between lg:gap-4 lg:overflow-y-hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:overflow-y-auto">
       {sortedPots.map((pot) => (
         <PotsCard key={pot.id} pot={pot} />
       ))}
