@@ -13,7 +13,7 @@ const Budgets = () => {
     return <div>Loading...</div>;
   }
   return (
-    <div className="overflow-y-scroll flex flex-col p-4 gap-4 lg:flex-row lg:justify-between lg:gap-4 max-h-screen lg:overflow-y-hidden">
+    <div className="flex flex-col p-4 gap-4 lg:flex-row lg:justify-between lg:gap-4 lg:overflow-y-hidden">
       <div className="bg-white rounded-lg shadow-md p-4 lg:w-full lg:max-h-[600px] ">
         <BudgetDoughnutChart type="BudgetsPage" sortedBudgets={sortedBudgets} />
       </div>
