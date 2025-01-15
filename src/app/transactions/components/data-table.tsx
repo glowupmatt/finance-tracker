@@ -15,8 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import PaginationComp from "./PaginationComp";
-import { useUser } from "@/context/UserContext";
+// import PaginationComp from "./PaginationComp";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,11 +32,9 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const { transactionPages, setCurrentPage } = useUser();
-
-  const onPageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // const onPageChange = (page: number) => {
+  //   setCurrentPage(page);
+  // };
 
   return (
     <div className="rounded-md border bg-white shadow-md flex flex-col items-center justify-center">
@@ -90,10 +87,10 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <PaginationComp
+      {/* <PaginationComp
         transactionPages={transactionPages}
         onPageChange={onPageChange}
-      />
+      /> */}
     </div>
   );
 }

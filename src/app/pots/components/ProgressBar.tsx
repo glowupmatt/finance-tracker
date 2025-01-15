@@ -26,7 +26,7 @@ function ProgressBar({ pot }: Props) {
         <div className="relative h-[8px] bg-gray-200 w-full rounded-md flex items-center">
           <div
             className="h-[90%] absolute rounded-sm"
-            style={{ width: `${percentage}%`, backgroundColor: pot.color }}
+            style={{ width: `${percentage}%`, backgroundColor: pot.colorTag }}
           />
         </div>
         <div className="flex justify-between mt-2 font-light text-[.6rem]">

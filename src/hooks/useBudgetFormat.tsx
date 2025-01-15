@@ -1,6 +1,5 @@
 import { Budget } from "@/types/BudgetTypes";
 import { useEffect, useState } from "react";
-import generateRandomColor from "@/utils/randomColorGenerator";
 import { BudgetType } from "@/types/BudgetTypes";
 
 export function useBudgetFormat(budgets: Budget[] | undefined) {
@@ -33,7 +32,7 @@ export function useBudgetFormat(budgets: Budget[] | undefined) {
             maxSpend: budget.maxSpend,
             transactions: budget.transactions || [],
             userId: budget.userId,
-            color: generateRandomColor(),
+            colorTag: budget.colorTag,
           };
         });
       setSortedBudgets(categories);

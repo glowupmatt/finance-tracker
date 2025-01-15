@@ -15,7 +15,7 @@ const SpendingSummary = (props: Props) => {
       {sortedBudgets?.map((budget, index) => {
         return (
           <div key={index} className="flex items-center justify-start gap-2">
-            <ColorSideTab color={budget.color} />
+            <ColorSideTab color={budget.colorTag} />
             <div>
               <p>{budget.name}</p>
               {budget.transactions && budget.transactions.length > 0 ? (

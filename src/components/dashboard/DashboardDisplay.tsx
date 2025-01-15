@@ -9,12 +9,12 @@ import BudgetPreview from "./overviewCards/dashboardBudgetComponents/BudgetPrevi
 import RecurringPayments from "./overviewCards/dashboardRecurringPaymentComponents/RecurringPayments";
 
 const DashboardDisplay = () => {
-  const { isLoading } = useUser();
+  const { isLoading, user } = useUser();
 
+  console.log(user);
   if (isLoading) {
     return <LoadingStateHome />;
   }
-
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-4 lg:justify-start lg:h-screen overflow-y-auto">
       <h1 className="font-bold text-[1.5rem] w-full items-start">Overview</h1>

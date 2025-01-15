@@ -4,7 +4,7 @@ import React from "react";
 type Props = {
   budget: {
     maxSpend: number;
-    color: string;
+    colorTag: string;
     transactions: { amount: number }[];
   };
   type: "SPENT" | "SAVED";
@@ -22,7 +22,7 @@ const BudgetCurrentData = (props: Props) => {
 
   const savedOrSpent = type === "SPENT" ? remainingTotal : transactionTotal;
   const remainingOrSpent = type === "SPENT" ? "Spent" : "Remaining";
-  const ternaryStyle = type === "SPENT" ? budget.color : "#F8F4F0";
+  const ternaryStyle = type === "SPENT" ? budget.colorTag : "#F8F4F0";
 
   return (
     <>

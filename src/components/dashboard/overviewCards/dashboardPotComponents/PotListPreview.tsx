@@ -16,7 +16,7 @@ const PotListPreview = ({ sortedPots }: Props) => {
             key={index}
             className="text-greySemiDark flex items-center flex-row gap-2"
           >
-            <ColorSideTab color={pot.color} />
+            <ColorSideTab color={pot.colorTag} />
             <p>{pot.title}</p>
           </li>
         ))}

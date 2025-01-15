@@ -1,10 +1,11 @@
-import { Transaction } from "@prisma/client";
+import { $Enums, Transaction } from "@prisma/client";
 
 export type Budget = {
   id: string;
   name: string;
   userId: string;
   maxSpend: number;
+  colorTag: $Enums.ColorTag;
   transactions?: Transaction[];
 };
 
@@ -13,8 +14,8 @@ export type BudgetType = {
   name: string;
   userId: string;
   maxSpend: number;
+  colorTag: $Enums.ColorTag;
   transactions: Transaction[];
-  color: string;
 };
 
 // export type BudgetType = {

@@ -7,6 +7,7 @@ import { useBudgetFormat } from "@/hooks/useBudgetFormat";
 import { Transaction } from "@prisma/client";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { BudgetType } from "@/types/BudgetTypes";
+import { translateColorToHex } from "@/utils/translateColorToHex";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -38,7 +39,10 @@ function PieChart({ sortedBudgets }: Props) {
             );
           }) || [],
 
-        backgroundColor: sortedBudgets?.map((budget) => budget.color) || [],
+        backgroundColor:
+          sortedBudgets?.map((budget) =>
+            translateColorToHex(budget.colorTag)
+          ) || [],
         borderAlign: "inner",
         borderRadius: 10,
       },

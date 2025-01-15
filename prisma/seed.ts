@@ -24,6 +24,7 @@ async function main() {
     data: {
       name: "Groceries",
       maxSpend: 1000,
+      colorTag: "ARMY",
       user: {
         connect: { id: user1.id },
       },
@@ -70,6 +71,7 @@ async function main() {
     data: {
       name: "Night Out Budget",
       maxSpend: 800,
+      colorTag: "GREEN",
       user: {
         connect: { id: user1.id },
       },
@@ -82,6 +84,7 @@ async function main() {
     data: {
       name: "Bills",
       maxSpend: 2000,
+      colorTag: "BLUE",
       user: {
         connect: { id: user1.id },
       },
@@ -128,6 +131,7 @@ async function main() {
     data: {
       name: "Entertainment",
       maxSpend: 500,
+      colorTag: "YELLOW",
       user: {
         connect: { id: user1.id },
       },
@@ -241,6 +245,7 @@ async function main() {
     data: {
       title: "Savings",
       targetAmount: 5000,
+      colorTag: "PURPLE",
       transactions: {
         create: {
           title: "Salary Contribution",
@@ -263,6 +268,7 @@ async function main() {
     data: {
       title: "Concert Tickets",
       targetAmount: 200,
+      colorTag: "RED",
       user: {
         connect: { id: user1.id },
       },
@@ -274,6 +280,7 @@ async function main() {
     data: {
       title: "New Laptop",
       targetAmount: 1500,
+      colorTag: "ORANGE",
       user: {
         connect: { id: user1.id },
       },
@@ -285,6 +292,7 @@ async function main() {
     data: {
       title: "Vacation",
       targetAmount: 3000,
+      colorTag: "GREY",
       user: {
         connect: { id: user1.id },
       },

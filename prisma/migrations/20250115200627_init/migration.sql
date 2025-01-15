@@ -1,8 +1,11 @@
 -- CreateEnum
-CREATE TYPE "TransactionType" AS ENUM ('INCOME', 'EXPENSE');
+CREATE TYPE "TransactionType" AS ENUM ('INCOME', 'EXPENSE', 'SAVINGS');
 
 -- CreateEnum
 CREATE TYPE "Frequency" AS ENUM ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY');
+
+-- CreateEnum
+CREATE TYPE "ColorTag" AS ENUM ('GREEN', 'YELLOW', 'CYAN', 'NAVY', 'RED', 'PURPLE', 'TURQUOISE', 'BROWN', 'MAGENTA', 'BLUE', 'GREY', 'ARMY', 'ORANGE');
 
 -- CreateTable
 CREATE TABLE "Transaction" (
@@ -13,6 +16,8 @@ CREATE TABLE "Transaction" (
     "type" "TransactionType" NOT NULL,
     "category" TEXT NOT NULL,
     "senderOrRecipient" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
     "budgetId" TEXT,
     "potId" TEXT,
@@ -26,6 +31,7 @@ CREATE TABLE "Budget" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "maxSpend" DOUBLE PRECISION NOT NULL,
+    "colorTag" "ColorTag" NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Budget_pkey" PRIMARY KEY ("id")
@@ -36,6 +42,7 @@ CREATE TABLE "Pot" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "targetAmount" DOUBLE PRECISION NOT NULL,
+    "colorTag" "ColorTag" NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Pot_pkey" PRIMARY KEY ("id")
@@ -47,15 +54,39 @@ CREATE TABLE "RecurringPayment" (
     "title" TEXT NOT NULL,
     "dueDate" TIMESTAMP(3) NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
+    "paid" BOOLEAN NOT NULL DEFAULT false,
     "frequency" "Frequency" NOT NULL,
     "endDate" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "RecurringPayment_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "profilePicture" TEXT,
+    "hashedPassword" TEXT NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE INDEX "Transaction_userId_idx" ON "Transaction"("userId");
+
+-- CreateIndex
+CREATE INDEX "Transaction_budgetId_idx" ON "Transaction"("budgetId");
+
+-- CreateIndex
+CREATE INDEX "Transaction_potId_idx" ON "Transaction"("potId");
+
+-- CreateIndex
+CREATE INDEX "Transaction_recurringPaymentId_idx" ON "Transaction"("recurringPaymentId");
 
 -- CreateIndex
 CREATE INDEX "Budget_userId_idx" ON "Budget"("userId");
@@ -65,6 +96,9 @@ CREATE INDEX "Pot_userId_idx" ON "Pot"("userId");
 
 -- CreateIndex
 CREATE INDEX "RecurringPayment_userId_idx" ON "RecurringPayment"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

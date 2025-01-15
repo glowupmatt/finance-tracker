@@ -11,7 +11,7 @@ const PotsHeader = (props: Props) => {
     <div className="flex items-center gap-2">
       <div
         className="w-4 h-4 rounded-full"
-        style={{ backgroundColor: pot.color }}
+        style={{ backgroundColor: pot.colorTag }}
       />
       <h2>{pot.title}</h2>
     </div>

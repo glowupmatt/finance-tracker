@@ -34,7 +34,7 @@ const BudgetDoughnutChart = ({ type = "Dashboard", sortedBudgets }: Props) => {
               <div>
                 <div
                   className="w-1 h-[2rem] mr-4 rounded-md"
-                  style={{ backgroundColor: budget.color }}
+                  style={{ backgroundColor: budget.colorTag }}
                 />
               </div>
               <p className="w-full text-greySemiDark">{budget.name}</p>

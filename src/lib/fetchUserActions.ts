@@ -39,11 +39,17 @@ export async function fetchRecurringPayments() {
   }
 }
 
-export async function fetchUserActions() {
+export async function fetchUserActions(email: string) {
   try {
-    const response = await fetch("/api/currentUser");
+    const response = await fetch("/api/currentUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
     const data = await response.json();
-    return data.user;
+    return data;
   } catch (error) {
     console.log(error);
   }

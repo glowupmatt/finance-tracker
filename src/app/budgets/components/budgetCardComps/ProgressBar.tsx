@@ -4,7 +4,7 @@ import React from "react";
 type Props = {
   budget: {
     maxSpend: number;
-    color: string;
+    colorTag: string;
     transactions: { amount: number }[];
   };
 };
@@ -24,7 +24,7 @@ const ProgressBar = (props: Props) => {
       <div className="relative h-[32px] bg-gray-200 w-full rounded-md p-1 flex items-center">
         <div
           className="h-[80%] absolute rounded-sm"
-          style={{ width: `${percentage}%`, backgroundColor: budget.color }}
+          style={{ width: `${percentage}%`, backgroundColor: budget.colorTag }}
         />
       </div>
     </>

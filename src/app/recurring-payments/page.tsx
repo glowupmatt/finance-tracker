@@ -4,10 +4,11 @@ import React from "react";
 import TotalBillsCard from "./components/TotalBillsCard";
 import SummaryCard from "./components/SummaryCard";
 import RecurringTransactions from "./components/RecurringTransactions";
-import { DataTable } from "../transactions/components/data-table";
+import { DataTable } from "./components/desktopTable/data-table";
 import { columns, Transaction } from "./components/desktopTable/columns";
 import { useUser } from "@/context/UserContext";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { Frequency } from "@prisma/client";
 
 const RecurringPayments = () => {
   const { recurringPayments } = useUser();
@@ -19,7 +20,7 @@ const RecurringPayments = () => {
       amount: formatCurrency(transaction.amount),
       dueDate: new Date(transaction.dueDate) || new Date(),
       paid: transaction.paid || false,
-      frequency: transaction.frequency || "",
+      frequency: (transaction.frequency as Frequency) || "MONTHLY",
     })) || [];
 
   return (

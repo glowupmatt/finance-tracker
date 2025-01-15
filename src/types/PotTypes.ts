@@ -1,11 +1,10 @@
-import { Transaction } from "@prisma/client";
+import { $Enums, Transaction } from "@prisma/client";
 
 export type Pot = {
   id: string;
   title: string;
   targetAmount: number;
-  createdAt: Date;
-  updatedAt: Date;
+  colorTag: $Enums.ColorTag;
   userId: string;
   transactions: Transaction[];
 };
@@ -14,9 +13,13 @@ export type PotType = {
   id: string;
   title: string;
   targetAmount: number;
-  createdAt: Date;
-  updatedAt: Date;
   userId: string;
+  colorTag: $Enums.ColorTag;
   transactions: Transaction[];
-  color: string;
+};
+
+export type POSTpot = {
+  title: string;
+  targetAmount: number;
+  colorTag: $Enums.ColorTag;
 };

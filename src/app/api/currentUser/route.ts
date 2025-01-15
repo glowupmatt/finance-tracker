@@ -2,8 +2,32 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prismaDb";
 import getCurrentUser from "@/actions/getCurrentUser";
 
-export async function GET() {
-  const currentUser = await getCurrentUser();
+export async function POST(req: Request) {
+  const { email } = await req.json();
+
+  const currentUser = await prisma.user.findUnique({
+    where: {
+      email: email as string,
+    },
+    include: {
+      pots: {
+        include: {
+          transactions: true,
+        },
+      },
+      budgets: {
+        include: {
+          transactions: true,
+        },
+      },
+      recurringPayments: {
+        include: {
+          transactions: true,
+        },
+      },
+      transactions: true,
+    },
+  });
 
   if (!currentUser) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
