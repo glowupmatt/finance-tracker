@@ -1,5 +1,5 @@
 export const formatCurrency = (
-  amount: number | undefined,
+  amount: number | string | undefined,
   fractionDigits: number = 2
 ): string => {
   if (amount === undefined) return "";
@@ -7,5 +7,5 @@ export const formatCurrency = (
     style: "currency",
     currency: "USD",
     minimumFractionDigits: fractionDigits,
-  }).format(amount);
+  }).format(+amount);
 };

@@ -3,9 +3,11 @@ import React from "react";
 import { useUser } from "@/context/UserContext";
 import BudgetDoughnutChart from "./BudgetDoughnutChart";
 import DashboardCardHeader from "../DashboardCardHeader";
+import { useBudgetFormat } from "@/hooks/useBudgetFormat";
 
 const BudgetPreview = () => {
   const { budgets } = useUser();
+  const { sortedBudgets } = useBudgetFormat(budgets);
   if (!budgets) return null;
 
   return (
@@ -15,7 +17,7 @@ const BudgetPreview = () => {
         buttonText="See Details"
         link="budgets"
       />
-      <BudgetDoughnutChart />
+      <BudgetDoughnutChart sortedBudgets={sortedBudgets} />
     </div>
   );
 };

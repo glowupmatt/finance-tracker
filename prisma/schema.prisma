@@ -50,6 +50,9 @@ model Transaction {
   recurringPaymentId String?
 
   @@index([userId])
+  @@index([budgetId])
+  @@index([potId])
+  @@index([recurringPaymentId])
 }
 
 model Budget {

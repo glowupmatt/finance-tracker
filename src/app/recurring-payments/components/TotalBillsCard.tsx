@@ -12,7 +12,7 @@ const TotalBillsCard = () => {
   const formattedTotalBills = formatCurrency(totalBills);
   console.log(formattedTotalBills);
   return (
-    <div className="bg-greyDark p-4 rounded-lg text-white flex items-center justify-start gap-4">
+    <div className="bg-greyDark p-4 rounded-lg text-white flex items-center justify-start gap-4 md:w-full md:flex-col md:items-start md:justify-around">
       <div>
         <img
           className="w-[2rem] h-[2rem]"

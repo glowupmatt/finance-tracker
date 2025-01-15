@@ -71,7 +71,9 @@ function PieChart({ sortedBudgets }: Props) {
 
   return (
     <div className="flex items-center justify-center h-full w-full">
-      <Doughnut data={chartData} options={options} />
+      <div className="max-w-[500px] max-h-[500px] mx-auto">
+        <Doughnut data={chartData} options={options} />
+      </div>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center flex flex-col items-center h-full w-full  justify-center gap-3 leading-none mt-[.7rem]">
         <p className="font-bold text-[32px]">{formatCurrency(budgetUsed, 0)}</p>
         <p className="text-greyLight">

@@ -62,7 +62,7 @@ function SummaryCard() {
   ];
 
   return (
-    <div className="bg-white p-5 rounded-md">
+    <div className="bg-white p-5 rounded-md md:w-full">
       <p>Summary</p>
       {data.map((item, index) => (
         <div

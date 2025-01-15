@@ -16,7 +16,7 @@ const DashboardDisplay = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-4 lg:overflow-y-scroll lg:h-screen lg:justify-start">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-4 lg:justify-start lg:h-screen overflow-y-auto">
       <h1 className="font-bold text-[1.5rem] w-full items-start">Overview</h1>
       <BalanceAndExpenses />
       <div className="w-full flex flex-col gap-8 lg:flex-row items-start justify-center">

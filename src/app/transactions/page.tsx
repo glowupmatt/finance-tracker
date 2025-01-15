@@ -43,7 +43,7 @@ const TransactionsDisplay = () => {
       <div className="block md:hidden p-4 w-full">
         <MobileDataDisplay transactions={transactions} />
       </div>
-      <div className="hidden md:flex flex-col gap-4 p-8 bg-beigeLight max-h-screen w-full min-h-screen overflow-y-auto">
+      <div className="hidden md:flex flex-col gap-4 p-8 bg-beigeLight max-h-screen w-full overflow-y-auto">
         <h3 className="font-bold text-[2rem]">Transactions</h3>
         <DataTable columns={columns} data={data} />
       </div>

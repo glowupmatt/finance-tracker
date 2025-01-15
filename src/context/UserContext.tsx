@@ -7,7 +7,8 @@ import React, {
   // SetStateAction,
   useEffect,
 } from "react";
-import { Transaction, Budget, RecurringPayment, User } from "@prisma/client";
+import { Transaction, RecurringPayment, User } from "@prisma/client";
+import { Budget } from "@/types/BudgetTypes";
 import { Pot } from "@/types/PotTypes";
 import { useSession } from "next-auth/react";
 import {
