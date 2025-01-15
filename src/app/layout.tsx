@@ -34,7 +34,7 @@ export default function RootLayout({
         <BodyLayout>
           <UserProvider>
             <HeaderAndFooter>
-              <div className="w-full bg-beigeLight lg:overflow-hidden">
+              <div className="w-full bg-beigeLight based:overflow-hidden">
                 {children}
               </div>
             </HeaderAndFooter>

@@ -19,8 +19,10 @@ function NavigationBody({ children }: Props) {
       }`}
     >
       <div
-        className={`bg-greyDark min-w-[300px] min-h-screen h-full rounded-r-xl ${
-          isOpen ? "lg:block hidden" : "hidden"
+        className={`bg-greyDark min-w-[300px] min-h-screen h-full rounded-r-xl z-[9] ${
+          isOpen
+            ? "based:absolute superBased:relative superBased:block"
+            : "hidden"
         }`}
       >
         <SideNav />
