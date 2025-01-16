@@ -7,13 +7,14 @@ import { usePots } from "@/context/PotsContext";
 function PotsDisplay() {
   const { pots } = usePots();
 
+  if (!pots) return <div>Loading...</div>;
+
   const sortedPots = pots.sort((a, b) => {
     const totalA = a.transactions.reduce((acc, curr) => acc + curr.amount, 0);
     const totalB = b.transactions.reduce((acc, curr) => acc + curr.amount, 0);
     return totalB - totalA;
   });
 
-  if (!sortedPots) return <div>Loading...</div>;
   return (
     <section className="overflow-y-scroll max-h-screen">
       <div className="flex item-center justify-between p-4">
