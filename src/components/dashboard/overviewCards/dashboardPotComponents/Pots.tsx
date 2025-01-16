@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
-import { useUser } from "@/context/UserContext";
 import DashboardCardHeader from "../DashboardCardHeader";
 import TotalSavedDisplay from "./TotalSavedDisplay";
 import PotListPreview from "./PotListPreview";
 import { usePotFormat } from "@/hooks/usePotFormat";
+import { usePots } from "@/context/PotsContext";
 
 const Pots = () => {
-  const { pots } = useUser();
+  const { pots } = usePots();
 
   const { totalSaved, sortedPots } = usePotFormat(pots);
   return (

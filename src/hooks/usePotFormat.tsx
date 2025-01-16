@@ -15,22 +15,11 @@ const usePotFormat = (pots: Pot[] | undefined) => {
       const total = transactionReducer(transactions.flat());
       setTotalSaved(formatCurrency(total));
 
-      const categories = pots
-        .sort((a, b) => {
-          const totalA = transactionReducer(a.transactions.flat());
-          const totalB = transactionReducer(b.transactions.flat());
-          return totalB - totalA;
-        })
-        .map((pot) => {
-          return {
-            id: pot.id,
-            title: pot.title,
-            targetAmount: pot.targetAmount,
-            userId: pot.userId,
-            transactions: pot.transactions,
-            colorTag: pot.colorTag,
-          };
-        });
+      const categories = pots.sort((a, b) => {
+        const totalA = transactionReducer(a.transactions.flat());
+        const totalB = transactionReducer(b.transactions.flat());
+        return totalB - totalA;
+      });
       setSortedPots(categories);
     }
 
