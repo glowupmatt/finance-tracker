@@ -21,7 +21,6 @@ const BudgetSpendHistory = (props: Props) => {
       {budget.transactions
         ?.filter((_, index) => index < 3)
         .map((transaction) => {
-          console.log(transaction, budget.name);
           return (
             <div
               key={transaction.id}

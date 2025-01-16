@@ -37,14 +37,14 @@ const BudgetDoughnutChart = ({ type = "Dashboard", sortedBudgets }: Props) => {
                   style={{ backgroundColor: budget.colorTag }}
                 />
               </div>
-              <p className="w-full text-greySemiDark">{budget.name}</p>
-              <p className="font-bold w-full">
+              <p className="text-greySemiDark w-full">{budget.name}</p>
+              <p className="font-bold text-[.7rem] flex flex-col justify-center items-center">
                 {formatCurrency(
                   budget.transactions.reduce((acc, transaction) => {
                     return acc + transaction.amount;
                   }, 0)
                 )}{" "}
-                <span className="font-thin text-greySemiDark text-[.8rem]">
+                <span className="font-thin text-greySemiDark text-[.7rem] text-center">
                   of {formatCurrency(budget.maxSpend)}
                 </span>
               </p>

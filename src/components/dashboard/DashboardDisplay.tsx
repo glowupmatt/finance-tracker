@@ -9,9 +9,8 @@ import BudgetPreview from "./overviewCards/dashboardBudgetComponents/BudgetPrevi
 import RecurringPayments from "./overviewCards/dashboardRecurringPaymentComponents/RecurringPayments";
 
 const DashboardDisplay = () => {
-  const { isLoading, user } = useUser();
+  const { isLoading } = useUser();
 
-  console.log(user);
   if (isLoading) {
     return <LoadingStateHome />;
   }

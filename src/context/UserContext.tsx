@@ -21,6 +21,8 @@ type UserContextType = {
   totalExpense: number | undefined;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isUpdated: boolean;
+  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type Props = {
@@ -42,8 +44,10 @@ export const useUser = () => {
 export const UserProvider = ({ children }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | undefined>(undefined);
+  const [isUpdated, setIsUpdated] = useState(true);
   const router = useRouter();
   const { data: session, status } = useSession();
+
   const {
     transactions,
     pots,
@@ -57,21 +61,19 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     if (status !== "authenticated" && status !== "loading") {
       router.push("/session");
+    } else {
+      if (status === "authenticated") {
+        setIsLoading(true);
+        fetchUserActions(session.user?.email as string)
+          .then((data) => {
+            setUser(data?.user);
+          })
+          .catch((error) => {
+            console.error("Error fetching user actions:", error);
+          });
+      }
     }
-  }, [router, status]);
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      setIsLoading(true);
-      fetchUserActions(session.user?.email as string)
-        .then((data) => {
-          setUser(data?.user);
-        })
-        .catch((error) => {
-          console.error("Error fetching user actions:", error);
-        });
-    }
-  }, [status, session]);
+  }, [router, status, session]);
 
   const data = {
     transactions,
@@ -85,6 +87,8 @@ export const UserProvider = ({ children }: Props) => {
     user,
     setUser,
     setIsLoading,
+    isUpdated,
+    setIsUpdated,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;

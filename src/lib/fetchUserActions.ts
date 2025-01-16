@@ -9,15 +9,6 @@ export async function fetchTransactions(page = 1, pageSize = 10) {
     console.log(error);
   }
 }
-export async function fetchPots() {
-  try {
-    const response = await fetch("/api/pots");
-    const data = await response.json();
-    return data.pots;
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 export async function fetchBudgets() {
   try {

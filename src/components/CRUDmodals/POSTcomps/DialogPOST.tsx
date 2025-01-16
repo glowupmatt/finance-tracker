@@ -1,17 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { postPot } from "@/lib/PotsCRUDfunctions";
-import { $Enums } from "@prisma/client";
+import { useForm } from "@/hooks/useForm";
 import {
   Select,
   SelectContent,
@@ -19,127 +16,47 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PotType } from "@/types/PotTypes";
+// import { BudgetType } from "@/types/BudgetTypes";
+import DialogTriggerCondition from "./DialogTriggerCondition";
+import SubmitButton from "./SubmitButton";
 
 type Props = {
   type: "POT" | "BUDGET";
+  CRUD: "POST" | "PUT" | "DELETE";
+  potData?: PotType;
 };
 
-interface Input {
-  label: string;
-  type: string;
-  value: string | number;
-  setValue: React.Dispatch<React.SetStateAction<string | number>>;
-}
-
-const DialogPOST = ({ type }: Props) => {
-  const [label, setLabel] = useState("");
-  const [value, setValue] = useState(0);
-  const [color, setColor] = useState<$Enums.ColorTag | undefined>();
+const DialogPOST = ({ type, CRUD, potData }: Props) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const pageData = {
     POT: ["Add New Pot", "Create a new Pot (Savings, Emergency, etc.)"],
     BUDGET: ["Add New Budget", "Create a new Budget (Groceries, Rent, etc.)"],
   };
 
-  const colorOptions = [
-    "GREEN",
-    "YELLOW",
-    "CYAN",
-    "NAVY",
-    "RED",
-    "PURPLE",
-    "TURQUOISE",
-    "BROWN",
-    "MAGENTA",
-    "BLUE",
-    "GREY",
-    "ARMY",
-    "ORANGE",
-  ];
+  const {
+    colorOptions,
+    getInputs,
+    setLabel,
+    setValue,
+    setColor,
+    onSubmitHandler,
+  } = useForm(type, CRUD, setIsDialogOpen, potData);
 
-  const inputs: { [key: string]: Input[] } = {
-    POT: [
-      {
-        label: "Pot Name",
-        type: "text",
-        value: label,
-        setValue: setLabel as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Target",
-        type: "number",
-        value: value,
-        setValue: setValue as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Color Tag",
-        type: "text",
-        value: color || "",
-        setValue: setColor as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-    ],
-    BUDGET: [
-      {
-        label: "Budget Category",
-        type: "text",
-        value: label,
-        setValue: setLabel as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Maximum Spending",
-        type: "number",
-        value: value,
-        setValue: setValue as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Color Tag",
-        type: "text",
-        value: color || "",
-        setValue: setColor as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-    ],
-  };
+  const inputs = getInputs();
 
-  const crudFunction = {
-    POT: {
-      post: postPot,
-    },
-    BUDGET: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      post: function (budget: any) {
-        console.log(budget);
-      },
-    },
-  };
-
-  function onSubmitHandler(e: React.FormEvent) {
-    e.preventDefault();
-    console.log("submitting");
-    if (!color) return alert("Please enter a color tag");
-    crudFunction[type].post({
-      title: label,
-      targetAmount: value as number,
-      colorTag: color,
-    });
-  }
+  useEffect(() => {
+    if (potData) {
+      setLabel(potData.title);
+      setValue(potData.targetAmount);
+      setColor(potData.colorTag);
+    }
+  }, [potData, setColor, setLabel, setValue]);
 
   return (
-    <Dialog>
-      <DialogTrigger className="bg-greyDark text-white p-3 text-[.8rem] rounded-md">
-        + Add New {type[0].toUpperCase() + type.toLowerCase().slice(1)}
-      </DialogTrigger>
+    <Dialog onOpenChange={(open) => setIsDialogOpen(open)} open={isDialogOpen}>
+      <DialogTriggerCondition type={type} CRUD={CRUD} />
       <DialogContent className="bg-white p-4 rounded-md max-w-[335px]">
         <DialogHeader>
           <DialogTitle>{pageData[type][0]}</DialogTitle>
@@ -183,9 +100,7 @@ const DialogPOST = ({ type }: Props) => {
               )}
             </label>
           ))}
-          <Button className="p-2 rounded-md">
-            Create {type[0].toUpperCase() + type.toLowerCase().slice(1)}
-          </Button>
+          <SubmitButton CRUD={CRUD} type={type} />
         </form>
       </DialogContent>
     </Dialog>

@@ -4,6 +4,7 @@ import "./globals.css";
 import BodyLayout from "@/components/mainBodyLayout/BodyLayout";
 import { UserProvider } from "../context/UserContext";
 import HeaderAndFooter from "@/components/navigationComponents/NavigationBody";
+import { PotsProvider } from "@/context/PotsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +35,11 @@ export default function RootLayout({
         <BodyLayout>
           <UserProvider>
             <HeaderAndFooter>
-              <div className="w-full bg-beigeLight based:overflow-hidden">
-                {children}
-              </div>
+              <PotsProvider>
+                <div className="w-full bg-beigeLight based:overflow-hidden">
+                  {children}
+                </div>
+              </PotsProvider>
             </HeaderAndFooter>
           </UserProvider>
         </BodyLayout>

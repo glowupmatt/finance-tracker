@@ -14,7 +14,7 @@ const Budgets = () => {
   }
   return (
     <div className="flex flex-col p-4 gap-4 lg:flex-row lg:justify-between lg:gap-4 based:max-h-screen based:overflow-hidden">
-      <div className="bg-white rounded-lg shadow-md p-4 lg:w-full lg:max-h-[600px] ">
+      <div className="bg-white rounded-lg shadow-md p-4 lg:w-full lg:max-w-[428px] lg:max-h-[600px] ">
         <BudgetDoughnutChart type="BudgetsPage" sortedBudgets={sortedBudgets} />
       </div>
       <div className="lg:w-full">
