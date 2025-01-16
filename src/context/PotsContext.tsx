@@ -7,6 +7,8 @@ import React, {
   useEffect,
 } from "react";
 import { Pot } from "@/types/PotTypes";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 // import { fetchPots } from "@/lib/PotsCRUDfunctions";
 
 interface PotsContextType {
@@ -33,10 +35,10 @@ interface PotsProviderProps {
 export const PotsProvider = ({ children }: PotsProviderProps) => {
   const [pots, setPots] = useState<Pot[]>([]);
   const [isUpdated, setIsUpdated] = useState(false);
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: _, status } = useSession();
+  const router = useRouter();
   useEffect(() => {
-    let isMounted = true;
-
     async function fetchPots() {
       try {
         const response = await fetch("/api/pots", {
@@ -48,22 +50,18 @@ export const PotsProvider = ({ children }: PotsProviderProps) => {
           },
         });
         const data = await response.json();
-        if (isMounted) {
-          setPots(data.pots);
-        }
+
+        setPots(data.pots);
       } catch (error) {
-        if (isMounted) {
-          console.log(error);
-        }
+        console.log(error);
       }
     }
-
-    fetchPots();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [isUpdated]);
+    if (status !== "authenticated" && status !== "loading") {
+      router.push("/session");
+    } else {
+      fetchPots();
+    }
+  }, [isUpdated, router, status]);
 
   const contextValue = {
     pots,
