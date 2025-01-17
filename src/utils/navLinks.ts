@@ -3,7 +3,7 @@ export const navLinks = [
     title: "Overview",
     img: "/images/icon-nav-overview.svg",
     selectedImg: "/images/icon-nav-overview-selected.svg",
-    link: "/",
+    link: "/dashboard",
   },
   {
     title: "Transactions",

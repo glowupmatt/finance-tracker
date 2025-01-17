@@ -17,17 +17,18 @@ const DeleteForm = (props: Props) => {
     if (!dataId) return;
     try {
       await deletePot(dataId);
-      setIsUpdated(true);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsUpdated((prev) => !prev);
     }
   };
 
   return (
     <div className="flex flex-col justify-between gap-4">
-      <Button variant={"destroy"} onClick={handleDelete}>
-        Yes, Confirm Deletion
-      </Button>
+      <DialogClose asChild onClick={handleDelete}>
+        <Button variant={"destroy"}>Yes, Confirm Deletion</Button>
+      </DialogClose>
       <DialogClose>
         <div className="bg-none text-beigeDark p-3">No, Go Back</div>
       </DialogClose>
