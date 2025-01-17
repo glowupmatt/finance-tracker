@@ -69,11 +69,6 @@ export const TransactionsProvider = ({
       try {
         const response = await fetch("/api/transactions", {
           method: "GET",
-          headers: {
-            "Cache-Control": "no-cache",
-            Pragma: "no-cache",
-            Expires: "0",
-          },
         });
         const data = await response.json();
 
