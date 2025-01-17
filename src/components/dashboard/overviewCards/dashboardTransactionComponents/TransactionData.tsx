@@ -10,15 +10,18 @@ type Props = {
   type: "MainPage" | "Dashboard";
 };
 const TransactionData = ({ type = "Dashboard" }: Props) => {
-  const { transactionPagination } = useTransactions();
-  if (!transactionPagination)
+  const { transactionPagination, transactions } = useTransactions();
+  if (!transactionPagination && !transactions)
     return (
       <div className="w-full h-full flex flex-col gap-4">
         <p>No Current Transactions to display</p>
       </div>
     );
 
-  const sortedTransactions = transactionsSortByDate(transactionPagination);
+  const transactionPageData =
+    type === "MainPage" ? transactionPagination : transactions;
+
+  const sortedTransactions = transactionsSortByDate(transactionPageData);
   const formattedTransactions = sortedTransactions.filter(
     (_, index) => index < 5
   );
