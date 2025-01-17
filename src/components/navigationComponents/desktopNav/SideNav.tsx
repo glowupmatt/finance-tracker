@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { useUser } from "@/context/UserContext";
 import { navLinks } from "@/utils/navLinks";
 import { usePathname } from "next/navigation";
 import LinkButton from "./LinkButton";
 import HomeButton from "../HomeButton";
 import SignOutButton from "./SignOutButton";
+import { useUser } from "@/context/UserContext";
 
 const SideNav = () => {
   const { user } = useUser();

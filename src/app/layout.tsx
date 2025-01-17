@@ -6,6 +6,7 @@ import { UserProvider } from "../context/UserContext";
 import HeaderAndFooter from "@/components/navigationComponents/NavigationBody";
 import { PotsProvider } from "@/context/PotsContext";
 import { TransactionsProvider } from "@/context/TransactionsContext";
+import { BudgetsProvider } from "@/context/BudgetContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,11 +38,13 @@ export default function RootLayout({
           <UserProvider>
             <HeaderAndFooter>
               <PotsProvider>
-                <TransactionsProvider>
-                  <div className="w-full bg-beigeLight based:overflow-hidden">
-                    {children}
-                  </div>
-                </TransactionsProvider>
+                <BudgetsProvider>
+                  <TransactionsProvider>
+                    <div className="w-full bg-beigeLight based:overflow-hidden">
+                      {children}
+                    </div>
+                  </TransactionsProvider>
+                </BudgetsProvider>
               </PotsProvider>
             </HeaderAndFooter>
           </UserProvider>
