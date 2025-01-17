@@ -91,7 +91,6 @@ export const TransactionsProvider = ({
           `/api/transactions?page=${page}&pageSize=${limit}`
         );
         const data = await response.json();
-        console.log(data);
         setTransactionPagination(data.transactions);
         setTotalPages(data.pagination.totalPages);
         setMaxPages(data.pagination.totalPages);
@@ -99,8 +98,20 @@ export const TransactionsProvider = ({
         console.log(error);
       }
     }
-    fetchTransactions();
-  }, [page, limit, totalPages, isTransactionsUpdated, isPotsUpdated]);
+    if (status !== "authenticated" && status !== "loading") {
+      router.push("/session");
+    } else {
+      fetchTransactions();
+    }
+  }, [
+    page,
+    limit,
+    totalPages,
+    isTransactionsUpdated,
+    isPotsUpdated,
+    router,
+    status,
+  ]);
 
   const contextValue = {
     transactions,

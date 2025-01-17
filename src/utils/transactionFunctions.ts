@@ -1,6 +1,7 @@
 import { Transaction } from "@prisma/client";
 
 export function transactionsSortByDate(transactions: Transaction[]) {
+  if (!transactions || transactions.length === 0) return [];
   return transactions.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });

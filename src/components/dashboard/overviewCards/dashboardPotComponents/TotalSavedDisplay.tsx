@@ -14,7 +14,7 @@ const TotalSavedDisplay = ({ totalSaved }: TotalSavedDisplayProps) => {
       />
       <div className="flex flex-col gap-3 justify-between items-start w-full">
         <p className="text-greySemiDark">Total Saved</p>
-        <p className="text-black text-[2rem] font-bold based:text-[2rem] superBased:text-[3rem]">
+        <p className="text-black text-[2rem] font-bold based:text-[2rem] superBased:text-[2rem]">
           {totalSaved}
         </p>
       </div>

@@ -6,7 +6,7 @@ type Props = {
 };
 
 const MobileDataDisplay = ({ transactions }: Props) => {
-  if (transactions.length === 0) return <div>No transactions</div>;
+  if (transactions?.length === 0) return <div>No transactions</div>;
 
   return <Transactions type="MainPage" />;
 };

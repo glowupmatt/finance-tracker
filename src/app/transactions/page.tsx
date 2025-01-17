@@ -2,7 +2,6 @@
 import React from "react";
 import { Transactions, columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
-import { useUser } from "@/context/UserContext";
 import MobileDataDisplay from "./components/mobileDisplay/MobileDataDisplay";
 import { FaMinus, FaMoneyCheckAlt } from "react-icons/fa";
 import { TransactionType } from "@prisma/client";
@@ -11,10 +10,9 @@ import LoadingState from "@/components/ui/loadingState";
 import { useTransactions } from "@/context/TransactionsContext";
 
 const TransactionsDisplay = () => {
-  const { transactions } = useUser();
   const { transactionPagination } = useTransactions();
-
-  if (!transactions)
+  console.log(transactionPagination);
+  if (!transactionPagination)
     return (
       <div className="flex justify-center items-center w-screen min-h-screen">
         <LoadingState />
