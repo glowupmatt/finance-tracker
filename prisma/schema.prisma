@@ -53,13 +53,13 @@ model Transaction {
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
 
-  user   User   @relation("transactionToUser", fields: [userId], references: [id])
+  user   User   @relation("transactionToUser", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  budget   Budget? @relation("transactionToBudget", fields: [budgetId], references: [id])
+  budget   Budget? @relation("transactionToBudget", fields: [budgetId], references: [id], onDelete: Cascade)
   budgetId String?
 
-  pot   Pot?    @relation("transactionToPot", fields: [potId], references: [id])
+  pot   Pot?    @relation("transactionToPot", fields: [potId], references: [id], onDelete: Cascade)
   potId String?
 
   recurringPayment   RecurringPayment? @relation("transactionToRecurringPayment", fields: [recurringPaymentId], references: [id])
@@ -77,7 +77,7 @@ model Budget {
   maxSpend Float
   colorTag     ColorTag
 
-  user   User   @relation("budgetToUser", fields: [userId], references: [id])
+  user   User   @relation("budgetToUser", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   transactions Transaction[] @relation("transactionToBudget")
@@ -91,7 +91,7 @@ model Pot {
   targetAmount Float
   colorTag     ColorTag
 
-  user   User   @relation("potToUser", fields: [userId], references: [id])
+  user   User   @relation("potToUser", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   transactions Transaction[] @relation("transactionToPot")
@@ -110,7 +110,7 @@ model RecurringPayment {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  user   User   @relation("recurringPaymentToUser", fields: [userId], references: [id])
+  user   User   @relation("recurringPaymentToUser", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   transactions Transaction[] @relation("transactionToRecurringPayment")

@@ -3,15 +3,17 @@ import React from "react";
 import PotsCard from "./components/PotsCard";
 import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
 import { usePots } from "@/context/PotsContext";
+import { usePotFormat } from "@/hooks/usePotFormat";
 
 function PotsDisplay() {
   const { pots } = usePots();
 
-  const sortedPotsByTimeCreated = pots.sort((a, b) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  });
+  // const sortedPotsByTimeCreated = pots.sort((a, b) => {
+  //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  // });
+  const { sortedPots } = usePotFormat(pots);
 
-  if (!sortedPotsByTimeCreated) return <div>Loading...</div>;
+  if (!sortedPots) return <div>Loading...</div>;
   return (
     <section className="min-h-screen">
       <div className="flex item-center justify-between p-4">
@@ -19,7 +21,7 @@ function PotsDisplay() {
         <DialogPOST type="POT" CRUD="POST" />
       </div>
       <div className="flex flex-col gap-4 p-4 lg:justify-between lg:grid lg:grid-cols-2 lg:gap-4">
-        {sortedPotsByTimeCreated.map((pot) => (
+        {sortedPots.map((pot) => (
           <PotsCard key={pot.id} pot={pot} />
         ))}
       </div>
