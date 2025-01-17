@@ -7,22 +7,19 @@ import { usePots } from "@/context/PotsContext";
 function PotsDisplay() {
   const { pots } = usePots();
 
-  if (!pots) return <div>Loading...</div>;
-
-  const sortedPots = pots.sort((a, b) => {
-    const totalA = a.transactions.reduce((acc, curr) => acc + curr.amount, 0);
-    const totalB = b.transactions.reduce((acc, curr) => acc + curr.amount, 0);
-    return totalB - totalA;
+  const sortedPotsByTimeCreated = pots.sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
+  if (!sortedPotsByTimeCreated) return <div>Loading...</div>;
   return (
-    <section className="overflow-y-scroll max-h-screen">
+    <section className="min-h-screen">
       <div className="flex item-center justify-between p-4">
         <h2 className="text-2xl font-bold self-center">Pots</h2>
         <DialogPOST type="POT" CRUD="POST" />
       </div>
       <div className="flex flex-col gap-4 p-4 lg:justify-between lg:grid lg:grid-cols-2 lg:gap-4">
-        {sortedPots.map((pot) => (
+        {sortedPotsByTimeCreated.map((pot) => (
           <PotsCard key={pot.id} pot={pot} />
         ))}
       </div>

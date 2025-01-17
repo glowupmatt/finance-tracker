@@ -22,21 +22,32 @@ const TransactionsDisplay = () => {
     );
 
   const data: Transactions[] =
-    transactions?.map((transaction) => ({
-      "Recipient / Sender": {
-        image:
-          transaction.type === "EXPENSE" ? (
+    transactions?.map((transaction) => {
+      const isRed =
+        transaction.amount.toString().includes("-") ||
+        transaction.type === "EXPENSE";
+
+      const isGreen = transaction.type === "INCOME" || transaction.amount > 0;
+
+      return {
+        "Recipient / Sender": {
+          image: isRed ? (
             <FaMinus className="text-white" />
-          ) : (
+          ) : isGreen ? (
             <FaMoneyCheckAlt className="text-white" />
+          ) : (
+            <div></div>
           ),
-        name: transaction.senderOrRecipient || "",
-        type: (transaction.type as TransactionType) || "EXPENSE",
-      },
-      Category: transaction.category || "",
-      "Transaction Date": new Date(transaction.date).toLocaleDateString() || "",
-      Amount: formatCurrency(transaction.amount) || "",
-    })) || [];
+          name: transaction.senderOrRecipient || transaction.title || "",
+          type: (transaction.type as TransactionType) || "EXPENSE",
+          amount: transaction.amount || 0,
+        },
+        Category: transaction.category || "",
+        "Transaction Date":
+          new Date(transaction.date).toLocaleDateString() || "",
+        Amount: formatCurrency(transaction.amount) || "",
+      };
+    }) || [];
 
   return (
     <div className="flex justify-center items-center w-screen lg:w-full">

@@ -32,8 +32,6 @@ export async function postPot(pot: POSTpot) {
       colorTag: pot.colorTag,
     }),
   });
-
-  return "Pot added successfully!";
 }
 
 export async function putPot(pot: PotType) {
@@ -46,6 +44,34 @@ export async function putPot(pot: PotType) {
       title: pot.title,
       targetAmount: Number(pot.targetAmount),
       colorTag: pot.colorTag,
+    }),
+  });
+}
+
+export async function deletePot(id: string | undefined) {
+  if (!id) return;
+
+  return await fetch(`/api/pots/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+export async function postTransaction(
+  potId: string,
+  transactionAmount: number,
+  isDeposit: boolean
+) {
+  return await fetch(`/api/pots/${potId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      amount: Number(transactionAmount),
+      isDeposit,
     }),
   });
 }

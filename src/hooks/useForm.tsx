@@ -1,92 +1,84 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postPot, putPot } from "@/lib/PotsCRUDfunctions";
-import { $Enums, Transaction } from "@prisma/client";
+import { ColorTag, Transaction } from "@prisma/client";
 import { usePots } from "@/context/PotsContext";
 import { PotType } from "@/types/PotTypes";
 
-export const colorOptions = [
-  "GREEN",
-  "YELLOW",
-  "CYAN",
-  "NAVY",
-  "RED",
-  "PURPLE",
-  "TURQUOISE",
-  "BROWN",
-  "MAGENTA",
-  "BLUE",
-  "GREY",
-  "ARMY",
-  "ORANGE",
-];
-
 export const useForm = (
-  type: "POT" | "BUDGET",
-  CRUD: "POST" | "PUT" | "DELETE",
-  setIsDialogOpen: (isOpen: boolean) => void,
+  type?: "POT" | "BUDGET",
+  CRUD?: "POST" | "PUT",
   potData?: PotType
 ) => {
   const [label, setLabel] = useState<string>("");
   const [value, setValue] = useState<number>(0);
-  const [color, setColor] = useState<$Enums.ColorTag | undefined>(undefined);
+  const [color, setColor] = useState<string | undefined>(undefined);
   const { setIsUpdated } = usePots();
 
-  const getInputs = () => ({
-    POT: [
-      {
-        label: "Pot Name",
-        type: "text",
-        value: label,
-        setValue: setLabel as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Target",
-        type: "number",
-        value: value,
-        setValue: setValue as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Color Tag",
-        type: "text",
-        value: color || "",
-        setValue: setColor as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-    ],
-    BUDGET: [
-      {
-        label: "Budget Category",
-        type: "text",
-        value: label,
-        setValue: setLabel as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Maximum Spending",
-        type: "number",
-        value: value,
-        setValue: setValue as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-      {
-        label: "Color Tag",
-        type: "text",
-        value: color || "",
-        setValue: setColor as React.Dispatch<
-          React.SetStateAction<string | number>
-        >,
-      },
-    ],
-  });
+  useEffect(() => {
+    if (potData) {
+      setLabel(potData.title);
+      setValue(potData.targetAmount);
+      setColor(potData.colorTag);
+    }
+  }, [potData, setLabel, setValue]);
+
+  function getInputs() {
+    return {
+      POT: [
+        {
+          label: "Pot Name",
+          type: "text",
+          value: label,
+          setValue: setLabel as React.Dispatch<
+            React.SetStateAction<string | number>
+          >,
+        },
+        {
+          label: "Target",
+          type: "number",
+          value: value,
+          setValue: setValue as React.Dispatch<
+            React.SetStateAction<string | number>
+          >,
+        },
+        {
+          label: "Color Tag",
+          type: "text",
+          value: color || "",
+          setValue: setColor as React.Dispatch<
+            React.SetStateAction<string | undefined>
+          >,
+        },
+      ],
+      BUDGET: [
+        {
+          label: "Budget Category",
+          type: "text",
+          value: label,
+          setValue: setLabel as React.Dispatch<
+            React.SetStateAction<string | number>
+          >,
+        },
+        {
+          label: "Maximum Spending",
+          type: "number",
+          value: value,
+          setValue: setValue as React.Dispatch<
+            React.SetStateAction<string | number>
+          >,
+        },
+        {
+          label: "Color Tag",
+          type: "text",
+          value: color || "",
+          setValue: setColor as React.Dispatch<
+            React.SetStateAction<string | number>
+          >,
+        },
+      ],
+    };
+  }
 
   const crudFunction = {
     POT: {
@@ -110,21 +102,32 @@ export const useForm = (
     if (!color) return alert("Please enter a color tag");
 
     try {
-      if (CRUD === "POST") {
-        await crudFunction[type].post({
-          title: label,
-          targetAmount: value as number,
-          colorTag: color,
-        });
-      } else if (CRUD === "PUT") {
-        await crudFunction[type].put({
-          title: label,
-          targetAmount: value as number,
-          colorTag: color,
-          id: potData?.id as string,
-          userId: potData?.userId as string,
-          transactions: potData?.transactions as Transaction[],
-        });
+      if (!type) {
+        console.error("Type is undefined");
+        return;
+      }
+
+      switch (CRUD) {
+        case "POST":
+          await crudFunction[type].post({
+            title: label,
+            targetAmount: value as number,
+            colorTag: color,
+          });
+          break;
+        case "PUT":
+          const body = {
+            title: label,
+            targetAmount: value as number,
+            colorTag: color as ColorTag,
+            id: potData?.id as string,
+            userId: potData?.userId as string,
+            transactions: potData?.transactions as Transaction[],
+          };
+          await crudFunction[type].put(body);
+          break;
+        default:
+          console.error("Invalid CRUD operation");
       }
       setIsUpdated((prev) => !prev);
     } catch (error) {
@@ -133,12 +136,10 @@ export const useForm = (
       setLabel("");
       setValue(0);
       setColor(undefined);
-      setIsDialogOpen(false);
     }
   }
 
   return {
-    colorOptions,
     getInputs,
     crudFunction,
     label,

@@ -6,6 +6,8 @@ export type Pot = {
   targetAmount: number;
   colorTag: $Enums.ColorTag;
   userId: string;
+  createdAt: Date;
+
   transactions: Transaction[];
 };
 
@@ -21,5 +23,5 @@ export type PotType = {
 export type POSTpot = {
   title: string;
   targetAmount: number;
-  colorTag: $Enums.ColorTag;
+  colorTag: string;
 };

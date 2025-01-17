@@ -32,12 +32,22 @@ export const columns: ColumnDef<Transactions>[] = [
         image: React.JSX.Element;
         name: string;
         type: TransactionType;
+        amount: number;
       };
+
+      console.log(value);
+      const isRed = value.amount < 0 || value.type === "EXPENSE";
+
+      const isGreen = value.type === "INCOME" || value.amount > 0;
       return (
         <div className="flex items-center gap-2">
           <div
             className={`flex items-center justify-center w-8 h-8 ${
-              value.type === "EXPENSE" ? "bg-[#C94736]" : "bg-[#277C78]"
+              value.type === "EXPENSE" || isRed
+                ? "bg-[#C94736]"
+                : isGreen
+                ? "bg-[#277C78]"
+                : ""
             } rounded-full`}
           >
             {value.image}

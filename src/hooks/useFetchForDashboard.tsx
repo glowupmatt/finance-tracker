@@ -37,8 +37,13 @@ export function useFetchForDashboard(
     if (transactions !== undefined) {
       const income = calculateTotal(transactions, "INCOME");
       const expense = calculateTotal(transactions, "EXPENSE");
-      if (income !== undefined && expense !== undefined) {
-        setCurrentBalance(income - expense);
+      const savings = calculateTotal(transactions, "SAVINGS");
+      if (
+        income !== undefined &&
+        expense !== undefined &&
+        savings !== undefined
+      ) {
+        setCurrentBalance(income + savings - expense);
       } else {
         setCurrentBalance(undefined);
       }

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/actions/getCurrentUser";
 import prisma from "@/lib/prismaDb";
-import { TransactionType } from "@prisma/client";
 
 export async function GET(
   req: Request,
@@ -38,20 +37,6 @@ export async function GET(
   }
 }
 
-interface UpdatePotRequestBody {
-  title?: string;
-  targetAmount?: number;
-  currentAmount?: number;
-  transactions?: Array<{
-    id?: string;
-    title: string;
-    amount: number;
-    date: Date;
-    type: TransactionType;
-    category: string;
-  }>;
-}
-
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ potId: string }> }
@@ -83,8 +68,8 @@ export async function PUT(
       );
     }
 
-    const body: UpdatePotRequestBody = await req.json();
-    const { title, targetAmount, transactions } = body;
+    const body = await req.json();
+    const { title, targetAmount, colorTag, isDeposit, amount } = body;
 
     const updatedPot = await prisma.pot.update({
       where: {
@@ -96,33 +81,20 @@ export async function PUT(
       data: {
         title,
         targetAmount,
-        transactions:
-          transactions && transactions.length > 0
-            ? {
-                upsert: transactions.map((transaction) => ({
-                  where: { id: transaction.id },
-                  update: {
-                    title: transaction.title,
-                    amount: transaction.amount,
-                    date: transaction.date,
-                    type: transaction.type,
-                    category: transaction.category,
-                    userId: currentUser.id,
-                  },
-                  create: {
-                    title: transaction.title,
-                    amount: transaction.amount,
-                    date: transaction.date,
-                    type: transaction.type,
-                    category: transaction.category,
-                    userId: currentUser.id,
-                  },
-                })),
-              }
-            : undefined,
+        colorTag,
+        transactions: {
+          create: {
+            title: pot.title,
+            amount: isDeposit ? amount : amount * -1,
+            date: new Date(),
+            type: "SAVINGS",
+            category: "Savings",
+            userId: currentUser.id,
+          },
+        },
       },
     });
-
+    console.log("updatedPot", updatedPot);
     return NextResponse.json({ pot: updatedPot }, { status: 200 });
   } catch (error) {
     console.log("Error updating pot:", error);

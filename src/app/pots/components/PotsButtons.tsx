@@ -1,21 +1,16 @@
 import React from "react";
-// import { PotType } from "@/types/PotTypes";
-import { Button } from "@/components/ui/button";
+import { PotType } from "@/types/PotTypes";
+import AddTransaction from "./addTransaction/AddTransaction";
 
-// type Props = {
-//   pot: PotType;
-// };
+type Props = {
+  pot: PotType;
+};
 
-const PotsButtons = () => {
-  // const { pot } = props;
+const PotsButtons = ({ pot }: Props) => {
   return (
     <div className="flex w-full items-center justify-center gap-5">
-      <Button variant={"secondary"} className="w-full">
-        <p className="font-semibold text-[.7rem]">+ Add Money</p>
-      </Button>
-      <Button variant={"secondary"} className="w-full">
-        <p className="font-semibold text-[.7rem]">Withdraw</p>
-      </Button>
+      <AddTransaction isDeposit={true} pot={pot} />
+      <AddTransaction isDeposit={false} pot={pot} />
     </div>
   );
 };

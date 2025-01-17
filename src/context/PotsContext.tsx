@@ -38,6 +38,7 @@ export const PotsProvider = ({ children }: PotsProviderProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: _, status } = useSession();
   const router = useRouter();
+
   useEffect(() => {
     async function fetchPots() {
       try {
