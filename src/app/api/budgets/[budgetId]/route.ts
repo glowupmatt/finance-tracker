@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/actions/getCurrentUser";
 import prisma from "@/lib/prismaDb";
-import { Budget, TransactionType } from "@prisma/client";
+import { Budget } from "@prisma/client";
 
 export async function GET(
   req: Request,
@@ -51,20 +51,20 @@ export async function GET(
   }
 }
 
-interface UpdateBudgetRequestBody {
-  id: string;
-  name: string;
-  maxSpend: number;
-  userId: string;
-  transactions: Array<{
-    id?: string;
-    title: string;
-    amount: number;
-    date: Date;
-    type: TransactionType;
-    category: string;
-  }>;
-}
+// interface UpdateBudgetRequestBody {
+//   id: string;
+//   name: string;
+//   maxSpend: number;
+//   userId: string;
+//   transactions: Array<{
+//     id?: string;
+//     title: string;
+//     amount: number;
+//     date: Date;
+//     type: TransactionType;
+//     category: string;
+//   }>;
+// }
 
 export async function PUT(
   req: Request,
@@ -92,42 +92,41 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    const body: UpdateBudgetRequestBody = await req.json();
+    const body = await req.json();
+    const { name, maxSpend, colorTag, amount, title } = body;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: any = {
+      name,
+      maxSpend,
+      colorTag,
+    };
+
+    if (amount !== undefined && amount !== null) {
+      data.transactions = {
+        create: {
+          title: title,
+          amount: amount,
+          date: new Date(),
+          type: "EXPENSE",
+          category: name,
+          user: {
+            connect: {
+              id: currentUser.id,
+            },
+          },
+        },
+      };
+    }
+
     const updatedBudget = await prisma.budget.update({
       where: { id: budget.id },
+      data,
       include: {
         transactions: true,
       },
-      data: {
-        name: body.name,
-        maxSpend: body.maxSpend,
-        transactions:
-          body.transactions && body.transactions.length > 0
-            ? {
-                upsert: body.transactions.map((transaction) => ({
-                  where: { id: transaction.id },
-                  update: {
-                    title: transaction.title,
-                    amount: transaction.amount,
-                    date: transaction.date,
-                    type: transaction.type,
-                    category: transaction.category,
-                    userId: currentUser.id,
-                  },
-                  create: {
-                    title: transaction.title,
-                    amount: transaction.amount,
-                    date: transaction.date,
-                    type: transaction.type,
-                    category: transaction.category,
-                    userId: currentUser.id,
-                  },
-                })),
-              }
-            : undefined,
-      },
     });
-
+    console.log(body);
     return NextResponse.json({ budget: updatedBudget }, { status: 200 });
   } catch (error) {
     console.error("Error updating budget:", error);

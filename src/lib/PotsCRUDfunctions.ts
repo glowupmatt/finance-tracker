@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { POSTpot, PotType } from "../types/PotTypes";
 
 export async function fetchPots() {
@@ -20,7 +21,8 @@ export async function fetchPot(id: string) {
   }
 }
 
-export async function postPot(pot: POSTpot) {
+export async function postPot(pot: POSTpot | any | undefined) {
+  if (!pot) return;
   return await fetch("/api/pots", {
     method: "POST",
     headers: {
@@ -34,7 +36,8 @@ export async function postPot(pot: POSTpot) {
   });
 }
 
-export async function putPot(pot: PotType) {
+export async function putPot(pot: PotType | any | undefined) {
+  if (!pot) return;
   return await fetch(`/api/pots/${pot.id}`, {
     method: "PUT",
     headers: {

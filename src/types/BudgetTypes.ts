@@ -18,11 +18,8 @@ export type BudgetType = {
   transactions: Transaction[];
 };
 
-// export type BudgetType = {
-//   id: string;
-//   name: string;
-//   maxSpend: number;
-//   transactions: Transaction[];
-//   userId: string;
-//   color: string;
-// };
+export type POSTbudget = {
+  name: string;
+  maxSpend: number;
+  colorTag: $Enums.ColorTag;
+};
