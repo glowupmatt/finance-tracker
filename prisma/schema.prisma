@@ -105,6 +105,7 @@ model RecurringPayment {
   title     String
   dueDate   DateTime
   amount    Float
+  paid      Boolean   @default(false)
   frequency Frequency
   endDate   DateTime?
   canceled  Boolean   @default(false)

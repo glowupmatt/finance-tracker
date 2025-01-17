@@ -184,6 +184,7 @@ async function main() {
       data: {
         title: transaction.title,
         amount: transaction.amount,
+        paid: true,
         frequency: "MONTHLY",
         dueDate: new Date(),
         user: {
@@ -206,6 +207,7 @@ async function main() {
         title: transaction.title,
         amount: transaction.amount,
         frequency: "MONTHLY",
+        paid: true,
         dueDate: new Date(),
         user: {
           connect: { id: user1.id },
@@ -227,6 +229,7 @@ async function main() {
       amount: 6000,
       frequency: "MONTHLY",
       dueDate: new Date(),
+      paid: true,
       user: { connect: { id: user1.id } },
       transactions: {
         create: {
