@@ -93,6 +93,7 @@ async function main() {
           {
             title: "Rent",
             amount: 1000,
+            isPaid: true,
             type: "EXPENSE",
             date: new Date(),
             category: "Rent",
@@ -103,6 +104,7 @@ async function main() {
             title: "Electricity",
             amount: 100,
             type: "EXPENSE",
+            isPaid: true,
             date: new Date(),
             category: "Electricity",
             senderOrRecipient: "LADWP",
@@ -111,6 +113,7 @@ async function main() {
           {
             title: "Water",
             amount: 50,
+            isPaid: true,
             type: "EXPENSE",
             date: new Date(),
             category: "Water",
@@ -141,6 +144,7 @@ async function main() {
             title: "Netflix",
             amount: 20,
             type: "EXPENSE",
+            isPaid: true,
             date: new Date(),
             category: "Netflix",
             senderOrRecipient: "Netflix",
@@ -149,6 +153,7 @@ async function main() {
           {
             title: "Spotify",
             amount: 10,
+            isPaid: true,
             type: "EXPENSE",
             date: new Date(),
             category: "Spotify",
@@ -181,7 +186,6 @@ async function main() {
         amount: transaction.amount,
         frequency: "MONTHLY",
         dueDate: new Date(),
-        paid: true,
         user: {
           connect: { id: user1.id },
         },
@@ -203,7 +207,6 @@ async function main() {
         amount: transaction.amount,
         frequency: "MONTHLY",
         dueDate: new Date(),
-        paid: false,
         user: {
           connect: { id: user1.id },
         },
@@ -224,12 +227,12 @@ async function main() {
       amount: 6000,
       frequency: "MONTHLY",
       dueDate: new Date(),
-      paid: true,
       user: { connect: { id: user1.id } },
       transactions: {
         create: {
           title: "Salary",
           amount: 6000,
+          isPaid: true,
           type: "INCOME",
           date: new Date(),
           category: "Salary",

@@ -48,6 +48,7 @@ model Transaction {
   amount            Float
   date              DateTime
   type              TransactionType
+  isPaid            Boolean?         @default(true)
   category          String
   senderOrRecipient String?
   createdAt         DateTime        @default(now())
@@ -104,9 +105,9 @@ model RecurringPayment {
   title     String
   dueDate   DateTime
   amount    Float
-  paid      Boolean   @default(false)
   frequency Frequency
   endDate   DateTime?
+  canceled  Boolean   @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
