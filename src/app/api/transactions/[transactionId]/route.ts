@@ -38,7 +38,7 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  { params }: { params: { transactionId: string } }
+  { params }: { params: Promise<{ transactionId: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser();
@@ -51,7 +51,7 @@ export async function PUT(
     }
 
     const transaction = await prisma.transaction.findUnique({
-      where: { id: params.transactionId },
+      where: { id: (await params).transactionId },
     });
 
     if (!transaction) {
@@ -118,7 +118,7 @@ export async function PUT(
     }
 
     const updatedTransaction = await prisma.transaction.update({
-      where: { id: params.transactionId },
+      where: { id: (await params).transactionId },
       data,
     });
 
