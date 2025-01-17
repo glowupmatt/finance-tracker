@@ -11,6 +11,7 @@ export function useFetchForDashboard(
   const [transactions, setTransactions] = useState<Transaction[] | undefined>(
     undefined
   );
+  const [isUserUpdated, setIsUserUpdated] = useState(true);
   const [pots, setPots] = useState<Pot[] | undefined>(undefined);
   const [budgets, setBudgets] = useState<Budget[] | undefined>(undefined);
   const [recurringPayments, setRecurringPayments] = useState<
@@ -31,7 +32,7 @@ export function useFetchForDashboard(
       setBudgets(user.budgets);
       setRecurringPayments(user?.recurringPayments);
     }
-  }, [user]);
+  }, [user, isUserUpdated]);
 
   useEffect(() => {
     if (transactions !== undefined) {
@@ -51,7 +52,7 @@ export function useFetchForDashboard(
       setTotalExpense(calculateTotal(transactions, "EXPENSE"));
       setIsLoading(false);
     }
-  }, [transactions, user, setIsLoading]);
+  }, [transactions, user, setIsLoading, isUserUpdated]);
 
   return {
     transactions,
@@ -61,5 +62,7 @@ export function useFetchForDashboard(
     currentBalance,
     totalIncome,
     totalExpense,
+    isUserUpdated,
+    setIsUserUpdated,
   };
 }

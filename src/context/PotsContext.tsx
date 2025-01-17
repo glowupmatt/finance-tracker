@@ -14,8 +14,8 @@ import { useRouter } from "next/navigation";
 interface PotsContextType {
   pots: Pot[];
   setPots: React.Dispatch<React.SetStateAction<Pot[]>>;
-  isUpdated: boolean;
-  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
+  isPotsUpdated: boolean;
+  setIsPotsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PotsContext = createContext<PotsContextType | undefined>(undefined);
@@ -34,7 +34,7 @@ interface PotsProviderProps {
 
 export const PotsProvider = ({ children }: PotsProviderProps) => {
   const [pots, setPots] = useState<Pot[]>([]);
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [isPotsUpdated, setIsPotsUpdated] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: _, status } = useSession();
   const router = useRouter();
@@ -62,13 +62,13 @@ export const PotsProvider = ({ children }: PotsProviderProps) => {
     } else {
       fetchPots();
     }
-  }, [isUpdated, router, status]);
+  }, [isPotsUpdated, router, status]);
 
   const contextValue = {
     pots,
     setPots,
-    isUpdated,
-    setIsUpdated,
+    isPotsUpdated,
+    setIsPotsUpdated,
   };
   return (
     <PotsContext.Provider value={contextValue}>{children}</PotsContext.Provider>

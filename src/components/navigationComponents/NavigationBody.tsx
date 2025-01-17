@@ -13,13 +13,9 @@ function NavigationBody({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div
-      className={`flex-col lg:flex-row h-screen ${
-        isOpen ? "lg:flex" : "lg:block"
-      }`}
-    >
+    <div className={`flex-col lg:flex-row  ${isOpen ? "lg:flex" : "lg:block"}`}>
       <div
-        className={`bg-greyDark min-w-[300px] min-h-screen h-full rounded-r-xl z-[9] ${
+        className={`bg-greyDark min-w-[300px] rounded-r-xl z-[9] h-screen ${
           isOpen
             ? "based:absolute superBased:relative superBased:block"
             : "hidden"

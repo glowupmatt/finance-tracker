@@ -3,19 +3,19 @@
 import React from "react";
 import DashboardCardHeader from "../DashboardCardHeader";
 import TransactionsData from "./TransactionData";
-// import PaginationComp from "@/app/transactions/components/PaginationComp";
-// import { useUser } from "@/context/UserContext";
+import { useTransactions } from "@/context/TransactionsContext";
+import PaginationComp from "@/app/transactions/components/PaginationComp";
 
 type Props = {
   type: "MainPage" | "Dashboard";
 };
 
 const Transactions = ({ type }: Props) => {
-  // const { transactionPages, setCurrentPage } = useUser();
+  const { totalPages, setPage } = useTransactions();
 
-  // const onPageChange = (page: number) => {
-  //   setCurrentPage(page);
-  // };
+  const onPageChange = (page: number) => {
+    setPage(page);
+  };
 
   if (type === "MainPage") {
     return (
@@ -23,10 +23,10 @@ const Transactions = ({ type }: Props) => {
         <h3 className="font-bold text-[2rem]">Transactions</h3>
         <div className="w-full bg-white p-4 rounded-lg shadow-md min-h-[324px]">
           <TransactionsData type={type} />
-          {/* <PaginationComp
-            transactionPages={transactionPages}
+          <PaginationComp
+            transactionPages={totalPages}
             onPageChange={onPageChange}
-          /> */}
+          />
         </div>
       </section>
     );

@@ -13,15 +13,18 @@ export async function GET(request: Request) {
   }
 
   const url = new URL(request.url);
-  const page = parseInt(url.searchParams.get("page") || "1", 10);
-  const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
+  const page = parseInt(url.searchParams.get("page") || "0", 10);
+  const pageSize = parseInt(url.searchParams.get("pageSize") || "0", 10);
 
   const transactions = await prisma.transaction.findMany({
     where: {
       userId: currentUser.id,
     },
-    skip: (page - 1) * pageSize,
-    take: pageSize,
+    skip: page > 0 && pageSize > 0 ? (page - 1) * pageSize : undefined,
+    take: pageSize > 0 ? pageSize : undefined,
+    orderBy: {
+      date: "desc",
+    },
   });
 
   const totalTransactions = await prisma.transaction.count({
@@ -34,10 +37,10 @@ export async function GET(request: Request) {
     {
       transactions,
       pagination: {
-        page,
-        pageSize,
+        page: page > 0 ? page : 1,
+        pageSize: pageSize > 0 ? pageSize : totalTransactions,
         totalTransactions,
-        totalPages: Math.ceil(totalTransactions / pageSize),
+        totalPages: pageSize > 0 ? Math.ceil(totalTransactions / pageSize) : 1,
       },
     },
     { status: 200 }

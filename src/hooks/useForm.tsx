@@ -13,7 +13,7 @@ export const useForm = (
   const [label, setLabel] = useState<string>("");
   const [value, setValue] = useState<number>(0);
   const [color, setColor] = useState<string | undefined>(undefined);
-  const { setIsUpdated } = usePots();
+  const { setIsPotsUpdated } = usePots();
 
   useEffect(() => {
     if (potData) {
@@ -129,7 +129,7 @@ export const useForm = (
         default:
           console.error("Invalid CRUD operation");
       }
-      setIsUpdated((prev) => !prev);
+      setIsPotsUpdated((prev) => !prev);
     } catch (error) {
       console.error(error);
     } finally {

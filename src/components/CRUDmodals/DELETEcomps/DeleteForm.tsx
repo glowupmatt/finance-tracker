@@ -11,7 +11,7 @@ type Props = {
 
 const DeleteForm = (props: Props) => {
   const { dataId } = props;
-  const { setIsUpdated } = usePots();
+  const { setIsPotsUpdated } = usePots();
 
   const handleDelete = async () => {
     if (!dataId) return;
@@ -20,7 +20,7 @@ const DeleteForm = (props: Props) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsUpdated((prev) => !prev);
+      setIsPotsUpdated((prev) => !prev);
     }
   };
 

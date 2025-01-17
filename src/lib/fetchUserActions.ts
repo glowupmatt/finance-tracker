@@ -10,6 +10,16 @@ export async function fetchTransactions(page = 1, pageSize = 10) {
   }
 }
 
+export async function fetchAllTransactions() {
+  try {
+    const response = await fetch("/api/transactions");
+    const data = await response.json();
+    return data.transactions;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function fetchBudgets() {
   try {
     const response = await fetch("/api/budgets");

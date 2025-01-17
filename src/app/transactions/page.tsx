@@ -8,11 +8,11 @@ import { FaMinus, FaMoneyCheckAlt } from "react-icons/fa";
 import { TransactionType } from "@prisma/client";
 import { formatCurrency } from "@/utils/formatCurrency";
 import LoadingState from "@/components/ui/loadingState";
-
-// type Props = {};
+import { useTransactions } from "@/context/TransactionsContext";
 
 const TransactionsDisplay = () => {
   const { transactions } = useUser();
+  const { transactionPagination } = useTransactions();
 
   if (!transactions)
     return (
@@ -22,7 +22,7 @@ const TransactionsDisplay = () => {
     );
 
   const data: Transactions[] =
-    transactions?.map((transaction) => {
+    transactionPagination?.map((transaction) => {
       const isRed =
         transaction.amount.toString().includes("-") ||
         transaction.type === "EXPENSE";
@@ -52,9 +52,9 @@ const TransactionsDisplay = () => {
   return (
     <div className="flex justify-center items-center w-screen lg:w-full">
       <div className="block md:hidden p-4 w-full">
-        <MobileDataDisplay transactions={transactions} />
+        <MobileDataDisplay transactions={transactionPagination} />
       </div>
-      <div className="hidden md:flex flex-col gap-4 p-8 bg-beigeLight max-h-screen w-full overflow-y-auto">
+      <div className="hidden md:flex flex-col gap-4 p-8 bg-beigeLight min-h-screen w-full overflow-scroll max-h-screen">
         <h3 className="font-bold text-[2rem]">Transactions</h3>
         <DataTable columns={columns} data={data} />
       </div>

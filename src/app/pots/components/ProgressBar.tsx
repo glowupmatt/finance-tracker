@@ -48,7 +48,6 @@ function ProgressBar({ pot, type, amountToAdd, isDeposit }: Props) {
                 style={{
                   width: `${percentage}%`,
                   backgroundColor: pot.colorTag,
-                  maxWidth: `${100 - percentage}%`,
                 }}
               />
               {type === "ADD-TRANSACTION" && (
@@ -57,7 +56,6 @@ function ProgressBar({ pot, type, amountToAdd, isDeposit }: Props) {
                   style={{
                     width: `${Math.abs(newPercentage - percentage)}%`,
                     backgroundColor: isDeposit ? "#277C78" : "#C94736",
-                    maxWidth: `${100 - percentage}%`,
                     left: isDeposit ? `${percentage}%` : `${newPercentage}%`,
                   }}
                 />

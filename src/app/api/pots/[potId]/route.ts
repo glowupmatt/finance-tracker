@@ -71,6 +71,30 @@ export async function PUT(
     const body = await req.json();
     const { title, targetAmount, colorTag, isDeposit, amount } = body;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: any = {
+      title,
+      targetAmount,
+      colorTag,
+    };
+
+    if (amount !== undefined && amount !== null) {
+      data.transactions = {
+        create: {
+          title: pot.title,
+          amount: isDeposit ? amount : amount * -1,
+          date: new Date(),
+          type: "SAVINGS",
+          category: "Savings",
+          user: {
+            connect: {
+              id: currentUser.id,
+            },
+          },
+        },
+      };
+    }
+
     const updatedPot = await prisma.pot.update({
       where: {
         id: pot.id,
@@ -78,23 +102,9 @@ export async function PUT(
       include: {
         transactions: true,
       },
-      data: {
-        title,
-        targetAmount,
-        colorTag,
-        transactions: {
-          create: {
-            title: pot.title,
-            amount: isDeposit ? amount : amount * -1,
-            date: new Date(),
-            type: "SAVINGS",
-            category: "Savings",
-            userId: currentUser.id,
-          },
-        },
-      },
+      data,
     });
-    console.log("updatedPot", updatedPot);
+
     return NextResponse.json({ pot: updatedPot }, { status: 200 });
   } catch (error) {
     console.log("Error updating pot:", error);

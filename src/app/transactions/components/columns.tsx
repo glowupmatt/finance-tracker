@@ -35,7 +35,6 @@ export const columns: ColumnDef<Transactions>[] = [
         amount: number;
       };
 
-      console.log(value);
       const isRed = value.amount < 0 || value.type === "EXPENSE";
 
       const isGreen = value.type === "INCOME" || value.amount > 0;

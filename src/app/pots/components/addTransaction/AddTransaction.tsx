@@ -22,7 +22,7 @@ type Props = {
 const AddTransaction = ({ isDeposit, pot }: Props) => {
   const [amount, setAmount] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { setIsUpdated } = usePots();
+  const { setIsPotsUpdated } = usePots();
   const buttonTitle = isDeposit ? "+ Add Money" : "Withdraw";
   const title = isDeposit ? "Add Money" : "Withdraw";
   const description = isDeposit
@@ -33,7 +33,7 @@ const AddTransaction = ({ isDeposit, pot }: Props) => {
     e.preventDefault();
     try {
       await postTransaction(pot.id, amount, isDeposit);
-      setIsUpdated((prev) => !prev);
+      setIsPotsUpdated((prev) => !prev);
     } catch (error) {
       console.log(error);
     } finally {

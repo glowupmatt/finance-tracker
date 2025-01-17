@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+"use client";
+import React from "react";
 import {
   Pagination,
   PaginationContent,
@@ -7,7 +7,9 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
+import { useTransactions } from "@/context/TransactionsContext";
 
 type Props = {
   transactionPages: number | undefined;
@@ -16,10 +18,10 @@ type Props = {
 
 const PaginationComp = (props: Props) => {
   const { transactionPages, onPageChange } = props;
-  const [currentPage, setCurrentPage] = useState(1);
+  const { setPage, page, maxPages, totalPages } = useTransactions();
 
   const handlePageClick = (page: number) => {
-    setCurrentPage(page);
+    setPage(page);
     onPageChange(page);
   };
 
@@ -29,38 +31,66 @@ const PaginationComp = (props: Props) => {
     <Pagination className="p-2 lg:p-4">
       <PaginationContent className="lg:gap-4">
         <PaginationItem>
-          <PaginationPrevious
-            className="text-[.6rem]"
-            href="#"
-            onClick={() =>
-              handlePageClick(currentPage > 1 ? currentPage - 1 : 1)
-            }
-          />
+          {page > 1 && (
+            <PaginationPrevious
+              className="text-[.6rem]"
+              href="#"
+              onClick={() => handlePageClick(page > 1 ? page - 1 : 1)}
+            />
+          )}
         </PaginationItem>
-        {[...Array(transactionPages)].map((_, index) => (
-          <PaginationItem key={index}>
+        <PaginationItem>
+          <PaginationLink
+            className="text-[.6rem] hidden md:block"
+            href="#"
+            isActive={page === 1}
+            onClick={() => handlePageClick(1)}
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+        {page > 2 && (
+          <PaginationItem className=" hidden md:block">
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+        {page > 1 && page < maxPages && (
+          <PaginationItem className=" hidden md:block">
             <PaginationLink
               className="text-[.6rem]"
               href="#"
-              isActive={currentPage === index + 1}
-              onClick={() => handlePageClick(index + 1)}
+              isActive={true}
+              onClick={() => handlePageClick(page)}
             >
-              {index + 1}
+              {page}
             </PaginationLink>
           </PaginationItem>
-        ))}
+        )}
+        {page < maxPages - 1 && (
+          <PaginationItem className=" hidden md:block">
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
         <PaginationItem>
-          <PaginationNext
-            className="text-[.6rem]"
+          <PaginationLink
+            className="text-[.6rem] hidden md:block"
             href="#"
-            onClick={() =>
-              handlePageClick(
-                currentPage < transactionPages
-                  ? currentPage + 1
-                  : transactionPages
-              )
-            }
-          />
+            isActive={page === maxPages}
+            onClick={() => handlePageClick(maxPages)}
+          >
+            {maxPages}
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          {page < totalPages && (
+            <PaginationNext
+              className="text-[.6rem]"
+              href="#"
+              onClick={() =>
+                handlePageClick(page < maxPages ? page + 1 : maxPages)
+              }
+            />
+          )}
         </PaginationItem>
       </PaginationContent>
     </Pagination>

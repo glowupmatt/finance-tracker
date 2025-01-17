@@ -15,7 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import PaginationComp from "./PaginationComp";
+import PaginationComp from "./PaginationComp";
+import { useTransactions } from "@/context/TransactionsContext";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,12 +33,14 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  // const onPageChange = (page: number) => {
-  //   setCurrentPage(page);
-  // };
+  const { totalPages, setTotalPages } = useTransactions();
+
+  const onPageChange = (page: number) => {
+    setTotalPages(page);
+  };
 
   return (
-    <div className="rounded-md border bg-white shadow-md flex flex-col items-center justify-center">
+    <div className="rounded-md border bg-white shadow-md flex flex-col items-center justify-center overflow-hidden">
       <Table className="w-full">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -87,10 +90,10 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      {/* <PaginationComp
-        transactionPages={transactionPages}
+      <PaginationComp
+        transactionPages={totalPages}
         onPageChange={onPageChange}
-      /> */}
+      />
     </div>
   );
 }

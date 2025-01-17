@@ -1,10 +1,43 @@
-import React from "react";
-import { useUser } from "@/context/UserContext";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { calculateTotal } from "@/utils/calculateTotal";
+import { usePots } from "@/context/PotsContext";
+import { useTransactions } from "@/context/TransactionsContext";
 
 const BalanceAndExpenses = () => {
-  const { totalIncome, totalExpense, currentBalance } = useUser();
+  const [currentBalance, setCurrentBalance] = useState<number | undefined>(
+    undefined
+  );
+  const [totalIncome, setTotalIncome] = useState<number | undefined>(undefined);
+  const [totalExpense, setTotalExpense] = useState<number | undefined>(
+    undefined
+  );
+
+  const { isPotsUpdated } = usePots();
+
+  const { transactions } = useTransactions();
+
+  useEffect(() => {
+    if (transactions !== undefined) {
+      const income = calculateTotal(transactions, "INCOME");
+      const expense = calculateTotal(transactions, "EXPENSE");
+      const savings = calculateTotal(transactions, "SAVINGS");
+      if (
+        income !== undefined &&
+        expense !== undefined &&
+        savings !== undefined
+      ) {
+        setCurrentBalance(income + savings - expense);
+      } else {
+        setCurrentBalance(undefined);
+      }
+      setTotalIncome(calculateTotal(transactions, "INCOME"));
+      setTotalExpense(calculateTotal(transactions, "EXPENSE"));
+    }
+  }, [transactions, isPotsUpdated]);
 
   const details = {
     "Current Balance":

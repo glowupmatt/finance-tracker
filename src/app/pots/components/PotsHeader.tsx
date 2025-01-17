@@ -12,7 +12,6 @@ type Props = {
 const PotsHeader = (props: Props) => {
   const { pot } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-2">
@@ -30,7 +29,7 @@ const PotsHeader = (props: Props) => {
           <BiDotsVerticalRounded />
         </div>
         {isDropdownOpen && (
-          <div className="absolute right-0 top-[1rem] p-4 min-w-[9rem] text-center bg-white rounded-lg shadow-md">
+          <div className="absolute right-0 top-[1rem] p-4 min-w-[9rem] text-center bg-white rounded-lg shadow-md border-[.2px] border-greyDark z-10">
             <DialogPOST type="POT" CRUD="PUT" potData={pot} />
             <div className="w-full h-[1px] border-[1px] rounded-md my-[.2rem]" />
             <DialogPOST type="POT" CRUD="DELETE" potData={pot} />
