@@ -41,26 +41,36 @@ function ProgressBar({ pot, type, amountToAdd, isDeposit }: Props) {
       </div>
       <div>
         <div className="relative h-[8px] bg-gray-200 w-full rounded-md flex items-center">
-          <div
-            className="h-[90%] absolute rounded-sm"
-            style={{
-              width: `${percentage}%`,
-              backgroundColor: pot.colorTag,
-              maxWidth: `${100 - percentage}%`,
-            }}
-          />
-          {type === "ADD-TRANSACTION" && (
+          {displayPercentage !== 100 || newPercentage !== 100 ? (
+            <>
+              <div
+                className="h-[90%] absolute rounded-sm"
+                style={{
+                  width: `${percentage}%`,
+                  backgroundColor: pot.colorTag,
+                  maxWidth: `${100 - percentage}%`,
+                }}
+              />
+              {type === "ADD-TRANSACTION" && (
+                <div
+                  className="h-[90%] absolute rounded-sm"
+                  style={{
+                    width: `${Math.abs(newPercentage - percentage)}%`,
+                    backgroundColor: isDeposit ? "#277C78" : "#C94736",
+                    maxWidth: `${100 - percentage}%`,
+                    left: isDeposit ? `${percentage}%` : `${newPercentage}%`,
+                  }}
+                />
+              )}
+            </>
+          ) : (
             <div
               className="h-[90%] absolute rounded-sm"
-              style={{
-                width: `${Math.abs(newPercentage - percentage)}%`,
-                backgroundColor: isDeposit ? "#277C78" : "#C94736",
-                maxWidth: `${100 - percentage}%`,
-                left: isDeposit ? `${percentage}%` : `${newPercentage}%`,
-              }}
+              style={{ width: "100%", backgroundColor: "#277C78" }}
             />
           )}
         </div>
+
         <div className="flex justify-between mt-2 font-light text-[.6rem]">
           <p className="text-greyDark">{displayPercentage}%</p>
           <p className="text-greySemiDark">
