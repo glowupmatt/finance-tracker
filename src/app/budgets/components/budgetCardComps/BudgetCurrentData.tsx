@@ -20,7 +20,7 @@ const BudgetCurrentData = (props: Props) => {
 
   const remainingTotal = budget.maxSpend - transactionTotal;
 
-  const savedOrSpent = type === "SPENT" ? remainingTotal : transactionTotal;
+  const savedOrSpent = type === "SPENT" ? transactionTotal : remainingTotal;
   const remainingOrSpent = type === "SPENT" ? "Spent" : "Remaining";
   const ternaryStyle = type === "SPENT" ? budget.colorTag : "#F8F4F0";
 

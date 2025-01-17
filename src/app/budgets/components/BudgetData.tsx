@@ -10,7 +10,7 @@ const BudgetData = (props: Props) => {
   const { budgets } = props;
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 lg:max-h-screen lg:overflow-y-scroll pb-[2rem]">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1  pb-[2rem]">
       {budgets?.map((budget) => (
         <BudgetCard key={budget.id} budget={budget} />
       ))}

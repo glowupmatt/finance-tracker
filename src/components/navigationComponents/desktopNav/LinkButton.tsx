@@ -1,4 +1,6 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
+import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import React from "react";
 
@@ -14,6 +16,7 @@ type Props = {
 };
 
 const LinkButton = ({ index, pathname, navLink }: Props) => {
+  const { setIsOpen } = useUser();
   const iconStyles = `flex flex-col items-center lg:flex-row justify-start gap-4 px-8 ${
     pathname === navLink.link
       ? "bg-white py-4 rounded-r-xl border-b-4 w-[15rem] border-secondaryGreen"
@@ -28,7 +31,12 @@ const LinkButton = ({ index, pathname, navLink }: Props) => {
   }`;
 
   return (
-    <Link href={navLink.link} key={index} className={iconStyles}>
+    <Link
+      href={navLink.link}
+      key={index}
+      className={iconStyles}
+      onClick={() => setIsOpen(false)}
+    >
       <div>
         <img src={imageTernary} alt="icon" />
       </div>

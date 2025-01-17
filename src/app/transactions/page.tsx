@@ -6,18 +6,14 @@ import MobileDataDisplay from "./components/mobileDisplay/MobileDataDisplay";
 import { FaMinus, FaMoneyCheckAlt } from "react-icons/fa";
 import { TransactionType } from "@prisma/client";
 import { formatCurrency } from "@/utils/formatCurrency";
-import LoadingState from "@/components/ui/loadingState";
+
 import { useTransactions } from "@/context/TransactionsContext";
+import LoadingPage from "@/components/ui/LoadingPage";
 
 const TransactionsDisplay = () => {
   const { transactionPagination } = useTransactions();
   console.log(transactionPagination);
-  if (!transactionPagination)
-    return (
-      <div className="flex justify-center items-center w-screen min-h-screen">
-        <LoadingState />
-      </div>
-    );
+  if (!transactionPagination) return <LoadingPage />;
 
   const data: Transactions[] =
     transactionPagination?.map((transaction) => {

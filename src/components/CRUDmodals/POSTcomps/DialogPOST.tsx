@@ -13,14 +13,15 @@ import { PotType } from "@/types/PotTypes";
 import DialogTriggerCondition from "./DialogTriggerCondition";
 import Form from "./Form";
 import DeleteForm from "../DELETEcomps/DeleteForm";
+import { BudgetType } from "@/types/BudgetTypes";
 
 type Props = {
   type: "POT" | "BUDGET";
   CRUD: "POST" | "PUT" | "DELETE";
-  potData?: PotType;
+  data?: PotType | BudgetType | undefined;
 };
 
-const DialogPOST = ({ type, CRUD, potData }: Props) => {
+const DialogPOST = ({ type, CRUD, data }: Props) => {
   const pageData = {
     POT: {
       POST: ["Add New Pot", "Create a new Pot (Savings, Emergency, etc.)"],
@@ -45,9 +46,9 @@ const DialogPOST = ({ type, CRUD, potData }: Props) => {
           </DialogDescription>
         </DialogHeader>
         {CRUD === "DELETE" ? (
-          <DeleteForm dataId={potData?.id} />
+          <DeleteForm dataId={data?.id} type={type} />
         ) : (
-          <Form type={type} CRUD={CRUD} potData={potData} />
+          <Form type={type} CRUD={CRUD} data={data} />
         )}
       </DialogContent>
     </Dialog>

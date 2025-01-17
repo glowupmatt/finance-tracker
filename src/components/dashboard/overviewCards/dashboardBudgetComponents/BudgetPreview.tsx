@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { useUser } from "@/context/UserContext";
 import BudgetDoughnutChart from "./BudgetDoughnutChart";
 import DashboardCardHeader from "../DashboardCardHeader";
 import { useBudgetFormat } from "@/hooks/useBudgetFormat";
+import { useBudgets } from "@/context/BudgetContext";
 
 const BudgetPreview = () => {
-  const { budgets } = useUser();
+  const { budgets } = useBudgets();
   const { sortedBudgets } = useBudgetFormat(budgets);
   if (!budgets) return null;
 

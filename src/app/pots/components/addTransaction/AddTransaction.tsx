@@ -13,6 +13,7 @@ import ProgressBar from "../ProgressBar";
 import { PotType } from "@/types/PotTypes";
 import { postTransaction } from "@/lib/PotsCRUDfunctions";
 import { usePots } from "@/context/PotsContext";
+import AddTransactionForm from "@/components/CRUDmodals/addTansactionForm/AddTransactionForm";
 
 type Props = {
   isDeposit: boolean;
@@ -64,22 +65,12 @@ const AddTransaction = ({ isDeposit, pot }: Props) => {
           amountToAdd={amount}
           isDeposit={isDeposit}
         />
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="amount" className="text-greyDark text-[.7rem]">
-              Amount to {isDeposit ? "Add" : "Withdraw"}
-            </label>
-            <input
-              type="number"
-              onChange={(e) => setAmount(parseInt(e.target.value))}
-              className="border border-gray-200 p-2 rounded-md mb-2"
-            />
-
-            <Button variant="primary" className="w-full">
-              {buttonTitle}
-            </Button>
-          </div>
-        </form>
+        <AddTransactionForm
+          handleSubmit={handleSubmit}
+          setAmount={setAmount}
+          buttonTitle={buttonTitle}
+          type="POT"
+        />
       </DialogContent>
     </Dialog>
   );

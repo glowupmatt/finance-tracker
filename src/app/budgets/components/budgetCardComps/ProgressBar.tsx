@@ -1,4 +1,5 @@
 import { formatCurrency } from "@/utils/formatCurrency";
+import { translateColorToHex } from "@/utils/translateColorToHex";
 import React from "react";
 
 type Props = {
@@ -21,10 +22,13 @@ const ProgressBar = (props: Props) => {
       <p className="text-greySemiDark text-[.7rem]">
         Max Spend: {formatCurrency(budget.maxSpend)}
       </p>
-      <div className="relative h-[32px] bg-gray-200 w-full rounded-md p-1 flex items-center">
+      <div className="relative h-[32px] bg-gray-200 w-full rounded-md py-1 flex items-center overflow-hidden">
         <div
-          className="h-[80%] absolute rounded-sm"
-          style={{ width: `${percentage}%`, backgroundColor: budget.colorTag }}
+          className="h-[80%] absolute rounded-md max-w-full "
+          style={{
+            width: `${percentage}%`,
+            backgroundColor: translateColorToHex(budget.colorTag),
+          }}
         />
       </div>
     </>

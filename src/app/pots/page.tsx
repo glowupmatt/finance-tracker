@@ -4,18 +4,16 @@ import PotsCard from "./components/PotsCard";
 import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
 import { usePots } from "@/context/PotsContext";
 import { usePotFormat } from "@/hooks/usePotFormat";
+import LoadingPage from "@/components/ui/LoadingPage";
 
 function PotsDisplay() {
   const { pots } = usePots();
 
-  // const sortedPotsByTimeCreated = pots.sort((a, b) => {
-  //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  // });
   const { sortedPots } = usePotFormat(pots);
 
-  if (!sortedPots) return <div>Loading...</div>;
+  if (!sortedPots) return <LoadingPage />;
   return (
-    <section className="min-h-screen">
+    <section className="min-h-screen lg:max-h-screen overflow-y-auto">
       <div className="flex item-center justify-between p-4">
         <h2 className="text-2xl font-bold self-center">Pots</h2>
         <DialogPOST type="POT" CRUD="POST" />

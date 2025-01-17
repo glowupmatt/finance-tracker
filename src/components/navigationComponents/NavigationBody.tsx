@@ -1,21 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Header from "./mobileNav/Header";
 import Footer from "./mobileNav/Footer";
 import SideNav from "./desktopNav/SideNav";
+import { useUser } from "@/context/UserContext";
 
 type Props = {
   children: React.ReactNode;
 };
 
 function NavigationBody({ children }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen } = useUser();
 
   return (
     <div className={`flex-col lg:flex-row  ${isOpen ? "lg:flex" : "lg:block"}`}>
       <div
-        className={`bg-greyDark min-w-[300px] rounded-r-xl z-[9] h-screen ${
+        className={`bg-greyDark min-w-[300px] rounded-r-xl z-[9] h-full superBased:h-screen ${
           isOpen
             ? "based:absolute superBased:relative superBased:block"
             : "hidden"

@@ -11,11 +11,12 @@ type Props = {
 };
 
 const BudgetDoughnutChart = ({ type = "Dashboard", sortedBudgets }: Props) => {
+  const topFourBudgets = sortedBudgets?.slice(0, 4);
   if (type === "Dashboard") {
     return (
       <div className="flex flex-col gap-4 md:flex md:flex-row md:justify-around">
         <BudgetChart sortedBudgets={sortedBudgets} />
-        <SpendingSummary sortedBudgets={sortedBudgets} />
+        <SpendingSummary sortedBudgets={topFourBudgets} />
       </div>
     );
   }
@@ -26,7 +27,7 @@ const BudgetDoughnutChart = ({ type = "Dashboard", sortedBudgets }: Props) => {
       <div className="flex  flex-col">
         <p className="text-[1.5rem] font-bold py-4 mt-4">Spending Summary</p>
         <div className="lg:grid grid-cols-2 gap-4">
-          {sortedBudgets?.map((budget) => (
+          {topFourBudgets?.map((budget) => (
             <div
               key={budget.id}
               className="flex justify-between items-center py-4 border-b border-greyLight rounded-[1px] lg:w-full"

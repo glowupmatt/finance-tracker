@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { PotType } from "@/types/PotTypes";
-import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+
+import EditModal from "@/components/CRUDmodals/EditModal";
 
 type Props = {
   pot: PotType;
@@ -11,7 +11,7 @@ type Props = {
 
 const PotsHeader = (props: Props) => {
   const { pot } = props;
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-2">
@@ -21,21 +21,7 @@ const PotsHeader = (props: Props) => {
         />
         <h2>{pot.title}</h2>
       </div>
-      <div className="relative">
-        <div
-          onClick={() => setIsDropdownOpen((prev) => !prev)}
-          className="cursor-pointer"
-        >
-          <BiDotsVerticalRounded />
-        </div>
-        {isDropdownOpen && (
-          <div className="absolute right-0 top-[1rem] p-4 min-w-[9rem] text-center bg-white rounded-lg shadow-md border-[.2px] border-greyDark z-10">
-            <DialogPOST type="POT" CRUD="PUT" potData={pot} />
-            <div className="w-full h-[1px] border-[1px] rounded-md my-[.2rem]" />
-            <DialogPOST type="POT" CRUD="DELETE" potData={pot} />
-          </div>
-        )}
-      </div>
+      <EditModal pot={pot} type="POT" />
     </div>
   );
 };

@@ -1,46 +1,25 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+"use client";
 import React from "react";
 import SubmitButton from "./SubmitButton";
 import { PotType } from "@/types/PotTypes";
-import { ColorTag } from "@prisma/client";
-import { translateColorToHex } from "@/utils/translateColorToHex";
 import { useForm } from "@/hooks/useForm";
+import ColorTagSelector from "./ColorTagSelector";
+import BudgetCategorySelector from "./BudgetCategorySelector";
+import { Budget } from "@/types/BudgetTypes";
 
 type Props = {
   type: "POT" | "BUDGET";
   CRUD: "POST" | "PUT";
-  potData: PotType | undefined;
+  data?: PotType | Budget | undefined;
 };
 
 const Form = (props: Props) => {
-  const colorOptions = [
-    "GREEN",
-    "YELLOW",
-    "CYAN",
-    "NAVY",
-    "RED",
-    "PURPLE",
-    "TURQUOISE",
-    "BROWN",
-    "MAGENTA",
-    "BLUE",
-    "GREY",
-    "ARMY",
-    "ORANGE",
-  ];
-
-  const { type, CRUD, potData } = props;
+  const { type, CRUD, data } = props;
 
   const { color, setColor, getInputs, onSubmitHandler } = useForm(
     type,
     CRUD,
-    potData
+    data
   );
 
   const inputs = getInputs();
@@ -52,41 +31,18 @@ const Form = (props: Props) => {
           <p className="text-[.7rem] font-semibold text-greyDark">
             {input.label}
           </p>
-          {input.label === "Color Tag" ? (
-            <Select
-              value={input.value as string}
-              onValueChange={(value) => {
-                setColor(value as ColorTag);
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue>
-                  {color === undefined ? potData?.colorTag : color}
-                </SelectValue>
-              </SelectTrigger>
-              <p
-                className="p-3 border-[1px] rounded-lg"
-                style={{
-                  color: translateColorToHex(potData?.colorTag as string),
-                }}
-              >
-                Current Color: {potData?.colorTag}
-              </p>
-              <SelectContent className="max-h-[20rem] overflow-y-auto">
-                {colorOptions.map((color) => (
-                  <SelectItem
-                    key={color}
-                    value={color}
-                    onSelect={() => {
-                      setColor(color as ColorTag);
-                    }}
-                    className="cursor-pointer"
-                  >
-                    {color}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          {input.label === "Budget Category" ? (
+            <BudgetCategorySelector
+              setLabel={(value: string) => input.setValue(value as string)}
+            />
+          ) : input.label === "Color Tag" ? (
+            <ColorTagSelector
+              type={type}
+              CRUD={CRUD}
+              color={color}
+              setColor={setColor}
+              input={input}
+            />
           ) : (
             <input
               type={input.type}

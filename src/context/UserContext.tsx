@@ -21,6 +21,8 @@ type UserContextType = {
   totalExpense: number | undefined;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type Props = {
@@ -42,6 +44,8 @@ export const useUser = () => {
 export const UserProvider = ({ children }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | undefined>(undefined);
+  const [isOpen, setIsOpen] = useState(false);
+
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -85,6 +89,8 @@ export const UserProvider = ({ children }: Props) => {
     user,
     setUser,
     setIsLoading,
+    isOpen,
+    setIsOpen,
   };
 
   return <UserContext.Provider value={data}>{children}</UserContext.Provider>;

@@ -9,9 +9,11 @@ import { columns, Transaction } from "./components/desktopTable/columns";
 import { useUser } from "@/context/UserContext";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { Frequency } from "@prisma/client";
+import LoadingPage from "@/components/ui/LoadingPage";
 
 const RecurringPayments = () => {
   const { recurringPayments } = useUser();
+  if (!recurringPayments) return <LoadingPage />;
 
   const data: Transaction[] =
     recurringPayments?.map((transaction) => ({

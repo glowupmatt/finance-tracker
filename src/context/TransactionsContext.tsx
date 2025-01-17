@@ -10,6 +10,7 @@ import { Transaction } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { usePots } from "./PotsContext";
+import { useBudgets } from "./BudgetContext";
 
 interface TransactionsContextType {
   transactions: Transaction[];
@@ -59,6 +60,7 @@ export const TransactionsProvider = ({
   >([]);
   const [maxPages, setMaxPages] = useState(0);
   const { isPotsUpdated } = usePots();
+  const { isBudgetsUpdated } = useBudgets();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: _, status } = useSession();
@@ -82,7 +84,7 @@ export const TransactionsProvider = ({
     } else {
       fetchTransactions();
     }
-  }, [isTransactionsUpdated, router, status, isPotsUpdated]);
+  }, [isTransactionsUpdated, router, status, isPotsUpdated, isBudgetsUpdated]);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -111,6 +113,7 @@ export const TransactionsProvider = ({
     isPotsUpdated,
     router,
     status,
+    isBudgetsUpdated,
   ]);
 
   const contextValue = {

@@ -4,24 +4,35 @@ import { postPot, putPot } from "@/lib/PotsCRUDfunctions";
 import { ColorTag, Transaction } from "@prisma/client";
 import { usePots } from "@/context/PotsContext";
 import { PotType } from "@/types/PotTypes";
+import { Budget } from "@/types/BudgetTypes";
+import { postBudget, putBudget } from "@/lib/BudgetsCRUDfunctions";
+import { useBudgets } from "@/context/BudgetContext";
 
 export const useForm = (
   type?: "POT" | "BUDGET",
   CRUD?: "POST" | "PUT",
-  potData?: PotType
+  data?: PotType | Budget | undefined
 ) => {
   const [label, setLabel] = useState<string>("");
   const [value, setValue] = useState<number>(0);
   const [color, setColor] = useState<string | undefined>(undefined);
+  const [postBody, setPostBody] = useState<PotType | Budget>();
   const { setIsPotsUpdated } = usePots();
+  const { setIsBudgetsUpdated } = useBudgets();
 
   useEffect(() => {
-    if (potData) {
-      setLabel(potData.title);
-      setValue(potData.targetAmount);
-      setColor(potData.colorTag);
+    if (data) {
+      if (type === "POT" && "title" in data) {
+        setLabel(data.title);
+        setValue(data.targetAmount);
+        setColor(data.colorTag);
+      } else if (type === "BUDGET" && "name" in data) {
+        setLabel(data.name);
+        setValue(data.maxSpend);
+        setColor(data.colorTag);
+      }
     }
-  }, [potData, setLabel, setValue]);
+  }, [setLabel, setValue, data, type]);
 
   function getInputs() {
     return {
@@ -86,16 +97,56 @@ export const useForm = (
       put: putPot,
     },
     BUDGET: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      post: function (budget: any) {
-        console.log(budget);
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      put: function (budget: any) {
-        console.log(budget);
-      },
+      post: postBudget,
+      put: putBudget,
     },
   };
+
+  useEffect(() => {
+    if (CRUD === "PUT" && type === "POT") {
+      setPostBody({
+        title: label,
+        targetAmount: value,
+        colorTag: color as ColorTag,
+        id: data?.id as string,
+        userId: data?.userId as string,
+        transactions: data?.transactions as Transaction[],
+      });
+    }
+
+    if (CRUD === "POST" && type === "POT") {
+      setPostBody({
+        title: label,
+        targetAmount: value,
+        colorTag: color as ColorTag,
+        id: data?.id as string,
+        userId: data?.userId as string,
+        transactions: data?.transactions as Transaction[],
+      });
+    }
+
+    if (CRUD === "PUT" && type === "BUDGET") {
+      setPostBody({
+        name: label,
+        maxSpend: value,
+        colorTag: color as ColorTag,
+        id: data?.id as string,
+        userId: data?.userId as string,
+        transactions: data?.transactions as Transaction[],
+      });
+    }
+
+    if (CRUD === "POST" && type === "BUDGET") {
+      setPostBody({
+        name: label,
+        maxSpend: value,
+        colorTag: color as ColorTag,
+        id: data?.id as string,
+        userId: data?.userId as string,
+        transactions: data?.transactions as Transaction[],
+      });
+    }
+  }, [CRUD, type, label, value, color, data]);
 
   async function onSubmitHandler(e: React.FormEvent) {
     e.preventDefault();
@@ -109,27 +160,20 @@ export const useForm = (
 
       switch (CRUD) {
         case "POST":
-          await crudFunction[type].post({
-            title: label,
-            targetAmount: value as number,
-            colorTag: color,
-          });
+          await crudFunction[type].post(postBody);
           break;
         case "PUT":
-          const body = {
-            title: label,
-            targetAmount: value as number,
-            colorTag: color as ColorTag,
-            id: potData?.id as string,
-            userId: potData?.userId as string,
-            transactions: potData?.transactions as Transaction[],
-          };
-          await crudFunction[type].put(body);
+          await crudFunction[type].put(postBody);
           break;
         default:
           console.error("Invalid CRUD operation");
       }
-      setIsPotsUpdated((prev) => !prev);
+      if (type === "POT") {
+        setIsPotsUpdated((prev) => !prev);
+      }
+      if (type === "BUDGET") {
+        setIsBudgetsUpdated((prev) => !prev);
+      }
     } catch (error) {
       console.error(error);
     } finally {

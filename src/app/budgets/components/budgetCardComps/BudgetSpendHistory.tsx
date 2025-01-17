@@ -3,6 +3,7 @@ import { formatter } from "@/utils/transactionFunctions";
 import { BudgetType } from "@/types/BudgetTypes";
 import { formatCurrency } from "@/utils/formatCurrency";
 import BudgetIconTitle from "./BudgetIconTitle";
+import AddTransactionModal from "./AddTransactionModal";
 
 type Props = {
   budget: BudgetType;
@@ -11,13 +12,9 @@ type Props = {
 const BudgetSpendHistory = (props: Props) => {
   const { budget } = props;
 
-  if (budget.transactions.length === 0) {
-    return <p>No spending history</p>;
-  }
-
   return (
     <>
-      <h4 className="mb-4 text-[1.2rem] font-bold">Latest Spending</h4>
+      <AddTransactionModal budget={budget} />
       {budget.transactions
         ?.filter((_, index) => index < 3)
         .map((transaction) => {

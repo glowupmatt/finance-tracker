@@ -4,23 +4,31 @@ import React from "react";
 import { usePots } from "@/context/PotsContext";
 import { deletePot } from "@/lib/PotsCRUDfunctions";
 import { DialogClose } from "@/components/ui/dialog";
+import { deleteBudget } from "@/lib/BudgetsCRUDfunctions";
+import { useBudgets } from "@/context/BudgetContext";
 
 type Props = {
   dataId: string | undefined;
+  type: "POT" | "BUDGET";
 };
 
 const DeleteForm = (props: Props) => {
-  const { dataId } = props;
+  const { dataId, type } = props;
   const { setIsPotsUpdated } = usePots();
+  const { setIsBudgetsUpdated } = useBudgets();
 
   const handleDelete = async () => {
     if (!dataId) return;
+
     try {
-      await deletePot(dataId);
+      if (!type) console.error("No type provided for deletion");
+      if (type === "POT") await deletePot(dataId);
+      if (type === "BUDGET") await deleteBudget(dataId);
     } catch (error) {
       console.log(error);
     } finally {
-      setIsPotsUpdated((prev) => !prev);
+      if (type === "POT") setIsPotsUpdated((prev) => !prev);
+      if (type === "BUDGET") setIsBudgetsUpdated((prev) => !prev);
     }
   };
 
