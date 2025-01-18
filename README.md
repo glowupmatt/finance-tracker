@@ -32,7 +32,7 @@ Endpoints requiring the user to be logged in:
 
 Endpoints requiring authentication where the user does not have the correct permissions:
 
-- **Request**: Any endpoint requiring proper authorization.
+- **Request**: Any endpoint requiring proper authorization
 - **Error Response: Require Proper Authorization**
   - **Status Code**: `403`
   - **Headers**:
@@ -1161,5 +1161,3 @@ Delete an existing recurring payment.
       "message": "Recurring payment couldn't be found"
     }
     ```
-
-
