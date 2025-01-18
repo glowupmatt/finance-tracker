@@ -18,7 +18,7 @@ const SubmitButton = (props: Props) => {
     >
       {CRUD === "POST"
         ? `+ Add New ${type[0].toUpperCase() + type.toLowerCase().slice(1)}`
-        : "Update Pot"}
+        : `Update ${type[0].toUpperCase() + type.toLowerCase().slice(1)}`}
     </Button>
   );
   return <DialogClose asChild>{submitButton}</DialogClose>;

@@ -1,4 +1,4 @@
-import { TransactionForm } from "@/types/TransactionTypes";
+import { TransactionForm, TransactionType } from "@/types/TransactionTypes";
 
 export async function postTransaction(
   transaction: TransactionForm | undefined
@@ -18,5 +18,32 @@ export async function postTransaction(
       category: transaction.category,
       senderOrRecipient: transaction.senderOrRecipient,
     }),
+  });
+}
+
+export async function putTransaction(transaction: TransactionType | undefined) {
+  if (!transaction) return;
+  console.log("PUTTING TRANSACTION: ", transaction);
+  const transactionId = transaction.id;
+  return await fetch(`/api/transactions/${transactionId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      title: transaction.title,
+      amount: transaction.amount,
+      type: transaction.type.toUpperCase(),
+      date: new Date(),
+      isPaid: transaction.isPaid,
+      category: transaction.category,
+      senderOrRecipient: transaction.senderOrRecipient,
+    }),
+  });
+}
+
+export async function deleteTransaction(transactionId: string) {
+  return await fetch(`/api/transactions/${transactionId}`, {
+    method: "DELETE",
   });
 }

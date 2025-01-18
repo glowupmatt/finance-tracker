@@ -8,9 +8,15 @@ import { JSX } from "react";
 // You can use a Zod schema here if you want.
 export type Transactions = {
   Transaction: {
+    id: string;
+    title: string;
+    isPaid: boolean;
+    category: string;
+    senderOrRecipient: string;
     image: JSX.Element;
     name: string;
     type: TransactionType;
+    amount: number;
   };
   Category: string;
   "Transaction Date": string;

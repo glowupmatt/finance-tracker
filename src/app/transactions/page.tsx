@@ -35,6 +35,11 @@ const TransactionsDisplay = () => {
           name: transaction.senderOrRecipient || transaction.title || "",
           type: (transaction.type as TransactionType) || "EXPENSE",
           amount: transaction.amount || 0,
+          category: transaction.category || "",
+          id: transaction.id || "",
+          isPaid: transaction.isPaid || false,
+          senderOrRecipient: transaction.senderOrRecipient || "",
+          title: transaction.title || "",
         },
         Category: transaction.category || "",
         "Transaction Date":

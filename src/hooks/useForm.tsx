@@ -8,7 +8,10 @@ import { PotType } from "@/types/PotTypes";
 import { Budget } from "@/types/BudgetTypes";
 import { postBudget, putBudget } from "@/lib/BudgetsCRUDfunctions";
 import { useBudgets } from "@/context/BudgetContext";
-import { postTransaction } from "@/lib/TransactionCRUDfunctions";
+import {
+  postTransaction,
+  putTransaction,
+} from "@/lib/TransactionCRUDfunctions";
 import { useTransactions } from "@/context/TransactionsContext";
 
 export const useForm = (
@@ -26,6 +29,7 @@ export const useForm = (
   const [paid, setPaid] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("");
   const [senderOrRecipient, setSenderOrRecipient] = useState<string>("");
+  const [transactionId, setTransactionId] = useState<string>("");
 
   const { setIsPotsUpdated } = usePots();
   const { setIsBudgetsUpdated } = useBudgets();
@@ -55,6 +59,7 @@ export const useForm = (
         setPaid(transactionData.isPaid ?? false);
         setCategory(transactionData.category);
         setSenderOrRecipient(transactionData.senderOrRecipient || "");
+        setTransactionId(transactionData.id || "");
       }
     }
   }, [setLabel, setValue, data, type]);
@@ -165,9 +170,7 @@ export const useForm = (
     },
     TRANSACTION: {
       post: postTransaction,
-      put: () => {
-        console.error("PUT not implemented for transactions");
-      },
+      put: putTransaction,
     },
   };
 
@@ -214,6 +217,17 @@ export const useForm = (
         senderOrRecipient,
       });
     }
+    if (CRUD === "PUT" && type === "TRANSACTION") {
+      setPostBody({
+        id: transactionId,
+        title: label,
+        amount: value,
+        type: transactionType as TransactionType,
+        isPaid: paid,
+        category,
+        senderOrRecipient,
+      });
+    }
   }, [
     CRUD,
     type,
@@ -225,6 +239,7 @@ export const useForm = (
     category,
     senderOrRecipient,
     transactionType,
+    transactionId,
   ]);
 
   async function onSubmitHandler(e: React.FormEvent) {
@@ -256,7 +271,6 @@ export const useForm = (
       if (type === "BUDGET") {
         setIsBudgetsUpdated((prev) => !prev);
       }
-
       if (type === "TRANSACTION") {
         setIsTransactionsUpdated((prev) => !prev);
       }
@@ -266,18 +280,15 @@ export const useForm = (
       setLabel("");
       setValue(0);
       setColor(undefined);
+      setTransactionType("");
+      setPaid(false);
+      setCategory("");
+      setSenderOrRecipient("");
     }
   }
 
   return {
     getInputs,
-    crudFunction,
-    label,
-    setLabel,
-    value,
-    setValue,
-    color,
-    setColor,
     onSubmitHandler,
   };
 };

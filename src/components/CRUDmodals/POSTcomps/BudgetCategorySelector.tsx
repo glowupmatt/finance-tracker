@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 
 type Props = {
   setLabel: (value: string) => void;
+  value?: string;
 };
 
 const categories = [
@@ -27,15 +27,20 @@ const categories = [
 ];
 
 const BudgetCategorySelector = (props: Props) => {
-  const { setLabel } = props;
+  const { setLabel, value } = props;
+  const [selected, setSelected] = useState<string | null>(null);
   return (
     <Select onValueChange={setLabel}>
       <SelectTrigger>
-        <SelectValue></SelectValue>
+        {selected ? selected : value ? value : "Select Transaction Type"}
       </SelectTrigger>
       <SelectContent>
         {categories.map((category) => (
-          <SelectItem key={category} value={category}>
+          <SelectItem
+            key={category}
+            value={category}
+            onClick={() => setSelected(category)}
+          >
             {category}
           </SelectItem>
         ))}
