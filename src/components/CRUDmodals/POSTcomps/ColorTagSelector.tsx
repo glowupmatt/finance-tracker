@@ -11,15 +11,16 @@ import { PotType } from "@/types/PotTypes";
 import React from "react";
 
 type Props = {
-  type: "POT" | "BUDGET";
+  type: "POT" | "BUDGET" | "TRANSACTION";
   CRUD: "POST" | "PUT";
   potData?: PotType | undefined;
   color: string | undefined;
   setColor: React.Dispatch<React.SetStateAction<string | undefined>>;
   input: {
-    value: number | string | undefined;
+    value: number | string | boolean | undefined;
     label: string;
     type: string;
+    checked?: boolean;
   };
 };
 

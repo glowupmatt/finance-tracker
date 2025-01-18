@@ -9,10 +9,10 @@ import { formatCurrency } from "@/utils/formatCurrency";
 
 import { useTransactions } from "@/context/TransactionsContext";
 import LoadingPage from "@/components/ui/LoadingPage";
+import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
 
 const TransactionsDisplay = () => {
   const { transactionPagination } = useTransactions();
-  console.log(transactionPagination);
   if (!transactionPagination) return <LoadingPage />;
 
   const data: Transactions[] =
@@ -24,7 +24,7 @@ const TransactionsDisplay = () => {
       const isGreen = transaction.type === "INCOME" || transaction.amount > 0;
 
       return {
-        "Recipient / Sender": {
+        Transaction: {
           image: isRed ? (
             <FaMinus className="text-white" />
           ) : isGreen ? (
@@ -49,7 +49,10 @@ const TransactionsDisplay = () => {
         <MobileDataDisplay transactions={transactionPagination} />
       </div>
       <div className="hidden md:flex flex-col gap-4 p-8 bg-beigeLight min-h-screen w-full overflow-scroll max-h-screen">
-        <h3 className="font-bold text-[2rem]">Transactions</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="font-bold text-[2rem]">Transactions</h3>
+          <DialogPOST CRUD="POST" type="TRANSACTION" />
+        </div>
         <DataTable columns={columns} data={data} />
       </div>
     </div>

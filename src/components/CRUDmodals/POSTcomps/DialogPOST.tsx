@@ -16,7 +16,7 @@ import DeleteForm from "../DELETEcomps/DeleteForm";
 import { BudgetType } from "@/types/BudgetTypes";
 
 type Props = {
-  type: "POT" | "BUDGET";
+  type: "POT" | "BUDGET" | "TRANSACTION";
   CRUD: "POST" | "PUT" | "DELETE";
   data?: PotType | BudgetType | undefined;
 };
@@ -32,6 +32,14 @@ const DialogPOST = ({ type, CRUD, data }: Props) => {
       POST: ["Add New Budget", "Create a new Budget (Groceries, Rent, etc.)"],
       PUT: ["Edit Budget", "Update your Budget details"],
       DELETE: ["Delete Budget", "Are you sure you want to delete this Budget?"],
+    },
+    TRANSACTION: {
+      POST: ["Add New Transaction", "Create a new Transaction"],
+      PUT: ["Edit Transaction", "Update your Transaction details"],
+      DELETE: [
+        "Delete Transaction",
+        "Are you sure you want to delete this Transaction?",
+      ],
     },
   };
 

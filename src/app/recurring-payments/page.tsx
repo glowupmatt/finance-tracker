@@ -26,7 +26,7 @@ const RecurringPayments = () => {
     })) || [];
 
   return (
-    <div className="p-4 lg:max-h-screen overflow-y-scroll">
+    <div className="p-4 lg:max-h-screen overflow-y-scroll lg:min-h-screen">
       <h2 className="font-bold text-[2rem] mb-4">Transactions</h2>
       <div className="flex flex-col gap-4 lg:flex-row">
         <div className="flex flex-col gap-4 md:flex-row md:gap-8 md:w-full lg:flex-col">

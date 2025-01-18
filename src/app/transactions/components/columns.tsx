@@ -7,7 +7,7 @@ import { JSX } from "react";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Transactions = {
-  "Recipient / Sender": {
+  Transaction: {
     image: JSX.Element;
     name: string;
     type: TransactionType;
@@ -25,8 +25,8 @@ const formatter = new Intl.DateTimeFormat("en-GB", {
 
 export const columns: ColumnDef<Transactions>[] = [
   {
-    accessorKey: "Recipient / Sender",
-    header: "Recipient / Sender",
+    accessorKey: "Transaction",
+    header: "Transaction",
     cell: ({ getValue }) => {
       const value = getValue() as {
         image: React.JSX.Element;

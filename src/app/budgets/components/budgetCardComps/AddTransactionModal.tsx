@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { FaCaretRight } from "react-icons/fa";
-import AddTransactionForm from "@/components/CRUDmodals/addTansactionForm/AddTransactionForm";
+import AddTransactionForm from "@/components/CRUDmodals/addTransactionForm/AddTransactionForm";
 import { postBudgetTransaction } from "@/lib/BudgetsCRUDfunctions";
 import { useBudgets } from "@/context/BudgetContext";
 

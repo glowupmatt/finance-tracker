@@ -2,7 +2,7 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import React from "react";
 
 type Props = {
-  type: "POT" | "BUDGET";
+  type: "POT" | "BUDGET" | "TRANSACTION";
   CRUD: "POST" | "PUT" | "DELETE";
 };
 

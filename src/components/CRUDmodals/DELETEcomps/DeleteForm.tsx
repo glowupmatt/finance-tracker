@@ -9,7 +9,7 @@ import { useBudgets } from "@/context/BudgetContext";
 
 type Props = {
   dataId: string | undefined;
-  type: "POT" | "BUDGET";
+  type: "POT" | "BUDGET" | "TRANSACTION";
 };
 
 const DeleteForm = (props: Props) => {
@@ -24,11 +24,13 @@ const DeleteForm = (props: Props) => {
       if (!type) console.error("No type provided for deletion");
       if (type === "POT") await deletePot(dataId);
       if (type === "BUDGET") await deleteBudget(dataId);
+      if (type === "TRANSACTION") console.log("Delete transaction");
     } catch (error) {
       console.log(error);
     } finally {
       if (type === "POT") setIsPotsUpdated((prev) => !prev);
       if (type === "BUDGET") setIsBudgetsUpdated((prev) => !prev);
+      if (type === "TRANSACTION") console.log("Transaction deleted");
     }
   };
 

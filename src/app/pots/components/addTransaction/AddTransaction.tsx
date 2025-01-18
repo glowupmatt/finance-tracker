@@ -13,7 +13,7 @@ import ProgressBar from "../ProgressBar";
 import { PotType } from "@/types/PotTypes";
 import { postTransaction } from "@/lib/PotsCRUDfunctions";
 import { usePots } from "@/context/PotsContext";
-import AddTransactionForm from "@/components/CRUDmodals/addTansactionForm/AddTransactionForm";
+import AddTransactionForm from "@/components/CRUDmodals/addTransactionForm/AddTransactionForm";
 
 type Props = {
   isDeposit: boolean;
@@ -70,6 +70,7 @@ const AddTransaction = ({ isDeposit, pot }: Props) => {
           setAmount={setAmount}
           buttonTitle={buttonTitle}
           type="POT"
+          isDeposit={isDeposit}
         />
       </DialogContent>
     </Dialog>
