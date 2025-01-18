@@ -78,7 +78,8 @@ export async function PUT(
       userId: currentUser.id,
     };
 
-    if (budgetId) {
+    // Check and update budget connection
+    if (budgetId && budgetId !== transaction.budgetId) {
       const budget = await prisma.budget.findUnique({
         where: { id: budgetId },
       });
@@ -98,10 +99,18 @@ export async function PUT(
           id: budgetId,
         },
       };
+    } else if (!budgetId && transaction.budgetId) {
+      // Disconnect existing budget if budgetId is not provided in the request
+      data.budget = {
+        disconnect: true,
+      };
     }
 
-    if (potId) {
-      const pot = await prisma.pot.findUnique({ where: { id: potId } });
+    // Check and update pot connection
+    if (potId && potId !== transaction.potId) {
+      const pot = await prisma.pot.findUnique({
+        where: { id: potId },
+      });
       if (!pot) {
         return NextResponse.json({ error: "Pot not found" }, { status: 404 });
       }
@@ -114,6 +123,11 @@ export async function PUT(
         connect: {
           id: potId,
         },
+      };
+    } else if (!potId && transaction.potId) {
+      // Disconnect existing pot if potId is not provided in the request
+      data.pot = {
+        disconnect: true,
       };
     }
 
