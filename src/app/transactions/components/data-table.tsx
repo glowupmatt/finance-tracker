@@ -85,7 +85,7 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => handleEditClick(transaction)}
-                  className="relative"
+                  className="relative cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell: any) => {
                     return (
