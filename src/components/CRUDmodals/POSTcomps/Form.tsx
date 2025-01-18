@@ -115,7 +115,7 @@ const Form = (props: Props) => {
         ))}
         <SubmitButton CRUD={CRUD} type={type} />
       </form>
-      {type === "TRANSACTION" && (
+      {type === "TRANSACTION" && CRUD === "PUT" && (
         <DeleteForm dataId={data?.id} type="TRANSACTION" />
       )}
     </>
