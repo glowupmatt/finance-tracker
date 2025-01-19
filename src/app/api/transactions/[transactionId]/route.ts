@@ -85,7 +85,7 @@ export async function PUT(
       type,
       category,
       senderOrRecipient: senderOrRecipient || "",
-      userId: currentUser.id,
+      // user: currentUser.id,
     };
 
     // Check and update budget connection
