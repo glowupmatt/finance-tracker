@@ -14,6 +14,7 @@ type Props = {
     | "frequencyOptions"
     | "transactionTypeOptions";
   setLabel: (value: string) => void;
+  value?: string;
 };
 
 const options = {
@@ -66,12 +67,12 @@ const getPlaceholderText = (dataType: string) => {
 };
 
 const Selectors = (props: Props) => {
-  const { setLabel, dataType } = props;
+  const { setLabel, dataType, value } = props;
   const [selected, setSelected] = useState<string | null>(null);
   return (
     <Select onValueChange={setLabel}>
       <SelectTrigger>
-        {selected ? selected : getPlaceholderText(dataType)}
+        {selected ?? value ?? getPlaceholderText(dataType)}
       </SelectTrigger>
       <SelectContent className="max-h-[20rem] overflow-y-auto">
         {options[dataType].map((option) => (

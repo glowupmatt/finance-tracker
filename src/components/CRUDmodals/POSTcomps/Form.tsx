@@ -31,6 +31,7 @@ const Form = (props: Props) => {
       case "Budget Category":
         return (
           <Selectors
+            value={input.value}
             dataType="categoriesOptions"
             setLabel={(value: string) =>
               input.onChange({
@@ -42,6 +43,7 @@ const Form = (props: Props) => {
       case "Transaction Type":
         return (
           <Selectors
+            value={input.value}
             dataType="transactionTypeOptions"
             setLabel={(value: string) =>
               input.onChange({
@@ -53,6 +55,7 @@ const Form = (props: Props) => {
       case "Color Tag":
         return (
           <Selectors
+            value={input.value}
             dataType="colorOptions"
             setLabel={(value: string) =>
               input.onChange({
@@ -73,6 +76,7 @@ const Form = (props: Props) => {
       case "Frequency":
         return (
           <Selectors
+            value={input.value}
             dataType="frequencyOptions"
             setLabel={(value: string) =>
               input.onChange({
