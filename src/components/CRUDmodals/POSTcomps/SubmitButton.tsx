@@ -4,7 +4,7 @@ import React from "react";
 
 type Props = {
   CRUD: "POST" | "PUT" | "DELETE";
-  type: "POT" | "BUDGET" | "TRANSACTION";
+  type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
 };
 
 const SubmitButton = (props: Props) => {

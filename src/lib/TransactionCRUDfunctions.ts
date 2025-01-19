@@ -23,7 +23,6 @@ export async function postTransaction(
 
 export async function putTransaction(transaction: TransactionType | undefined) {
   if (!transaction) return;
-  console.log("PUTTING TRANSACTION: ", transaction);
   const transactionId = transaction.id;
   return await fetch(`/api/transactions/${transactionId}`, {
     method: "PUT",

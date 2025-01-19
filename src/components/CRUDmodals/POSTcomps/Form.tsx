@@ -3,18 +3,18 @@ import React from "react";
 import SubmitButton from "./SubmitButton";
 import { PotType } from "@/types/PotTypes";
 import { useForm } from "@/hooks/useForm";
-import ColorTagSelector from "./ColorTagSelector";
-import BudgetCategorySelector from "./BudgetCategorySelector";
 import { Budget } from "@/types/BudgetTypes";
 import { TransactionForm } from "@/types/TransactionTypes";
-import TransactionTypeSelector from "./TransactionTypeSelector";
+import { formatter } from "@/utils/transactionFunctions";
+import { RecurringPaymentType } from "@/types/RecurringPayments";
 
 import DeleteForm from "../DELETEcomps/DeleteForm";
+import Selectors from "./Selectors";
 
 type Props = {
-  type: "POT" | "BUDGET" | "TRANSACTION";
+  type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
   CRUD: "POST" | "PUT";
-  data?: PotType | Budget | TransactionForm | undefined;
+  data?: PotType | Budget | TransactionForm | RecurringPaymentType | undefined;
 };
 
 const Form = (props: Props) => {
@@ -30,8 +30,8 @@ const Form = (props: Props) => {
       case "Category":
       case "Budget Category":
         return (
-          <BudgetCategorySelector
-            value={input.value}
+          <Selectors
+            dataType="categoriesOptions"
             setLabel={(value: string) =>
               input.onChange({
                 target: { value },
@@ -41,8 +41,8 @@ const Form = (props: Props) => {
         );
       case "Transaction Type":
         return (
-          <TransactionTypeSelector
-            value={input.value}
+          <Selectors
+            dataType="transactionTypeOptions"
             setLabel={(value: string) =>
               input.onChange({
                 target: { value },
@@ -50,11 +50,10 @@ const Form = (props: Props) => {
             }
           />
         );
-
       case "Color Tag":
         return (
-          <ColorTagSelector
-            value={input.value}
+          <Selectors
+            dataType="colorOptions"
             setLabel={(value: string) =>
               input.onChange({
                 target: { value },
@@ -71,6 +70,35 @@ const Form = (props: Props) => {
             onChange={(e) => input.onChange(e)}
           />
         );
+      case "Frequency":
+        return (
+          <Selectors
+            dataType="frequencyOptions"
+            setLabel={(value: string) =>
+              input.onChange({
+                target: { value },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
+          />
+        );
+      case "Transaction Date":
+        return (
+          <input
+            type="date"
+            className="border border-greyLight rounded-md p-2 ml-1"
+            value={formatter.format(new Date(input.value))}
+            onChange={(e) => input.onChange(e)}
+          />
+        );
+      case "Canceled":
+        return CRUD === "PUT" ? (
+          <input
+            type={input.type}
+            className="border border-greyLight rounded-md p-2 ml-1"
+            checked={input.value as boolean}
+            onChange={(e) => input.onChange(e)}
+          />
+        ) : null;
       default:
         return (
           <input
@@ -107,9 +135,11 @@ const Form = (props: Props) => {
                 : ""
             }`}
           >
-            <p className="text-[.7rem] font-semibold text-greyDark">
-              {input.label}
-            </p>
+            {input.label !== "Canceled" && (
+              <p className="text-[.7rem] font-semibold text-greyDark">
+                {input.label}
+              </p>
+            )}
             {renderInput(input)}
           </label>
         ))}

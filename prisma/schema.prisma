@@ -21,6 +21,7 @@ enum TransactionType {
 
 enum Frequency {
   DAILY
+  BIWEEKLY
   WEEKLY
   MONTHLY
   YEARLY

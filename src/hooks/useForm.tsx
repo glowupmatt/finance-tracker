@@ -8,28 +8,35 @@ import { PotType } from "@/types/PotTypes";
 import { Budget } from "@/types/BudgetTypes";
 import { postBudget, putBudget } from "@/lib/BudgetsCRUDfunctions";
 import { useBudgets } from "@/context/BudgetContext";
+import { RecurringPaymentType } from "@/types/RecurringPayments";
 import {
   postTransaction,
   putTransaction,
 } from "@/lib/TransactionCRUDfunctions";
 import { useTransactions } from "@/context/TransactionsContext";
+import { postRecurringPayment } from "@/lib/RecurringCRUDfunctions";
 
 export const useForm = (
-  type?: "POT" | "BUDGET" | "TRANSACTION",
+  type?: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING",
   CRUD?: "POST" | "PUT",
-  data?: PotType | Budget | TransactionForm | undefined
+  data?: PotType | Budget | TransactionForm | RecurringPaymentType | undefined
 ) => {
   const [label, setLabel] = useState<string>("");
   const [value, setValue] = useState<number>(0);
   const [color, setColor] = useState<string | undefined>(undefined);
   const [postBody, setPostBody] = useState<
-    PotType | Budget | TransactionForm
+    PotType | Budget | TransactionForm | RecurringPaymentType
   >();
   const [transactionType, setTransactionType] = useState<string>("");
   const [paid, setPaid] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("");
   const [senderOrRecipient, setSenderOrRecipient] = useState<string>("");
   const [transactionId, setTransactionId] = useState<string>("");
+  const [dueDate, setDueDate] = useState<Date>(new Date());
+  const [frequency, setFrequency] = useState<
+    "MONTHLY" | "DAILY" | "WEEKLY" | "YEARLY" | "BIWEEKLY"
+  >("MONTHLY");
+  const [cancelled, setCancelled] = useState<boolean>(false);
 
   const { setIsPotsUpdated } = usePots();
   const { setIsBudgetsUpdated } = useBudgets();
@@ -37,29 +44,47 @@ export const useForm = (
 
   useEffect(() => {
     if (data) {
-      if (type === "POT" && "title" in data && "targetAmount" in data) {
-        const potData = data as PotType;
-        setLabel(potData.title);
-        setValue(potData.targetAmount);
-        setColor(potData.colorTag);
-      } else if (type === "BUDGET" && "name" in data && "maxSpend" in data) {
-        const budgetData = data as Budget;
-        setLabel(budgetData.name);
-        setValue(budgetData.maxSpend);
-        setColor(budgetData.colorTag);
-      } else if (
-        type === "TRANSACTION" &&
-        "title" in data &&
-        "amount" in data
-      ) {
-        const transactionData = data as TransactionForm;
-        setLabel(transactionData.title);
-        setValue(transactionData.amount);
-        setTransactionType(transactionData.type);
-        setPaid(transactionData.isPaid ?? false);
-        setCategory(transactionData.category);
-        setSenderOrRecipient(transactionData.senderOrRecipient || "");
-        setTransactionId(transactionData.id || "");
+      switch (type) {
+        case "POT":
+          if ("title" in data && "targetAmount" in data) {
+            const potData = data as PotType;
+            setLabel(potData.title);
+            setValue(potData.targetAmount);
+            setColor(potData.colorTag);
+          }
+          break;
+        case "BUDGET":
+          if ("name" in data && "maxSpend" in data) {
+            const budgetData = data as Budget;
+            setLabel(budgetData.name);
+            setValue(budgetData.maxSpend);
+            setColor(budgetData.colorTag);
+          }
+          break;
+        case "TRANSACTION":
+          if ("title" in data && "amount" in data) {
+            const transactionData = data as TransactionForm;
+            setLabel(transactionData.title);
+            setValue(transactionData.amount);
+            setTransactionType(transactionData.type);
+            setPaid(transactionData.isPaid ?? false);
+            setCategory(transactionData.category);
+            setSenderOrRecipient(transactionData.senderOrRecipient || "");
+            setTransactionId(transactionData.id || "");
+          }
+          break;
+        case "RECURRING":
+          if ("title" in data && "amount" in data) {
+            const recurringPayment = data as RecurringPaymentType;
+            setLabel(recurringPayment.title);
+            setValue(recurringPayment.amount);
+            setDueDate(new Date(recurringPayment.dueDate));
+            setFrequency(recurringPayment.frequency);
+            setCancelled(recurringPayment.cancelled ?? false);
+          }
+          break;
+        default:
+          break;
       }
     }
   }, [setLabel, setValue, data, type]);
@@ -156,6 +181,50 @@ export const useForm = (
             setSenderOrRecipient(e.target.value),
         },
       ],
+      RECURRING: [
+        {
+          label: "Recurring Payment Name",
+          type: "text",
+          value: label,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            setLabel(e.target.value),
+        },
+        {
+          label: "Amount",
+          type: "number",
+          value: value,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            setValue(Number(e.target.value)),
+        },
+        {
+          label: "Due Date",
+          type: "date",
+          value: dueDate.toISOString().split("T")[0],
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            setDueDate(new Date(e.target.value)),
+        },
+        {
+          label: "Frequency",
+          type: "text",
+          value: frequency,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            setFrequency(
+              e.target.value as
+                | "MONTHLY"
+                | "DAILY"
+                | "WEEKLY"
+                | "YEARLY"
+                | "BIWEEKLY"
+            ),
+        },
+        {
+          label: "Canceled",
+          type: "checkbox",
+          value: cancelled,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            setCancelled(e.target.checked),
+        },
+      ],
     };
   }
 
@@ -171,6 +240,10 @@ export const useForm = (
     TRANSACTION: {
       post: postTransaction,
       put: putTransaction,
+    },
+    RECURRING: {
+      post: postRecurringPayment,
+      put: () => {},
     },
   };
 
@@ -228,6 +301,16 @@ export const useForm = (
         senderOrRecipient,
       });
     }
+
+    if (CRUD === "POST" && type === "RECURRING") {
+      setPostBody({
+        title: label,
+        amount: value,
+        dueDate: dueDate,
+        paid,
+        frequency,
+      });
+    }
   }, [
     CRUD,
     type,
@@ -240,11 +323,14 @@ export const useForm = (
     senderOrRecipient,
     transactionType,
     transactionId,
+    dueDate,
+    frequency,
+    cancelled,
   ]);
 
   async function onSubmitHandler(e: React.FormEvent) {
     e.preventDefault();
-    if (!color && type !== "TRANSACTION")
+    if (!color && type !== "TRANSACTION" && type !== "RECURRING")
       return alert("Please enter a color tag");
 
     try {

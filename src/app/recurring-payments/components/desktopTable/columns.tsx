@@ -14,6 +14,8 @@ export type Transaction = {
   dueDate: Date;
   paid: boolean;
   frequency: $Enums.Frequency;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export const columns: ColumnDef<Transaction>[] = [

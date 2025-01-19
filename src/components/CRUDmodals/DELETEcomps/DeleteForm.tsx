@@ -11,7 +11,7 @@ import { useTransactions } from "@/context/TransactionsContext";
 
 type Props = {
   dataId: string | undefined;
-  type: "POT" | "BUDGET" | "TRANSACTION";
+  type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
 };
 
 const DeleteForm = (props: Props) => {
@@ -28,12 +28,14 @@ const DeleteForm = (props: Props) => {
       if (type === "POT") await deletePot(dataId);
       if (type === "BUDGET") await deleteBudget(dataId);
       if (type === "TRANSACTION") await deleteTransaction(dataId);
+      if (type === "RECURRING") console.log("Recurring Payments Deleted");
     } catch (error) {
       console.log(error);
     } finally {
       if (type === "POT") setIsPotsUpdated((prev) => !prev);
       if (type === "BUDGET") setIsBudgetsUpdated((prev) => !prev);
       if (type === "TRANSACTION") setIsTransactionsUpdated((prev) => !prev);
+      if (type === "RECURRING") console.log("Recurring Payments Deleted");
     }
   };
 

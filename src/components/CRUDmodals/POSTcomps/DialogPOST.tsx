@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import React from "react";
 import { PotType } from "@/types/PotTypes";
-// import { BudgetType } from "@/types/BudgetTypes";
 import DialogTriggerCondition from "./DialogTriggerCondition";
 import Form from "./Form";
 import DeleteForm from "../DELETEcomps/DeleteForm";
@@ -17,7 +16,7 @@ import { BudgetType } from "@/types/BudgetTypes";
 import { TransactionType } from "@/types/TransactionTypes";
 
 type Props = {
-  type: "POT" | "BUDGET" | "TRANSACTION";
+  type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
   CRUD: "POST" | "PUT" | "DELETE";
   data?: PotType | BudgetType | TransactionType | undefined;
   openModal?: boolean;
@@ -44,9 +43,15 @@ const DialogPOST = ({ type, CRUD, data, openModal, onClose }: Props) => {
         "Are you sure you want to delete this Transaction?",
       ],
     },
+    RECURRING: {
+      POST: ["Add New Recurring Payment", "Create a new Recurring Payment"],
+      PUT: ["Edit Recurring Payment", "Update your Recurring Payment details"],
+      DELETE: [
+        "Delete Recurring Payment",
+        "Are you sure you want to delete this Recurring Payment?",
+      ],
+    },
   };
-
-  console.log("data", data);
 
   return (
     <Dialog open={openModal} onOpenChange={onClose}>

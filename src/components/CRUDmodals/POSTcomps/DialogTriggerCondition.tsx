@@ -2,7 +2,7 @@ import React from "react";
 import TriggerStyleComp from "./TriggerStyleComp";
 
 type Props = {
-  type: "POT" | "BUDGET" | "TRANSACTION";
+  type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
   CRUD: "POST" | "PUT" | "DELETE";
 };
 
@@ -27,6 +27,11 @@ const DialogTriggerCondition = (props: Props) => {
         type={"TRANSACTION"}
         CRUD="DELETE"
       />,
+    ],
+    RECURRING: [
+      <TriggerStyleComp key="POST-button" type={"RECURRING"} CRUD="POST" />,
+      <TriggerStyleComp key="PUT_icon" type={"RECURRING"} CRUD="PUT" />,
+      <TriggerStyleComp key="DELETE-button" type={"RECURRING"} CRUD="DELETE" />,
     ],
   };
 

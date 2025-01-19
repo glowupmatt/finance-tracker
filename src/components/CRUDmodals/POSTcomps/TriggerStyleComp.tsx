@@ -2,7 +2,7 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import React from "react";
 
 type Props = {
-  type: "POT" | "BUDGET" | "TRANSACTION";
+  type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
   CRUD: "POST" | "PUT" | "DELETE";
 };
 
@@ -30,7 +30,8 @@ const TriggerStyleComp = (props: Props) => {
       className="bg-greyDark text-white p-3 text-[.8rem] rounded-md"
       key="POST-button"
     >
-      + Add New {type[0].toUpperCase() + type.toLowerCase().slice(1)}
+      + Add New {type[0].toUpperCase() + type.toLowerCase().slice(1)}{" "}
+      {type === "RECURRING" ? "Bill" : ""}
     </DialogTrigger>
   );
 };
