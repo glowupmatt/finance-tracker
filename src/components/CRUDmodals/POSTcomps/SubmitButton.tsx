@@ -4,16 +4,21 @@ import React from "react";
 
 type Props = {
   CRUD: "POST" | "PUT" | "DELETE";
-  type: "POT" | "BUDGET";
+  type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
 };
 
 const SubmitButton = (props: Props) => {
   const { CRUD, type } = props;
   const submitButton = (
-    <Button type="submit" className="p-2 rounded-md w-full">
+    <Button
+      type="submit"
+      className={`p-2 rounded-md w-full ${
+        type === "TRANSACTION" ? "col-span-2" : ""
+      }`}
+    >
       {CRUD === "POST"
-        ? `+ Add New Pot ${type[0].toUpperCase() + type.toLowerCase().slice(1)}`
-        : "Update Pot"}
+        ? `+ Add New ${type[0].toUpperCase() + type.toLowerCase().slice(1)}`
+        : `Update ${type[0].toUpperCase() + type.toLowerCase().slice(1)}`}
     </Button>
   );
   return <DialogClose asChild>{submitButton}</DialogClose>;

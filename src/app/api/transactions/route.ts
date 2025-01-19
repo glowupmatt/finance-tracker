@@ -58,7 +58,16 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, amount, date, type, category, budgetId, potId } = body;
+  const {
+    title,
+    amount,
+    date,
+    type,
+    category,
+    budgetId,
+    potId,
+    senderOrRecipient,
+  } = body;
 
   if (!title || !amount || !date || !type || !category) {
     return NextResponse.json(
@@ -75,6 +84,7 @@ export async function POST(request: Request) {
     type,
     category,
     userId: currentUser.id,
+    senderOrRecipient: senderOrRecipient || "",
   };
 
   if (budgetId) {

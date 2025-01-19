@@ -1,24 +1,16 @@
 "use client";
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { User } from "@/types/UserTypes";
-import { Transaction, RecurringPayment } from "@prisma/client";
-import { Pot } from "@/types/PotTypes";
+import { RecurringPayment } from "@prisma/client";
 import { useFetchForDashboard } from "@/hooks/useFetchForDashboard";
-import { Budget } from "@/types/BudgetTypes";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { fetchUserActions } from "@/lib/fetchUserActions";
 
 type UserContextType = {
-  transactions: Transaction[] | undefined;
-  pots: Pot[] | undefined;
-  budgets: Budget[] | undefined;
   user: User | undefined;
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   recurringPayments: RecurringPayment[] | undefined;
-  currentBalance: number | undefined;
-  totalIncome: number | undefined;
-  totalExpense: number | undefined;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isOpen: boolean;
@@ -49,16 +41,7 @@ export const UserProvider = ({ children }: Props) => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  const {
-    transactions,
-    pots,
-    budgets,
-    recurringPayments,
-    currentBalance,
-    totalIncome,
-    totalExpense,
-    isUserUpdated,
-  } = useFetchForDashboard(user, setIsLoading);
+  const { recurringPayments, isUserUpdated } = useFetchForDashboard(user);
 
   useEffect(() => {
     if (status !== "authenticated" && status !== "loading") {
@@ -72,19 +55,16 @@ export const UserProvider = ({ children }: Props) => {
           })
           .catch((error) => {
             console.error("Error fetching user actions:", error);
+          })
+          .finally(() => {
+            setIsLoading(false);
           });
       }
     }
   }, [router, status, session, isUserUpdated]);
 
   const data = {
-    transactions,
-    pots,
-    budgets,
     recurringPayments,
-    currentBalance,
-    totalIncome,
-    totalExpense,
     isLoading,
     user,
     setUser,

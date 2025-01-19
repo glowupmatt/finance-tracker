@@ -4,6 +4,7 @@ import BudgetChart from "./BudgetChart";
 import SpendingSummary from "./SpendingSummary";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { BudgetType } from "@/types/BudgetTypes";
+import { translateColorToHex } from "@/utils/translateColorToHex";
 
 type Props = {
   type?: "Dashboard" | "BudgetsPage";
@@ -35,7 +36,9 @@ const BudgetDoughnutChart = ({ type = "Dashboard", sortedBudgets }: Props) => {
               <div>
                 <div
                   className="w-1 h-[2rem] mr-4 rounded-md"
-                  style={{ backgroundColor: budget.colorTag }}
+                  style={{
+                    backgroundColor: translateColorToHex(budget.colorTag),
+                  }}
                 />
               </div>
               <p className="text-greySemiDark w-full">{budget.name}</p>

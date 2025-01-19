@@ -66,7 +66,16 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { title, amount, date, type, category, budgetId, potId } = body;
+    const {
+      title,
+      amount,
+      date,
+      type,
+      category,
+      budgetId,
+      potId,
+      senderOrRecipient,
+    } = body;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any = {
@@ -75,6 +84,7 @@ export async function PUT(
       date: new Date(date),
       type,
       category,
+      senderOrRecipient: senderOrRecipient || "",
       userId: currentUser.id,
     };
 

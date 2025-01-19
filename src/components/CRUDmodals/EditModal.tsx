@@ -3,17 +3,19 @@ import React, { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import DialogPOST from "./POSTcomps/DialogPOST";
 import { BudgetType } from "@/types/BudgetTypes";
+import { TransactionType } from "@/types/TransactionTypes";
 
 type Props = {
   pot?: PotType;
-  type: "POT" | "BUDGET";
+  type: "POT" | "BUDGET" | "TRANSACTION";
   budget?: BudgetType;
+  transaction?: TransactionType;
 };
 
 const EditModal = (props: Props) => {
-  const { pot, type, budget } = props;
+  const { pot, type, budget, transaction } = props;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const data = type === "POT" ? pot : budget;
+  const data = type === "POT" ? pot : type === "BUDGET" ? budget : transaction;
   return (
     <div className="relative">
       <div

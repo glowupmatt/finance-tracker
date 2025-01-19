@@ -126,7 +126,7 @@ export async function PUT(
         transactions: true,
       },
     });
-    console.log(body);
+
     return NextResponse.json({ budget: updatedBudget }, { status: 200 });
   } catch (error) {
     console.error("Error updating budget:", error);

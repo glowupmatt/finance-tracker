@@ -1,11 +1,12 @@
-import { Transaction } from "@prisma/client";
+import { $Enums, Transaction } from "@prisma/client";
 
 export type RecurringPaymentType = {
-  id: string;
+  id?: string;
   title: string;
   amount: number;
-  dueDate: string;
+  dueDate: Date;
   paid: boolean;
-  frequency: string;
-  transactions: Transaction[];
+  cancelled?: boolean;
+  frequency: $Enums.Frequency;
+  transactions?: Transaction[];
 };

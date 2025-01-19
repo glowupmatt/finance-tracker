@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  Row,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -11,12 +13,14 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import PaginationComp from "./PaginationComp";
 import { useTransactions } from "@/context/TransactionsContext";
+import React, { useState } from "react";
+import { TransactionType } from "@/types/TransactionTypes";
+import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,6 +36,19 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<TransactionType | null>(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleEditClick = (transaction: TransactionType) => {
+    setSelectedTransaction(transaction);
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+    setSelectedTransaction(null);
+  };
 
   const { totalPages, setTotalPages } = useTransactions();
 
@@ -47,14 +64,12 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="p-8">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
+                  <TableCell key={header.id} className="p-8">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </TableCell>
                 );
               })}
             </TableRow>
@@ -62,13 +77,17 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => {
+            table.getRowModel().rows.map((row: Row<TData> | any) => {
+              const transaction = row.original.Transaction;
+
               return (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => handleEditClick(transaction)}
+                  className="relative cursor-pointer"
                 >
-                  {row.getVisibleCells().map((cell) => {
+                  {row.getVisibleCells().map((cell: any) => {
                     return (
                       <TableCell key={cell.id} className="p-8">
                         {flexRender(
@@ -90,6 +109,16 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <div className="hidden">
+        <DialogPOST
+          type="TRANSACTION"
+          CRUD="PUT"
+          data={selectedTransaction ? selectedTransaction : undefined}
+          openModal={openModal}
+          onClose={handleClose}
+        />
+      </div>
+
       <PaginationComp
         transactionPages={totalPages}
         onPageChange={onPageChange}

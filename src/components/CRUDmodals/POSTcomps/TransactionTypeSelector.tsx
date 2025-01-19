@@ -1,32 +1,20 @@
-import React, { useState } from "react";
+"use client";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
+import React, { useState } from "react";
 
 type Props = {
   setLabel: (value: string) => void;
   value?: string;
 };
 
-const categories = [
-  "Groceries",
-  "Rent",
-  "Utilities",
-  "Entertainment",
-  "Transportation",
-  "Health",
-  "Insurance",
-  "Education",
-  "Savings",
-  "Emergency",
-  "Personal",
-  "Other",
-];
+const types = ["Income", "Expense"];
 
-const BudgetCategorySelector = (props: Props) => {
+const TransactionTypeSelector = (props: Props) => {
   const { setLabel, value } = props;
   const [selected, setSelected] = useState<string | null>(null);
   return (
@@ -35,13 +23,9 @@ const BudgetCategorySelector = (props: Props) => {
         {selected ? selected : value ? value : "Select Transaction Type"}
       </SelectTrigger>
       <SelectContent>
-        {categories.map((category) => (
-          <SelectItem
-            key={category}
-            value={category}
-            onClick={() => setSelected(category)}
-          >
-            {category}
+        {types.map((type) => (
+          <SelectItem key={type} value={type} onClick={() => setSelected(type)}>
+            {type}
           </SelectItem>
         ))}
       </SelectContent>
@@ -49,4 +33,4 @@ const BudgetCategorySelector = (props: Props) => {
   );
 };
 
-export default BudgetCategorySelector;
+export default TransactionTypeSelector;

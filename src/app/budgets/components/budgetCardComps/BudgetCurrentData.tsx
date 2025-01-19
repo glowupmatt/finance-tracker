@@ -1,4 +1,5 @@
 import { formatCurrency } from "@/utils/formatCurrency";
+import { translateColorToHex } from "@/utils/translateColorToHex";
 import React from "react";
 
 type Props = {
@@ -22,7 +23,8 @@ const BudgetCurrentData = (props: Props) => {
 
   const savedOrSpent = type === "SPENT" ? transactionTotal : remainingTotal;
   const remainingOrSpent = type === "SPENT" ? "Spent" : "Remaining";
-  const ternaryStyle = type === "SPENT" ? budget.colorTag : "#F8F4F0";
+  const ternaryStyle =
+    type === "SPENT" ? translateColorToHex(budget.colorTag) : "#F8F4F0";
 
   return (
     <>

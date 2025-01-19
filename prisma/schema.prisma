@@ -21,6 +21,7 @@ enum TransactionType {
 
 enum Frequency {
   DAILY
+  BIWEEKLY
   WEEKLY
   MONTHLY
   YEARLY
@@ -48,7 +49,7 @@ model Transaction {
   amount            Float
   date              DateTime
   type              TransactionType
-  isPaid            Boolean?         @default(true)
+  isPaid            Boolean?         @default(false)
   category          String
   senderOrRecipient String?
   createdAt         DateTime        @default(now())

@@ -2,12 +2,12 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js/auto";
-import { useUser } from "@/context/UserContext";
 import { useBudgetFormat } from "@/hooks/useBudgetFormat";
 import { Transaction } from "@prisma/client";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { BudgetType } from "@/types/BudgetTypes";
 import { translateColorToHex } from "@/utils/translateColorToHex";
+import { useBudgets } from "@/context/BudgetContext";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -16,7 +16,7 @@ type Props = {
 };
 
 function PieChart({ sortedBudgets }: Props) {
-  const { budgets } = useUser();
+  const { budgets } = useBudgets();
   const { budgetUsed } = useBudgetFormat(budgets);
 
   const getTotalBudget = () => {
