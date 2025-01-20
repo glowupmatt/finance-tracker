@@ -33,7 +33,6 @@ export async function putTransaction(transaction: TransactionType | undefined) {
       title: transaction.title,
       amount: transaction.amount,
       type: transaction.type.toUpperCase(),
-      date: new Date(),
       isPaid: transaction.isPaid,
       category: transaction.category,
       senderOrRecipient: transaction.senderOrRecipient,

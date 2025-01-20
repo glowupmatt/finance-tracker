@@ -69,21 +69,21 @@ export async function PUT(
     const {
       title,
       amount,
-      date,
       type,
       category,
       budgetId,
       potId,
       senderOrRecipient,
+      isPaid,
     } = body;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any = {
       title,
       amount,
-      date: new Date(date),
       type,
       category,
+      isPaid,
       senderOrRecipient: senderOrRecipient || "",
       // user: currentUser.id,
     };

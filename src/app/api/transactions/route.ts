@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     skip: page > 0 && pageSize > 0 ? (page - 1) * pageSize : undefined,
     take: pageSize > 0 ? pageSize : undefined,
     orderBy: {
-      date: "desc",
+      createdAt: "desc",
     },
   });
 

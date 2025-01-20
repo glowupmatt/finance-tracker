@@ -23,6 +23,7 @@ export async function GET() {
             transactions: true,
           },
         });
+
         return NextResponse.json({ budgets }, { status: 200 });
       } catch (error) {
         console.error("Error fetching budgets:", error);

@@ -7,6 +7,8 @@ export type Budget = {
   maxSpend: number;
   colorTag: $Enums.ColorTag;
   transactions?: Transaction[];
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type BudgetType = {
@@ -16,6 +18,8 @@ export type BudgetType = {
   maxSpend: number;
   colorTag: $Enums.ColorTag;
   transactions: Transaction[];
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type POSTbudget = {
