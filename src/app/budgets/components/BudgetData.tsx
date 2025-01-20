@@ -11,9 +11,13 @@ const BudgetData = (props: Props) => {
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1  pb-[2rem]">
-      {budgets?.map((budget) => (
-        <BudgetCard key={budget.id} budget={budget} />
-      ))}
+      {budgets
+        ?.sort((a, b) => {
+          return (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0);
+        })
+        .map((budget) => (
+          <BudgetCard key={budget.id} budget={budget} />
+        ))}
     </div>
   );
 };

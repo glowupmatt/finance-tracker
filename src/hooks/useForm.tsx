@@ -22,13 +22,13 @@ export const useForm = (
   data?: PotType | Budget | TransactionForm | RecurringPaymentType | undefined
 ) => {
   const [label, setLabel] = useState<string>("");
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number | string>("");
   const [color, setColor] = useState<string | undefined>(undefined);
   const [postBody, setPostBody] = useState<
     PotType | Budget | TransactionForm | RecurringPaymentType
   >();
   const [transactionType, setTransactionType] = useState<string>("");
-  const [paid, setPaid] = useState<boolean>(false);
+  const [paid, setPaid] = useState<boolean | null>(false);
   const [category, setCategory] = useState<string>("");
   const [senderOrRecipient, setSenderOrRecipient] = useState<string>("");
   const [transactionId, setTransactionId] = useState<string>("");
@@ -67,7 +67,7 @@ export const useForm = (
             setLabel(transactionData.title);
             setValue(transactionData.amount);
             setTransactionType(transactionData.type);
-            setPaid(transactionData.isPaid ?? false);
+            setPaid(transactionData.isPaid);
             setCategory(transactionData.category);
             setSenderOrRecipient(transactionData.senderOrRecipient || "");
             setTransactionId(transactionData.id || "");
@@ -251,7 +251,7 @@ export const useForm = (
     if (CRUD === "PUT" && type === "POT") {
       setPostBody({
         title: label,
-        targetAmount: value,
+        targetAmount: value as number,
         colorTag: color as ColorTag,
         id: (data as PotType)?.id as string,
         userId: (data as PotType)?.userId as string,
@@ -262,7 +262,7 @@ export const useForm = (
     if (CRUD === "POST" && type === "POT") {
       setPostBody({
         title: label,
-        targetAmount: value,
+        targetAmount: value as number,
         colorTag: color as ColorTag,
         id: (data as PotType)?.id as string,
         userId: (data as PotType)?.userId as string,
@@ -273,7 +273,7 @@ export const useForm = (
     if (CRUD === "PUT" && type === "BUDGET") {
       setPostBody({
         name: label,
-        maxSpend: value,
+        maxSpend: value as number,
         colorTag: color as ColorTag,
         id: (data as Budget)?.id as string,
         userId: (data as Budget)?.userId as string,
@@ -283,9 +283,9 @@ export const useForm = (
     if (CRUD === "POST" && type === "TRANSACTION") {
       setPostBody({
         title: label,
-        amount: value,
+        amount: value as number,
         type: transactionType as TransactionType,
-        isPaid: paid,
+        isPaid: paid ?? false,
         category,
         senderOrRecipient,
       });
@@ -294,9 +294,9 @@ export const useForm = (
       setPostBody({
         id: transactionId,
         title: label,
-        amount: value,
+        amount: value as number,
         type: transactionType as TransactionType,
-        isPaid: paid,
+        isPaid: paid ?? false,
         category,
         senderOrRecipient,
       });
@@ -305,12 +305,14 @@ export const useForm = (
     if (CRUD === "POST" && type === "RECURRING") {
       setPostBody({
         title: label,
-        amount: value,
+        amount: value as number,
         dueDate: dueDate,
-        paid,
+        paid: paid ?? false,
         frequency,
       });
     }
+
+    console.log("data", paid);
   }, [
     CRUD,
     type,
@@ -370,6 +372,10 @@ export const useForm = (
       setPaid(false);
       setCategory("");
       setSenderOrRecipient("");
+      setTransactionId("");
+      setDueDate(new Date());
+      setFrequency("MONTHLY");
+      setCancelled(false);
     }
   }
 
