@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
   transaction: {
-    id: string;
+    id?: string;
     title: string;
     amount: string;
     dueDate: Date;

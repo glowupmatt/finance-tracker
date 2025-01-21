@@ -1,11 +1,11 @@
-import { RecurringPayment } from "@prisma/client";
+import { RecurringPaymentType } from "@/types/RecurringPayments";
 
 const today = new Date();
 const next7Days = new Date(today);
 next7Days.setDate(today.getDate() + 7);
 
 export const recurringPaymentsFilters = (
-  recurringPayments: RecurringPayment[] | undefined,
+  recurringPayments: RecurringPaymentType[] | undefined,
   type: string
 ) => {
   if (!recurringPayments) return 0;
@@ -39,6 +39,7 @@ export const recurringPaymentsFilters = (
         const dueDate = new Date(payment.dueDate);
         return dueDate >= today && dueDate <= next7Days;
       })
+      .filter((payment) => payment.paid === false)
       .reduce((acc, curr) => acc + curr.amount, 0);
   }
 

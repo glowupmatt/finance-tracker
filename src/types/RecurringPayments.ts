@@ -7,6 +7,7 @@ export type RecurringPaymentType = {
   dueDate: Date;
   paid: boolean;
   cancelled?: boolean;
+  createdAt: Date;
   frequency: $Enums.Frequency;
   transactions?: Transaction[];
 };

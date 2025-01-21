@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/actions/getCurrentUser";
 import prisma from "@/lib/prismaDb";
+import { UpdateRecurringBillRequestBody } from "./[recurringPaymentsId]/route";
+import { TransactionType } from "@prisma/client";
 
 export async function GET() {
   try {
@@ -41,9 +43,49 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = await request.json();
+    const body: UpdateRecurringBillRequestBody = await request.json();
 
-    const { title, amount, dueDate, paid, frequency } = body;
+    const { title, amount, dueDate, paid, frequency, transactions } = body;
+
+    // Validate transaction types
+    if (transactions && paid) {
+      for (const transaction of transactions) {
+        if (!Object.values(TransactionType).includes(transaction.type)) {
+          return NextResponse.json(
+            { error: `Invalid transaction type: ${transaction.type}` },
+            { status: 400 }
+          );
+        }
+      }
+      const newRecurringPaymentWithTransaction =
+        await prisma.recurringPayment.create({
+          data: {
+            title,
+            amount,
+            dueDate,
+            paid,
+            frequency,
+            userId: currentUser.id,
+            transactions: {
+              create:
+                transactions?.map((transaction) => ({
+                  title: transaction.title,
+                  amount: transaction.amount,
+                  date: transaction.date,
+                  type: transaction.type,
+                  category: transaction.category,
+                  isPaid: true,
+                  userId: currentUser.id,
+                })) || [],
+            },
+          },
+          include: { transactions: true },
+        });
+      return NextResponse.json(
+        { newRecurringPaymentWithTransaction },
+        { status: 200 }
+      );
+    }
 
     const newRecurringPayment = await prisma.recurringPayment.create({
       data: {

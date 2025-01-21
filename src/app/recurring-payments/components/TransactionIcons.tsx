@@ -3,7 +3,7 @@ import { FaMinus, FaMoneyCheckAlt } from "react-icons/fa";
 
 type Props = {
   transaction: {
-    id: string;
+    id?: string;
     title: string;
     amount: string;
     dueDate: Date;

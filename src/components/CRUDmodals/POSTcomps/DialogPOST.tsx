@@ -13,11 +13,17 @@ import Form from "./Form";
 import DeleteForm from "../DELETEcomps/DeleteForm";
 import { BudgetType } from "@/types/BudgetTypes";
 import { TransactionType } from "@/types/TransactionTypes";
+import { RecurringPaymentType } from "@/types/RecurringPayments";
 
 type Props = {
   type: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING";
   CRUD: "POST" | "PUT" | "DELETE";
-  data?: PotType | BudgetType | TransactionType | undefined;
+  data?:
+    | PotType
+    | BudgetType
+    | TransactionType
+    | RecurringPaymentType
+    | undefined;
   openModal?: boolean;
   onClose?: () => void;
 };

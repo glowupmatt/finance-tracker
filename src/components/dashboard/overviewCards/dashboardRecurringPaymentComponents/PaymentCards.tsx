@@ -1,10 +1,10 @@
-import { useUser } from "@/context/UserContext";
+import { useRecurringPayments } from "@/context/RecurringPaymentsContext";
 import React from "react";
 import PaymentStatus from "./PaymentStatus";
 import { recurringPaymentsFilters } from "@/utils/dateFunctions";
 
 const PaymentCards = () => {
-  const { recurringPayments } = useUser();
+  const { recurringPayments } = useRecurringPayments();
   const paidBills = recurringPaymentsFilters(recurringPayments, "paidBills");
   const totalUpcomingPayments = recurringPaymentsFilters(
     recurringPayments,

@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { usePots } from "./PotsContext";
 import { useBudgets } from "./BudgetContext";
+import { useRecurringPayments } from "./RecurringPaymentsContext";
 
 interface TransactionsContextType {
   transactions: Transaction[];
@@ -61,6 +62,7 @@ export const TransactionsProvider = ({
   const [maxPages, setMaxPages] = useState(0);
   const { isPotsUpdated } = usePots();
   const { isBudgetsUpdated } = useBudgets();
+  const { isRecurringPaymentsUpdated } = useRecurringPayments();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: _, status } = useSession();
@@ -84,7 +86,14 @@ export const TransactionsProvider = ({
     } else {
       fetchTransactions();
     }
-  }, [isTransactionsUpdated, router, status, isPotsUpdated, isBudgetsUpdated]);
+  }, [
+    isTransactionsUpdated,
+    isRecurringPaymentsUpdated,
+    router,
+    status,
+    isPotsUpdated,
+    isBudgetsUpdated,
+  ]);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -110,6 +119,7 @@ export const TransactionsProvider = ({
     limit,
     totalPages,
     isTransactionsUpdated,
+    isRecurringPaymentsUpdated,
     isPotsUpdated,
     router,
     status,

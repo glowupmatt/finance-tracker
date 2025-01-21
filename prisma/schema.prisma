@@ -64,7 +64,7 @@ model Transaction {
   pot   Pot?    @relation("transactionToPot", fields: [potId], references: [id], onDelete: Cascade)
   potId String?
 
-  recurringPayment   RecurringPayment? @relation("transactionToRecurringPayment", fields: [recurringPaymentId], references: [id])
+  recurringPayment   RecurringPayment? @relation("transactionToRecurringPayment", fields: [recurringPaymentId], references: [id], onDelete: Cascade)
   recurringPaymentId String?
 
   @@index([userId])

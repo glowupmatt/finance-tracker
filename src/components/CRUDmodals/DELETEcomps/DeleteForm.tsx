@@ -8,6 +8,8 @@ import { deleteBudget } from "@/lib/BudgetsCRUDfunctions";
 import { useBudgets } from "@/context/BudgetContext";
 import { deleteTransaction } from "@/lib/TransactionCRUDfunctions";
 import { useTransactions } from "@/context/TransactionsContext";
+import { useRecurringPayments } from "@/context/RecurringPaymentsContext";
+import { deleteRecurringPayment } from "@/lib/RecurringCRUDfunctions";
 
 type Props = {
   dataId: string | undefined;
@@ -18,6 +20,7 @@ const DeleteForm = (props: Props) => {
   const { dataId, type } = props;
   const { setIsPotsUpdated } = usePots();
   const { setIsBudgetsUpdated } = useBudgets();
+  const { setIsRecurringPaymentsUpdated } = useRecurringPayments();
   const { setIsTransactionsUpdated } = useTransactions();
 
   const handleDelete = async () => {
@@ -28,14 +31,14 @@ const DeleteForm = (props: Props) => {
       if (type === "POT") await deletePot(dataId);
       if (type === "BUDGET") await deleteBudget(dataId);
       if (type === "TRANSACTION") await deleteTransaction(dataId);
-      if (type === "RECURRING") console.log("Recurring Payments Deleted");
+      if (type === "RECURRING") await deleteRecurringPayment(dataId);
     } catch (error) {
       console.log(error);
     } finally {
       if (type === "POT") setIsPotsUpdated((prev) => !prev);
       if (type === "BUDGET") setIsBudgetsUpdated((prev) => !prev);
       if (type === "TRANSACTION") setIsTransactionsUpdated((prev) => !prev);
-      if (type === "RECURRING") console.log("Recurring Payments Deleted");
+      if (type === "RECURRING") setIsRecurringPaymentsUpdated((prev) => !prev);
     }
   };
 

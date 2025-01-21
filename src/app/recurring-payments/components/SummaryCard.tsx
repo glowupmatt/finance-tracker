@@ -1,24 +1,26 @@
 "use client";
-import { useUser } from "@/context/UserContext";
+import { useRecurringPayments } from "@/context/RecurringPaymentsContext";
 import { recurringPaymentsFilters } from "@/utils/dateFunctions";
 import { formatCurrency } from "@/utils/formatCurrency";
 import React from "react";
 
 function SummaryCard() {
-  const { recurringPayments } = useUser();
+  const { recurringPayments } = useRecurringPayments();
   const totalPaidBills = recurringPayments?.filter(
     (payment) => payment.paid === true
   );
   const totalUpcomingPayments = recurringPayments?.filter((payment) => {
     return payment.paid === false && new Date(payment.dueDate) >= new Date();
   });
-  const dueSoon = recurringPayments?.filter((payment) => {
-    const today = new Date();
-    const next7Days = new Date(today);
-    next7Days.setDate(today.getDate() + 7);
-    const dueDate = new Date(payment.dueDate);
-    return dueDate >= today && dueDate <= next7Days;
-  });
+  const dueSoon = recurringPayments
+    ?.filter((payment) => {
+      const today = new Date();
+      const next7Days = new Date(today);
+      next7Days.setDate(today.getDate() + 7);
+      const dueDate = new Date(payment.dueDate);
+      return dueDate >= today && dueDate <= next7Days;
+    })
+    .filter((payment) => payment.paid === false);
 
   const overdue = recurringPayments?.filter((payment) => {
     const today = new Date();

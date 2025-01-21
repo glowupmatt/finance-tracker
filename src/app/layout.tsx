@@ -7,6 +7,7 @@ import HeaderAndFooter from "@/components/navigationComponents/NavigationBody";
 import { PotsProvider } from "@/context/PotsContext";
 import { TransactionsProvider } from "@/context/TransactionsContext";
 import { BudgetsProvider } from "@/context/BudgetContext";
+import { RecurringPaymentsProvider } from "@/context/RecurringPaymentsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,11 +40,13 @@ export default function RootLayout({
             <HeaderAndFooter>
               <PotsProvider>
                 <BudgetsProvider>
-                  <TransactionsProvider>
-                    <div className="w-full bg-beigeLight based:overflow-hidden">
-                      {children}
-                    </div>
-                  </TransactionsProvider>
+                  <RecurringPaymentsProvider>
+                    <TransactionsProvider>
+                      <div className="w-full bg-beigeLight based:overflow-hidden">
+                        {children}
+                      </div>
+                    </TransactionsProvider>
+                  </RecurringPaymentsProvider>
                 </BudgetsProvider>
               </PotsProvider>
             </HeaderAndFooter>

@@ -6,14 +6,14 @@ import SummaryCard from "./components/SummaryCard";
 import RecurringTransactions from "./components/RecurringTransactions";
 import { DataTable } from "./components/desktopTable/data-table";
 import { columns, Transaction } from "./components/desktopTable/columns";
-import { useUser } from "@/context/UserContext";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { Frequency } from "@prisma/client";
 import LoadingPage from "@/components/ui/LoadingPage";
 import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
+import { useRecurringPayments } from "@/context/RecurringPaymentsContext";
 
 const RecurringPayments = () => {
-  const { recurringPayments } = useUser();
+  const { recurringPayments } = useRecurringPayments();
   if (!recurringPayments) return <LoadingPage />;
 
   const data: Transaction[] =
@@ -23,7 +23,7 @@ const RecurringPayments = () => {
         title: transaction.title || "",
         amount: formatCurrency(transaction.amount),
         dueDate: new Date(transaction.dueDate) || new Date(),
-        createdAt: new Date(transaction.createdAt) || new Date(),
+        createdAt: new Date(transaction?.createdAt) || new Date(),
         paid: transaction.paid || false,
         frequency: (transaction.frequency as Frequency) || "MONTHLY",
       }))
@@ -32,7 +32,7 @@ const RecurringPayments = () => {
       }) || [];
 
   return (
-    <div className="p-4 lg:max-h-screen overflow-y-scroll lg:min-h-screen">
+    <div className="p-4 lg:max-h-screen overflow-y-scroll lg:min-h-screen lg:overflow-hidden">
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-[2rem] mb-4">Recurring Bills</h2>
         <DialogPOST CRUD="POST" type="RECURRING" />
@@ -45,7 +45,7 @@ const RecurringPayments = () => {
         <div className="lg:hidden">
           <RecurringTransactions />
         </div>
-        <div className="hidden lg:block w-full">
+        <div className="hidden lg:block w-full lg:h-[90vh] lg:overflow-scroll">
           <DataTable columns={columns} data={data} />
         </div>
       </div>

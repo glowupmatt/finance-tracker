@@ -13,6 +13,7 @@ export type Transaction = {
   amount: string;
   dueDate: Date;
   paid: boolean;
+  cancelled?: boolean;
   frequency: $Enums.Frequency;
   createdAt?: Date;
   updatedAt?: Date;

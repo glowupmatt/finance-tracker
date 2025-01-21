@@ -60,7 +60,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="bg-white p-8 flex items-center justify-center flex-col lg:w-[500px] lg:min-h-[422px] rounded-md">
+    <div className="bg-white p-8 flex items-center justify-center flex-col superBased:w-[500px] lg:min-h-[422px] rounded-md">
       <h3 className="text-xl font-bold mb-4">
         {VARIANT[0].toUpperCase() + VARIANT.slice(1)}
       </h3>

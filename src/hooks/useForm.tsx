@@ -14,7 +14,11 @@ import {
   putTransaction,
 } from "@/lib/TransactionCRUDfunctions";
 import { useTransactions } from "@/context/TransactionsContext";
-import { postRecurringPayment } from "@/lib/RecurringCRUDfunctions";
+import {
+  postRecurringPayment,
+  putRecurringPayment,
+} from "@/lib/RecurringCRUDfunctions";
+import { useRecurringPayments } from "@/context/RecurringPaymentsContext";
 
 export const useForm = (
   type?: "POT" | "BUDGET" | "TRANSACTION" | "RECURRING",
@@ -40,6 +44,7 @@ export const useForm = (
 
   const { setIsPotsUpdated } = usePots();
   const { setIsBudgetsUpdated } = useBudgets();
+  const { setIsRecurringPaymentsUpdated } = useRecurringPayments();
   const { setIsTransactionsUpdated } = useTransactions();
 
   useEffect(() => {
@@ -77,10 +82,17 @@ export const useForm = (
           if ("title" in data && "amount" in data) {
             const recurringPayment = data as RecurringPaymentType;
             setLabel(recurringPayment.title);
-            setValue(recurringPayment.amount);
+            setValue(
+              (recurringPayment.amount as unknown as string).replace(
+                /[$,]/g,
+                ""
+              )
+            );
             setDueDate(new Date(recurringPayment.dueDate));
             setFrequency(recurringPayment.frequency);
             setCancelled(recurringPayment.cancelled ?? false);
+            setTransactionId(recurringPayment.id || "");
+            setPaid(recurringPayment.paid);
           }
           break;
         default:
@@ -224,6 +236,13 @@ export const useForm = (
           onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
             setCancelled(e.target.checked),
         },
+        {
+          label: "Paid",
+          type: "checkbox",
+          value: paid,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            setPaid(e.target.checked),
+        },
       ],
     };
   }
@@ -243,7 +262,7 @@ export const useForm = (
     },
     RECURRING: {
       post: postRecurringPayment,
-      put: () => {},
+      put: putRecurringPayment,
     },
   };
 
@@ -308,11 +327,22 @@ export const useForm = (
         amount: value as number,
         dueDate: dueDate,
         paid: paid ?? false,
+        createdAt: new Date(),
         frequency,
       });
     }
 
-    console.log("data", paid);
+    if (CRUD === "PUT" && type === "RECURRING") {
+      setPostBody({
+        id: transactionId,
+        title: label,
+        amount: value as number,
+        dueDate: dueDate,
+        paid: paid ?? false,
+        createdAt: new Date(),
+        frequency,
+      });
+    }
   }, [
     CRUD,
     type,
@@ -361,6 +391,9 @@ export const useForm = (
       }
       if (type === "TRANSACTION") {
         setIsTransactionsUpdated((prev) => !prev);
+      }
+      if (type === "RECURRING") {
+        setIsRecurringPaymentsUpdated((prev) => !prev);
       }
     } catch (error) {
       console.error(error);

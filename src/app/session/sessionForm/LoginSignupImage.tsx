@@ -18,7 +18,7 @@ const LoginSignupImage = () => {
       </div>
       <div className="relative p-4 h-full">
         <img
-          className="rounded-[10px] h-full"
+          className="rounded-[10px] h-full max-w-none"
           src="/images/illustration-authentication.svg"
           alt="Authentication Image"
         />

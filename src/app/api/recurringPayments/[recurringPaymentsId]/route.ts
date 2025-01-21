@@ -43,13 +43,13 @@ export async function GET(
   }
 }
 
-interface UpdateRecurringBillRequestBody {
+export interface UpdateRecurringBillRequestBody {
   id: string;
   title: string;
   dueDate: Date;
   amount: number;
   paid: boolean;
-  frequency: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+  frequency: "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | "YEARLY";
   endDate: Date | null;
   userId: string;
   transactions?: Array<{
@@ -58,6 +58,7 @@ interface UpdateRecurringBillRequestBody {
     amount: number;
     date: Date;
     type: TransactionType;
+    isPaid: boolean;
     category: string;
   }>;
 }
@@ -98,6 +99,17 @@ export async function PUT(
 
     const body: UpdateRecurringBillRequestBody = await req.json();
 
+    if (body.transactions) {
+      for (const transaction of body.transactions) {
+        if (!Object.values(TransactionType).includes(transaction.type)) {
+          return NextResponse.json(
+            { error: `Invalid transaction type: ${transaction.type}` },
+            { status: 400 }
+          );
+        }
+      }
+    }
+
     const updatedRecurringBill = await prisma.recurringPayment.update({
       where: { id: recurringBill.id },
       include: { transactions: true },
@@ -108,30 +120,18 @@ export async function PUT(
         paid: body.paid,
         frequency: body.frequency,
         endDate: body.endDate,
-        transactions:
-          body.transactions && body.transactions.length > 0
-            ? {
-                upsert: body.transactions.map((transaction) => ({
-                  where: { id: transaction.id },
-                  update: {
-                    title: transaction.title,
-                    amount: transaction.amount,
-                    date: transaction.date,
-                    type: transaction.type,
-                    category: transaction.category,
-                    userId: currentUser.id,
-                  },
-                  create: {
-                    title: transaction.title,
-                    amount: transaction.amount,
-                    date: transaction.date,
-                    type: transaction.type,
-                    category: transaction.category,
-                    userId: currentUser.id,
-                  },
-                })),
-              }
-            : undefined,
+        transactions: {
+          create:
+            body.transactions?.map((transaction) => ({
+              title: transaction.title,
+              amount: transaction.amount,
+              date: transaction.date,
+              type: transaction.type,
+              category: transaction.category,
+              isPaid: transaction.isPaid,
+              userId: currentUser.id,
+            })) || [],
+        },
       },
     });
 

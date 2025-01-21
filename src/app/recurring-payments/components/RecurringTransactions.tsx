@@ -1,11 +1,11 @@
 "use client";
-import { useUser } from "@/context/UserContext";
 import React from "react";
 import TransactionIcons from "./TransactionIcons";
 import TransactionMainInfo from "./TransactionMainInfo";
+import { useRecurringPayments } from "@/context/RecurringPaymentsContext";
 
 const RecurringTransactions = () => {
-  const { recurringPayments } = useUser();
+  const { recurringPayments } = useRecurringPayments();
   const transactions = recurringPayments?.map((payment) => {
     return {
       id: payment.id,

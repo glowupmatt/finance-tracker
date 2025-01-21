@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  Row,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -15,6 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { RecurringPaymentType } from "@/types/RecurringPayments";
+import { useState } from "react";
+import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
 // import PaginationComp from "./PaginationComp";
 // import { useUser } from "@/context/UserContext";
 
@@ -32,6 +36,20 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<RecurringPaymentType | null>(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleEditClick = (transaction: RecurringPaymentType) => {
+    setSelectedTransaction(transaction);
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+    setSelectedTransaction(null);
+  };
 
   // const { transactionPages, setCurrentPage } = useUser();
 
@@ -62,13 +80,16 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => {
+            table.getRowModel().rows.map((row: Row<TData> | any) => {
+              const transaction = row.original;
               return (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => handleEditClick(transaction)}
+                  className="relative cursor-pointer"
                 >
-                  {row.getVisibleCells().map((cell) => {
+                  {row.getVisibleCells().map((cell: any) => {
                     return (
                       <TableCell key={cell.id} className="p-8">
                         {flexRender(
@@ -90,6 +111,16 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+
+      <div className="hidden">
+        <DialogPOST
+          type="RECURRING"
+          CRUD="PUT"
+          data={selectedTransaction ? selectedTransaction : undefined}
+          openModal={openModal}
+          onClose={handleClose}
+        />
+      </div>
       {/* <PaginationComp
         transactionPages={transactionPages}
         onPageChange={onPageChange}
