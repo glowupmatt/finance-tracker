@@ -289,6 +289,15 @@ export const useForm = (
       });
     }
 
+    if (CRUD === "POST" && type === "BUDGET") {
+      setPostBody({
+        name: label,
+        maxSpend: value as number,
+        colorTag: color as ColorTag,
+        id: (data as Budget)?.id as string,
+        userId: (data as Budget)?.userId as string,
+      });
+    }
     if (CRUD === "PUT" && type === "BUDGET") {
       setPostBody({
         name: label,

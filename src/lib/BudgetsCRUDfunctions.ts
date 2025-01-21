@@ -3,6 +3,7 @@ import { BudgetType, POSTbudget } from "../types/BudgetTypes";
 
 export async function postBudget(budget: POSTbudget | any | undefined) {
   if (!budget) return;
+
   return await fetch("/api/budgets", {
     method: "POST",
     headers: {
