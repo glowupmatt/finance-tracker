@@ -10,6 +10,7 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { useTransactions } from "@/context/TransactionsContext";
 import LoadingPage from "@/components/ui/LoadingPage";
 import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
+import SearchBar from "./components/SearchBar";
 
 const TransactionsDisplay = () => {
   const { transactionPagination } = useTransactions();

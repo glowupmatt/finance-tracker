@@ -21,6 +21,7 @@ import { useTransactions } from "@/context/TransactionsContext";
 import React, { useState } from "react";
 import { TransactionType } from "@/types/TransactionTypes";
 import DialogPOST from "@/components/CRUDmodals/POSTcomps/DialogPOST";
+import SearchBar from "./SearchBar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -58,6 +59,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border bg-white shadow-md flex flex-col items-center justify-center overflow-hidden">
+      <SearchBar />
       <Table className="w-full">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
