@@ -66,6 +66,7 @@ export async function POST(request: Request) {
     category,
     budgetId,
     potId,
+    isPaid,
     senderOrRecipient,
   } = body;
 
@@ -83,6 +84,7 @@ export async function POST(request: Request) {
     date: new Date(date),
     type,
     category,
+    isPaid: isPaid || false,
     userId: currentUser.id,
     senderOrRecipient: senderOrRecipient || "",
   };
