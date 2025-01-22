@@ -100,6 +100,12 @@ Once the app is running:
 - **Set Budget**: Set up budgets for various categories and track your spending against them.
 - **Set Pot(Savings)**: Set up Pots for various categories and track your savings.
 
+## Demo
+
+You can view the live demo of the app here:
+
+[**Lofi Radio Demo**](https://lofiradio-proj.vercel.app/)
+
 ## Deployment
 
 You can deploy this app to platforms like Vercel. Follow their documentation to set up your deployment:
@@ -115,5 +121,3 @@ We welcome contributions to improve the app! To get started:
 2. Create a new branch.
 3. Make your changes.
 4. Submit a pull request.
-
-Please make sure your code follows the coding standards and includes tests where applicable.
