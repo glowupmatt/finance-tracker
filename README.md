@@ -104,7 +104,7 @@ Once the app is running:
 
 You can view the live demo of the app here:
 
-[**Lofi Radio Demo**](https://lofiradio-proj.vercel.app/)
+[**Finance Tracker**](https://finance-tracker-matt.vercel.app/)
 
 ## Deployment
 
